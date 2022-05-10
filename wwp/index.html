@@ -1,3 +1,4 @@
+<!--HTML SETUP --> 
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -5,22 +6,24 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Wordle World Party</title>
-
+    <!--access to the javasript file where the functions are called-->
     <script src="js/main.js"></script>
-
+    <!--access to the css file for graphical representation-->
     <link rel="stylesheet" href="css/styles.css"/>
 </head>
 <body>
+    <!--container inits for wwp, within the main container the game board en keyboard is initialized-->
     <div id="container">
         <div id="game">
             <header>
+                <!--Title-->
                 <h1 class="title">Wordle World Party</h1>
             </header>
-
+            <!--Container for gameboard-->
             <div id="board-container">
                 <div id="board"></div>
             </div>
-
+            <!--Container for keyboard (three rows)-->
             <div id="keyboard-container">
                 <div class="keyboard-row">
                     <button data-key="q">q</button>
@@ -47,6 +50,7 @@
                     <button data-key="l">l</button>
                     <div class="spacer-half"></div>                   
                 </div>
+                <!--Enter and Del have been created, but debugging needs to happen to see why they are not registering yet-->
                 <div class="keyboard-row">
                     <button data-key="enter" class="wide-button">Enter</button>
                     <button data-key="z">z</button>
