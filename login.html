@@ -11,42 +11,59 @@
 
     <!-- Page spacing where the headings and form gets presented -->
     <div class="container">
-        <div class="text-center">
+        <div class="text-center my-4">
             <h1>Login Page</h1>
-            <p class="lead">Use your username and password to login</p>
         </div>
 
         <!-- Creates a grid within the container -->
-        <div class="row justify-content-center my-5">
-            <div class="col-lg-6">
+        <div class="row justify-content-center my-4">
+            <div class="col-lg-6 justify-content-center">
 
                 <!-- Creates the form that holds the input sections -->
                 <form action="">
+                    
+                    <!-- Image card -->
+                    <div class="card mb-3" >
+                        <div class="row">
+
+                          <div class="col-md-6">
+                            <img src="theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
+                          </div>
+
+                          <div class="col-md-6 text-center my-auto">
+                            <div class="card-body">
+                              <h2 class="card-title">Wordle World Party</h2>
+                              <p class="card-text">Take your word guessing skills to the next level and compete against your friends!</p>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
 
                     <!-- Username entry container and floating label -->
-                    <div class="form-floating my-1">
-                    <input 
-                        type="username"
-                        id="username" 
-                        placeholder="admin"
-                        class="form-control"
-                    />
-                    <label for="username" class="form-label">Username:</label>
+                    <div class="form-floating my-4">
+                        <input 
+                            type="username"
+                            id="username" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="username" class="form-label">Username:</label>
                     </div>
 
                     <!-- Password entry container and floating label -->
-                    <div class="form-floating my-5">
-                    <input 
-                        type="password"
-                        id="password" 
-                        placeholder="admin"
-                        class="form-control"
-                    />
-                    <label for="password" class="form-label">Password:</label>
+                    <div class="form-floating my-4">
+                        <input 
+                            type="password"
+                            id="password" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="password" class="form-label">Password:</label>
                     </div>
 
                     <!-- Login button -->
-                    <div class="text-center my-5">
+                    <div class="text-center my-4">
                         <button type="submit" class="btn btn-dark"onclick="validateJS ()">Login
 
                         <!-- Icon shown within button -->    
@@ -56,6 +73,12 @@
                         </svg>
                         </button>
                     </div>
+                    
+                    <!-- Link to creating account page -->
+                    <div class="text-center my-4">
+                        <a class="page_url" href="./" id="link_to_login">Don't have an account? Register here</a>
+                    </div>
+                    
                 </form>
             </div>
         </div>
