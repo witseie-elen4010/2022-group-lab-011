@@ -12,8 +12,8 @@
     <!-- Page spacing where the headings and form gets presented -->
     <div class="container">
         <div class="text-center">
-            <h2>Login Page</h2>
-            <p class="lead">Use your email and password to login</p>
+            <h1>Login Page</h1>
+            <p class="lead">Use your username and password to login</p>
         </div>
 
         <!-- Creates a grid within the container -->
@@ -23,15 +23,15 @@
                 <!-- Creates the form that holds the input sections -->
                 <form action="">
 
-                    <!-- Email entry container and floating label -->
-                    <div class="form-floating my-5">
+                    <!-- Username entry container and floating label -->
+                    <div class="form-floating my-1">
                     <input 
-                        type="email"
-                        id="email" 
-                        placeholder="my@email.com"
+                        type="username"
+                        id="username" 
+                        placeholder="admin"
                         class="form-control"
                     />
-                    <label for="email" class="form-label">Email:</label>
+                    <label for="username" class="form-label">Username:</label>
                     </div>
 
                     <!-- Password entry container and floating label -->
@@ -39,7 +39,7 @@
                     <input 
                         type="password"
                         id="password" 
-                        placeholder="1234"
+                        placeholder="admin"
                         class="form-control"
                     />
                     <label for="password" class="form-label">Password:</label>
@@ -47,7 +47,7 @@
 
                     <!-- Login button -->
                     <div class="text-center my-5">
-                        <button type="submit" class="btn btn-dark">Login
+                        <button type="submit" class="btn btn-dark"onclick="validateJS ()">Login
 
                         <!-- Icon shown within button -->    
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -62,5 +62,6 @@
     </div>
 
     <script src="js/bootstrap.bundle.js"></script>
+    <script src="login.js"></script>
 </body>
 </html>
