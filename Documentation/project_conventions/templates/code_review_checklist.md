@@ -1,26 +1,31 @@
+The code review checklist is a document used for the review of pull requests.
+
 # Related Issues
-- issue goes here
+All issues affected by the pull request.
+
+# Necessary changes
+
+Changes that need to be implemented before pull can be confirmed.
 
 # Proposed changes
-- change 1
-- change 2
+
+Any other propsed changes that could improve the code. These changes could also become new user stories and need not be completed for the pull to be merged.
 
 # Additional Information
-- any additional information or context
+
+Any other comments.
 
 # Checklist:
 
-- [ ] The code follows the style guidelines of this project
-- [ ] The code is well commented on complex blocks
+The basic checklist to see if the code is up to standard.
+
+- [ ] The code follows the project style guidelines
+- [ ] Complex code blocks are well commented
 - [ ] The code is commented only where necessary
-- [ ] The code has been tested
+- [ ] Testing has been implemented
 - [ ] New and existing unit tests pass locally with changes
 - [ ] The code does not violate the DRY principles
 - [ ] Separation of concerns followed
-- [ ] The code is easy to read 
+- [ ] The code is easy to follow
 - [ ] SRS has been followed
-- [ ] Variable names to be written in camelCase
-- [ ] File names to be written in lower case
-- [ ] A single space is to be used before and after operators
-- [ ] A single space is to be added after commas
-- [ ] Code blocks to be indented with 1 space
+
