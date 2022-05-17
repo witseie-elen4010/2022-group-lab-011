@@ -1,30 +1,78 @@
-// Initial rendition of the game logic.
-// Event listener for inputs.
 document.addEventListener('DOMContentLoaded', () => {
-  // setup of squares.
-  createSquares()
+  createBoardGrid()
 
-  // keyboard keys init.
   const keys = document.querySelectorAll('.keyboard-row button')
-  const guessedWords = [[]]
+  const numGuesses = [[]]
   let availableSpace = 1
 
-  // keys will update on click - for now Enter and Del need to be added in.
+  const word = 'grape'
+  let numGuessCount = 0
+
+  function getTileColor (letter, index) {
+    const letterInWord = word.includes(letter)
+
+    if (!letterInWord) {
+      return 'rgb(50, 50, 50)'
+    }
+    const letterInPosition = word.charAt(index)
+    const letterRightPosition = (letter === letterInPosition)
+
+    if (letterRightPosition) {
+      return 'rgb(50, 205, 50)'
+    }
+
+    if (!letterRightPosition) {
+      return 'rgb(255,69,50)'
+    }
+  }
+
+  function handleGuess () {
+    const currentWordArr = getCurrentWordArr()
+    if (currentWordArr.length !== 5) {
+      window.alert('Word must be 5 letters.')
+    }
+    const currentGuess = currentWordArr.join('')
+
+    const firstLetterId = numGuessCount * 5 + 1
+    const interval = 500
+    currentWordArr.forEach((letter, index) => {
+      setTimeout(() => {
+        const tileColor = getTileColor(letter, index)
+        const letterId = firstLetterId + index
+        const letterEl = document.getElementById(letterId)
+        letterEl.style = `background-color:${tileColor};color:${'rgb(230, 230, 230)'}`
+      }, interval * index)
+    })
+
+    numGuessCount += 1
+
+    if (currentGuess === word) {
+      window.alert('congratulations')
+    }
+    if (numGuesses.length === 6) {
+      window.alert(`Better Luck Next Time! The word is ${word}.`)
+    }
+    numGuesses.push([])
+  }
+
   for (let i = 0; i < keys.length; i++) {
     keys[i].onclick = ({ target }) => {
       const letter = target.getAttribute('data-key')
 
-      updateGuessedWords(letter)
+      if (letter === 'enter') {
+        handleGuess()
+        return
+      }
+      updateGuesses(letter)
     }
   }
-  // Array for guessed words. Currently a placeholder.
+
   function getCurrentWordArr () {
-    const numberOfGuessedWords = guessedWords.length
-    return guessedWords[numberOfGuessedWords - 1]
+    const numberOfGuesses = numGuesses.length
+    return numGuesses[numberOfGuesses - 1]
   }
 
-  // The function for tracking and updating guessed words. Shows the input letter on screen when clicked, but doesn't register a word yet.
-  function updateGuessedWords (letter) {
+  function updateGuesses (letter) {
     const currentWordArr = getCurrentWordArr()
 
     if (currentWordArr && currentWordArr.length < 5) {
@@ -36,8 +84,8 @@ document.addEventListener('DOMContentLoaded', () => {
       availableSpaceEl.textContent = letter
     }
   }
-  // Function for creating squares.
-  function createSquares () {
+
+  function createBoardGrid () {
     const gameBoard = document.getElementById('board')
 
     for (let index = 0; index < 30; index++) {
