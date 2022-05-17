@@ -1,19 +1,3 @@
-### Criteria for acceptance
-
-## Story
-- [ ] Unit tests passed
-- [ ] Code reviewed
-- [ ] Team member requesting review has responded to feedback
-- [ ] Refactoring completed
-- [ ] Story appropriately labelled
-- [ ] Pull request has sufficient description
-- [ ] Story label captures story points  
-- [ ] Acceptance criteria met
-- [ ] Functional tests passed
-- [ ] Non-Functional requirements met
-- [ ] Documentation updated
-- [ ] Product Owner accepts the User Story
-
 ## Sprint
 - [ ] Screen shot of scrum board at beginning of sprint
 - [ ] Screen shot of scrum board at end of sprint 
