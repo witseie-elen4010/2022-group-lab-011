@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>login</title>
+    <link rel="stylesheet" href="../source/css/bootstrap.css">
+</head>
+<body>
+
+    <!-- Page spacing where the headings and form gets presented -->
+    <div class="container">
+        <div class="text-center my-4">
+            <h1>Login Page</h1>
+        </div>
+ 
+        <!-- Creates a grid within the container -->
+        <div class="row justify-content-center my-4">
+            <div class="col-lg-6 justify-content-center">
+
+                <!-- Creates the form that holds the input sections -->
+                <form action="">
+                    
+                    <!-- Image card -->
+                    <div class="card mb-3" >
+                        <div class="row">
+
+                          <div class="col-md-6">
+                            <img src="../source/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image" width="500px" height="500px">
+                          </div>
+
+                          <div class="col-md-6 text-center my-auto">
+                            <div class="card-body">
+                              <h2 class="card-title">Wordle World Party</h2>
+                              <p class="card-text">Take your word guessing skills to the next level and compete against your friends!</p>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    <!-- Username entry container and floating label -->
+                    <div class="form-floating my-4">
+                        <input 
+                            type="username"
+                            id="username" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="username" class="form-label">Username:</label>
+                    </div>
+
+                    <!-- Password entry container and floating label -->
+                    <div class="form-floating my-4">
+                        <input 
+                            type="password"
+                            id="password" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="password" class="form-label">Password:</label>
+                    </div>
+
+                    <!-- Login button -->
+                    <div class="text-center my-4">
+                        <button id="myButton" type="submit" class="btn btn-dark" onclick="validateJS ()">Login
+
+                        <!-- Icon shown within button -->    
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                        </button>
+                    </div>
+                    
+                    <!-- Link to creating account page -->
+                    <div class="text-center my-4">
+                        <a class="page_url" href="register.html" id="link_to_reg">Don't have an account? Register here</a>
+                    </div>
+
+                    <!-- Link to home page -->
+                    <div class="text-center my-4">
+                        <a class="page_url" href="home.html" id="link_to_reg">Go to home page</a>
+                    </div>
+                    
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/bootstrap.bundle.js"></script>
+    <script src="js/login.js"></script>
+
+</body>
+</html>
