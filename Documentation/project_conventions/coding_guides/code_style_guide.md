@@ -1,21 +1,35 @@
-# Code Style Guide
-The following is based on the W3schools [JavaScript Style Guide and Coding Conventions](https://www.w3schools.com/js/js_conventions.asp) and [HTML Style Guide and Coding Conventions](https://www.w3schools.com/html/html5_syntax.asp)
+# Code template followed
+All coding conventions for both javascripts and html follow the guidlines set by W3schools.
+Javascript: (https://www.w3schools.com/js/js_conventions.asp)
+html: (https://www.w3schools.com/html/html5_syntax.asp)
 
-## Conventions
-- Variable names to be writtien in camelCase
-- File names to be written in lower case
-- A single space is to be used before and after operators
-- A single space is to be added after commas
-- Code blocks to be indented with 1 space
-- File extension to be used are
+## General
+## Code Format
+Operators: single space before and after operators
+Commas: Single space after but not before comma
 
-  | Plugin | README |
-  | ------ | ------ |
-  | HTML | .html |
-  | CSS | .css |
-  | JavaScript | .js |
+## SQL
+## Naming Conventions
+Primary key: labled as, id
+Foreign key: tablename_id
+Variables, columns: lowercase with underscores
 
-## JavaScript Specific
+## Code order
+SELECT
+FROM
+WHERE
+GROUP BY
+ORDER BY
+LIMIT
+
+## JavaScript
+## Naming Conventions
+Variables: camelCase, begin with letter
+Global variables: UPPERCASE
+Constants: UPPERCASE
+Files: All lowercase
+
+
 - Statements should not end in a semi-colon
 - Compound Statements
     - Put the opening bracket at the end of the first line
@@ -29,7 +43,7 @@ The following is based on the W3schools [JavaScript Style Guide and Coding Conve
   ```
 - Keep line length < 80 characters and where possible seperate after an operator or comma
 
-## HTML Specific
+## HTML
 - To access JavaScripts in HTML use below format
   ```sh
   <script src="myscript.js"></script>
@@ -78,5 +92,7 @@ The following is based on the W3schools [JavaScript Style Guide and Coding Conve
     font-size: 16em;
     color: red;
   }
+
+  
   ```
 

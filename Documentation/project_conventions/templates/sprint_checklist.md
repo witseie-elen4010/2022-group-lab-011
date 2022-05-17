@@ -1,4 +1,4 @@
-### Definitions of Done (Dod)
+### Criteria for acceptance
 
 ## Story
 - [ ] Unit tests passed
