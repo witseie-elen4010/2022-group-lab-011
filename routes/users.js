@@ -10,12 +10,30 @@ router.get('/new', (req, res) => {
     res.render("users/new")
 })
 
+router.get('/home', (req, res) => {
+    console.log('we are here')
+    res.render("users/home")
+})
+
+router.get('/game', (req, res) => {
+    //let x = req.params.id
+    //let y = users[x].username
+    res.render("users/game")
+})
+
 router.post('/', (req, res) => {
     const isValid = true
     let x = req.body.username
     let y = req.body.password
+    let button = req.body.loginbutton
+    console.log(x)
+    console.log(y)
+    console.log(button)
+    //verify(x, y)
     if (isValid) {
         users.push( {username: x, password: y})
+        //console.log(users)
+        //console.log(users[0])
         z = users.length - 1
         res.redirect('/users/'+z)
     } else {
@@ -29,10 +47,11 @@ router.post('/', (req, res) => {
 router
     .route("/:id")
     .get((req, res) => {
-        console.log(req.user)
         let x = req.params.id
         let y = users[x].username
+        let z = users[x].password
         console.log(y)
+
         res.render('users/home', { name: y})
     })
     .put((req, res) => {
@@ -44,12 +63,24 @@ router
         res.send('Delete User with ID '+x)
     })
 
+
 const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}]
 
 router.param('id', (req, res, next, id) => {
     req.user = users[id]
+    //console.log('we are here')
     next()
 })
 
+//function verify(x, y){
+ //   for (let i in users) {
+  //      if (x === users[i].username){
+   //         console.log('match') 
+     //   } else {
+     //       consolve.log('nope')
+     //   }
+
+  //  }
+//}
 
 module.exports = router
