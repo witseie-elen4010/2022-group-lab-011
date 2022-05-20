@@ -31,7 +31,9 @@ router
     .get((req, res) => {
         console.log(req.user)
         let x = req.params.id
-        res.send('Get User with ID '+x)
+        let y = users[x].username
+        console.log(y)
+        res.render('users/home', { name: y})
     })
     .put((req, res) => {
         let x = req.params.id
