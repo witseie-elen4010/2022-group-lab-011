@@ -4,30 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Create account</title>
-    <link rel="stylesheet" href="css/bootstrap.css">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
 
     <!-- Page spacing where the headings and form gets presented -->
     <div class="container">
         <div class="text-center my-4">
-            <h1>Create account</h1>
+            <h1>Login Page</h1>
         </div>
-
+ 
         <!-- Creates a grid within the container -->
         <div class="row justify-content-center my-4">
             <div class="col-lg-6 justify-content-center">
 
                 <!-- Creates the form that holds the input sections -->
-                <form action="">
-                    
+                <form action="/users" method="POST">
+
                     <!-- Image card -->
                     <div class="card mb-3" >
                         <div class="row">
 
                           <div class="col-md-6">
-                            <img src="../source/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
+                            <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image" width="500px" height="500px">
                           </div>
 
                           <div class="col-md-6 text-center my-auto">
@@ -39,34 +39,25 @@
 
                         </div>
                       </div>
-
+        
                     <!-- Username entry container and floating label -->
-                    <div class="form-floating my-4" id="'create-account">
-                        <input 
-                            type="username"
-                            id="username" 
-                            placeholder="admin"
-                            class="form-control"
-                        />
-                        <div class="page-input-error-message"></div>
-                        <label for="username" class="form-label">Username:</label>
-                    </div>
-                    
-                    <!-- Email entry container and floating label -->
                     <div class="form-floating my-4">
                         <input 
-                            type="email"
-                            id="email" 
+                            type="username"
+                            name="username"
+                            id="username" 
                             placeholder="admin"
+                            value="<%= locals.firstName %>"
                             class="form-control"
                         />
-                        <label for="email" class="form-label">Email:</label>
+                        <label for="username" class="form-label">Username:</label>
                     </div>
 
                     <!-- Password entry container and floating label -->
                     <div class="form-floating my-4">
                         <input 
                             type="password"
+                            name="password"
                             id="password" 
                             placeholder="admin"
                             class="form-control"
@@ -74,21 +65,9 @@
                         <label for="password" class="form-label">Password:</label>
                     </div>
 
-                    <!-- Confirm Password entry container and floating label -->
-                    <div class="form-floating my-4">
-                        <input 
-                            type="confirm_password"
-                            id="confirm_password" 
-                            placeholder="admin"
-                            class="form-control"
-                        />
-                        <label for="confirm_password" class="form-label">Confirm Password:</label>
-                    </div>
-
-                    <!-- Submit button -->
+                    <!-- Login button -->
                     <div class="text-center my-4">
-                        <button type="submit" class="btn btn-dark"onclick="validate_entries ()">Register
-                            
+                        <button id="myButton" type="submit" class="btn btn-dark">Login
 
                         <!-- Icon shown within button -->    
                         <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
@@ -97,17 +76,12 @@
                         </svg>
                         </button>
                     </div>
-
-                    <!-- Link to logging in page -->
-                    <div class="text-center my-4">
-                        <a class="page_url" href="index.html" id="link_to_login">Have an account? Login here</a>
-                    </div>
-                       
                 </form>
             </div>
         </div>
     </div>
-    <script src="js/register.js"></script>              
-    <script src="js/bootstrap.bundle.js"></script>    
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+
 </body>
 </html>
