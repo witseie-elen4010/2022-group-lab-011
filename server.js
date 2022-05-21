@@ -9,8 +9,12 @@ app.set('view engine', 'ejs')
 app.use(logger)
 
 const userRouter = require('./routes/users')
+const homeRouter = require('./routes/home')
+const gameRouter = require('./routes/game')
 
 app.use('/users', userRouter)
+app.use('/home', homeRouter)
+app.use('/game', gameRouter)
 
 function logger(req, res, next) {
     console.log(req.originalUrl)

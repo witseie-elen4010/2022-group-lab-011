@@ -15,20 +15,10 @@ router.get('/home', (req, res) => {
     res.render("users/home")
 })
 
-router.get('/game', (req, res) => {
-    //let x = req.params.id
-    //let y = users[x].username
-    res.render("users/game")
-})
-
 router.post('/', (req, res) => {
     const isValid = true
     let x = req.body.username
     let y = req.body.password
-    let button = req.body.loginbutton
-    console.log(x)
-    console.log(y)
-    console.log(button)
     //verify(x, y)
     if (isValid) {
         users.push( {username: x, password: y})
@@ -51,8 +41,9 @@ router
         let y = users[x].username
         let z = users[x].password
         console.log(y)
-
-        res.render('users/home', { name: y})
+        console.log(z)
+        console.log('we here!')
+        res.redirect('/home')
     })
     .put((req, res) => {
         let x = req.params.id
@@ -62,7 +53,6 @@ router
         let x = req.params.id
         res.send('Delete User with ID '+x)
     })
-
 
 const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}]
 
