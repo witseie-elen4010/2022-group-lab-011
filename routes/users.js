@@ -8,12 +8,12 @@ router.get('/', (req, res) => {
 
 router.get('/new', (req, res) => {
     res.render("users/new")
-})
+})   
 
-router.get('/home', (req, res) => {
-    console.log('we are here')
-    res.render("users/home")
-})
+//router.get('/home', (req, res) => {
+//    console.log('we are here')
+//    res.render("users/home")
+//})
 
 router.post('/', (req, res) => {
     const isValid = true
