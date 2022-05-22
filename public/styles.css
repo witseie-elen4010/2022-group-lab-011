@@ -8,7 +8,13 @@
     height: 100%;
     font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande",
       "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+    background: black;
+    overflow: hidden;
   }
+  .transparent {
+    background-color: rgba(0, 0, 0, 0);
+    border:none;
+ }
 /*Initial setup of the page and body*/
   #container {
     display: flex;
