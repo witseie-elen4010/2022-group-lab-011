@@ -1,0 +1,27 @@
+{
+  "name": "2022-group-lab-011",
+  "version": "1.0.0",
+  "description": "- Welcome to WORDLE WORLD PARTY",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon -e js,ejs server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/witseie-elen4010/2022-group-lab-011.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/witseie-elen4010/2022-group-lab-011/issues"
+  },
+  "homepage": "https://github.com/witseie-elen4010/2022-group-lab-011#readme",
+  "dependencies": {
+    "ejs": "^3.1.8",
+    "express": "^4.18.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.16"
+  }
+}
