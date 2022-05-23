@@ -31,12 +31,12 @@
     display: flex;
     flex-direction: column;
   }
-/*Initial setup of the page and body 
+/*Initial setup of the page and body*/ 
   header {
-    border-bottom: 1px solid rgb(58, 58, 60);
-  }*/
-/*Initial setup of the page and body 
-  .title {
+    border-bottom: 5px solid rgb(58, 58, 60);
+  }
+/*Initial setup of the page and body*/ 
+  /*.title {
     color: gainsboro;
     font-size: 2.5rem;
     font-weight: bold;
@@ -89,15 +89,15 @@
     touch-action: manipulation;
   }
 /*Initial setup of the page and body*/ 
-  /*.keyboard-row button {
-    /*font-family: inherit;
+  .keyboard-row button {
+    font-family: inherit;
     font-weight: bold;
     border: 0;
     padding: 0;
     height: 58px;
     cursor: pointer;
-    /*background-color: rgb(50, 50, 50);*/
-    /*color: rgb(200, 200, 200);
+    background-color: rgb(50, 50, 50);
+    color: rgb(200, 200, 200);
     flex-grow: 1;
     text-transform: uppercase;
     margin-right: 6px;
