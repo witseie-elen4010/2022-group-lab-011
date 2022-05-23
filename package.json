@@ -2,9 +2,9 @@
   "name": "2022-group-lab-011",
   "version": "1.0.0",
   "description": "- Welcome to WORDLE WORLD PARTY",
-  "main": "server.js",
+  "main": "index.js",
   "scripts": {
-    "devStart": "nodemon -e js,ejs server.js"
+    "devStart": "nodemon -e js,ejs index.js"
   },
   "repository": {
     "type": "git",

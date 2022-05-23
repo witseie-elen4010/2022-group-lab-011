@@ -26,6 +26,8 @@ function logger(req, res, next) {
     next()
 }
 
+module.exports = app
+
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log('Listening to port: ', port)
