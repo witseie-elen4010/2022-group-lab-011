@@ -14,9 +14,11 @@ router.post('/', (req, res) => {
     console.log(b)
     console.log(c)
     console.log(d)
-    //users.push( {username: x, password: y})
-    //z = users.length - 1
+    users.push( {username: a, password: c})
+    console.log(users)
     res.redirect('/users/new')
 })
+
+const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
 
 module.exports = router
