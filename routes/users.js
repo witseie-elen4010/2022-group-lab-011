@@ -11,13 +11,11 @@ router.get('/new', (req, res) => {
 })   
 
 router.post('/', (req, res) => {
-    const isValid = true
     let x = req.body.username
     let y = req.body.password
-    if (isValid) {
-        users.push( {username: x, password: y})
-        z = users.length - 1
-        res.redirect('/users/'+z)
+    let isValid = validateLogin(x, y, users)
+    if (isValid != undefined) {
+        res.redirect('/users/'+isValid)
     } else {
         console.log("Error")
         res.render('users/new', { username: x})
@@ -41,11 +39,29 @@ router
         res.send('Delete User with ID '+x)
     })
 
-const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}]
+const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
 
 router.param('id', (req, res, next, id) => {
     req.user = users[id]
     next()
 })
+
+function validateLogin(username_, password_, users_){
+    let temp
+    for (let i=0; i < users_.length; i++){
+        if (username_ === users_[i].username){
+            temp = i
+        }
+    }
+    if (temp === undefined){
+        return undefined
+    }
+    if (users_[temp].password === password_){
+        return temp
+    }
+    else {
+        return undefined
+    }
+}
 
 module.exports = router
