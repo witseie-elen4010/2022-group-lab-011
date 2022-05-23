@@ -14,6 +14,8 @@ router.post('/', (req, res) => {
     console.log(b)
     console.log(c)
     console.log(d)
+    //users.push( {username: x, password: y})
+    //z = users.length - 1
     res.redirect('/users/new')
 })
 
