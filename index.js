@@ -2,6 +2,7 @@
 
 const express = require('express')
 const app = express()
+const db = require('./dbconfig.js')
 
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
