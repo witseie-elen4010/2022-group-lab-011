@@ -1,6 +1,8 @@
 const express = require('express')
 const router = express.Router()
 
+const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
+
 router.get('/', (req, res) => {
     console.log(req.query.username)
     res.send('User List')
@@ -38,8 +40,6 @@ router
         let x = req.params.id
         res.send('Delete User with ID '+x)
     })
-
-const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
 
 router.param('id', (req, res, next, id) => {
     req.user = users[id]
