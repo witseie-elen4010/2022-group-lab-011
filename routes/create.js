@@ -16,9 +16,30 @@ router.post('/', (req, res) => {
     console.log(d)
     users.push( {username: a, password: c})
     console.log(users)
-    res.redirect('/users/new')
+    let isValid = validateEntries(a,b,c,d) // check entries of register page
+    console.log("isValid")
+    console.log(isValid)
+    if (isValid != false) {
+      res.redirect('users/new') // succesfully registered - go to login page
+  } else {
+      console.log("Error in registration")
+      res.redirect('/create')
+     
+  }
+    
 })
-
+function validateEntries (username_,email_,password_,confirmPassword_) {
+    if (username_.length <= 0 || password_.length <= 0 || confirmPassword_.length <= 0 || email_.length <= 0) {
+      return false
+    } else {
+      if (password_ === confirmPassword_ && password_.length > 0) {
+        return true
+      } else {
+        return false
+      }
+    }
+  }
+  
 const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
 
 module.exports = router
