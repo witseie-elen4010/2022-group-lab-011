@@ -1,45 +1,68 @@
 const express = require('express')
+const db = require('../dbconfig.js')
+const bcrypt = require('bcrypt')
 const router = express.Router()
 
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
+
 router.get('/', (req, res) => {
+
     res.render('users/create')
 })
 
-router.post('/', (req, res) => {
-    let a = req.body.username
-    let b = req.body.email
-    let c = req.body.password
-    let d = req.body.confirm_password
-    console.log(a)
-    console.log(b)
-    console.log(c)
-    console.log(d)
-    users.push( {username: a, password: c})
-    console.log(users)
-    let isValid = validateEntries(a,b,c,d) // check entries of register page
-    console.log("isValid")
-    console.log(isValid)
-    if (isValid != false) {
-      res.redirect('users/new') // succesfully registered - go to login page
-  } else {
-      console.log("Error in registration")
-      res.redirect('/create')
-     
-  }
+
+router.post('/', async (req, res) => {
+    const username = req.body.username
+    const email = req.body.email
+    const password = req.body.password
+    const confirmPassword = req.body.confirm_password
     
-})
-function validateEntries (username_,email_,password_,confirmPassword_) {
-    if (username_.length <= 0 || password_.length <= 0 || confirmPassword_.length <= 0 || email_.length <= 0) {
-      return false
-    } else {
-      if (password_ === confirmPassword_ && password_.length > 0) {
-        return true
+
+    if (password === confirmPassword && username.length !== 0 &&  email.length !== 0) {
+        const hashedPassword = await bcrypt.hash(password, 10)
+        db.pools
+        // Run query
+          .then((pool) => {
+            return pool.request()
+              .input('email', email)
+              .query('Select email from dbo.account where email = @email;')         
+          })
+          // Send back the result
+          .then(result => {
+            if (result.recordset.length === 0) {
+              db.pools
+              // Run query
+                .then((pool) => {
+                  return pool.request()
+                  // This is only a test query, change it to whatever you need
+                    .input('username', username)
+                    .input('password', hashedPassword)
+                    .input('email', email)
+                    .query('INSERT INTO dbo.account (username, password, email) VALUES (@username, @password, @email);')
+                })
+              // Send back the result
+                .then(result => {
+                  return res.redirect('/home')
+                })
+              // If there's an error, return that with some description
+                .catch(err => {
+                  res.send({ Error: err })
+                })
+            } else {
+              //code for email in use
+              return res.redirect('/create')
+            }
+          })
+          // If there's an error, return that with some description
+          .catch(err => {
+            res.send({ Error: err })
+          })
       } else {
-        return false
+        //code for incorrect passwords
+        return res.redirect('/create')
       }
-    }
-  }
-  
-const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
+})
+
 
 module.exports = router

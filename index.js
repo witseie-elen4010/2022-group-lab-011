@@ -2,6 +2,7 @@
 
 const express = require('express')
 const app = express()
+const db = require('./dbconfig.js')
 
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
@@ -15,6 +16,7 @@ const userRouter = require('./routes/users')
 const homeRouter = require('./routes/home')
 const gameRouter = require('./routes/game')
 
+//Define routes
 app.use('/create', createRouter)
 app.use('/users', userRouter)
 app.use('/home', homeRouter)
@@ -31,3 +33,5 @@ module.exports = app
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log('Listening to port: ', port)
+
+
