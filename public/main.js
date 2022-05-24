@@ -8,7 +8,12 @@ document.addEventListener('DOMContentLoaded', () => {
   let availableSpace = 1  
   let numGuessCount = 0
 
-  /* console the word for the test*/
+  /* the word might be very obscure so the console out of
+  the word can be used to test
+  
+  the 5000 delay is to give enough time for the getNewWord() function to
+  interact with the API*/
+  
   setTimeout(() => { console.log(`${word}`); }, 5000)
 
   const keys = document.querySelectorAll('.keyboard-row button')
