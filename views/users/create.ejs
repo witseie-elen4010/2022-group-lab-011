@@ -4,14 +4,107 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Create account</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
 <body>
-    <form action="/users" method="POST">
-        <label>First Name
-            <input type="text" name="firstName" value="<%= locals.firstName %>"/>
-        </label>
-        <button type="submit">Submit</button>
-    </form>
+
+    <!-- Page spacing where the headings and form gets presented -->
+    <div class="container">
+        <div class="text-center my-4">
+            <h1>Create account</h1>
+        </div>
+
+        <!-- Creates a grid within the container -->
+        <div class="row justify-content-center my-4">
+            <div class="col-lg-6 justify-content-center">
+
+                <!-- Creates the form that holds the input sections -->
+                <form action="/create" method="POST">
+                    
+                    <!-- Image card -->
+                    <div class="card mb-3" >
+                        <div class="row">
+
+                          <div class="col-md-6">
+                            <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
+                          </div>
+
+                          <div class="col-md-6 text-center my-auto">
+                            <div class="card-body">
+                              <h2 class="card-title">Wordle World Party</h2>
+                              <p class="card-text">Take your word guessing skills to the next level and compete against your friends!</p>
+                            </div>
+                          </div>
+
+                        </div>
+                      </div>
+
+                    <!-- Username entry container and floating label -->
+                    <div class="form-floating my-4" id="'create-account">
+                        <input 
+                            type="username"
+                            id="username"
+                            name="username" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <div class="page-input-error-message"></div>
+                        <label for="username" class="form-label">Username:</label>
+                    </div>
+                    
+                    <!-- Email entry container and floating label -->
+                    <div class="form-floating my-4">
+                        <input 
+                            type="email"
+                            id="email" 
+                            name="email"
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="email" class="form-label">Email:</label>
+                    </div>
+
+                    <!-- Password entry container and floating label -->
+                    <div class="form-floating my-4">
+                        <input 
+                            type="password"
+                            id="password" 
+                            name="password"
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="password" class="form-label">Password:</label>
+                    </div>
+
+                    <!-- Confirm Password entry container and floating label -->
+                    <div class="form-floating my-4">
+                        <input 
+                            type="confirm_password"
+                            id="confirm_password"
+                            name="confirm_password" 
+                            placeholder="admin"
+                            class="form-control"
+                        />
+                        <label for="confirm_password" class="form-label">Confirm Password:</label>
+                    </div>
+
+                    <!-- Submit button -->
+                    <div class="text-center my-4">
+                        <button id="myButton" type="submit" class="btn btn-dark" name="createbutton">Register
+                            
+                            
+                            <!-- Icon shown within button -->    
+                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-box-arrow-in-right" viewBox="0 0 16 16">
+                            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
+                            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
+                        </svg>
+                        </button>
+                    </div>             
+                </form>
+            </div>
+        </div>
+    </div>            
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>  
 </body>
 </html>
