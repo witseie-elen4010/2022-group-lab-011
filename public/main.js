@@ -13,7 +13,14 @@ document.addEventListener('DOMContentLoaded', () => {
   
   the 5000 delay is to give enough time for the getNewWord() function to
   interact with the API*/
-  
+
+  async function asyncCall() {
+    console.log('calling');
+    const result = await getNewWord();
+    console.log(`${word}`);
+  }
+  asyncCall()
+
   setTimeout(() => { console.log(`${word}`); }, 5000)
 
   const keys = document.querySelectorAll('.keyboard-row button')
