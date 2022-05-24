@@ -2,6 +2,7 @@ const express = require('express')
 const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 const router = express.Router()
+const jwt = require('jsonwebtoken')
 
 router.get('/', (req, res) => {
     res.render('users/create')
