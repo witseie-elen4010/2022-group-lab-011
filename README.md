@@ -1,8 +1,10 @@
-# README
+## README
 
-- Welcome to WORDLE WORLD PARTY
+# **Welcome to WORDLE WORLD PARTY**
 
-## Developers:
+- The best word guessing game on the internet!
+
+### Developers:
 
 - Tristan Lilford
 
@@ -14,7 +16,13 @@
 
 - Tristan Basel
 
-## Instructions
+## [*CLICK HERE TO PLAY THE GAME*] (https://wordleworldparty.azurewebsites.net/)
 
-- To view current progress run /source/index.html, operation with azure server and sql database will occur in sprint 2.
+### To login use the account details username: 'admin' and password: 'admin'.
+### Loggin in and creating of account bugs will be fixed for the sprint 3 release
+
+### Instructions
+
+- To view current progress play the game via the link provided above, the use of the creation table only works locally and will be operational in sprint 3.
+
 
