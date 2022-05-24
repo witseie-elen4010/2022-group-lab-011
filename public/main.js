@@ -19,9 +19,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const result = await getNewWord();
     console.log(`${word}`);
   }
-  asyncCall()
 
-  setTimeout(() => { console.log(`${word}`); }, 5000)
+  /*setTimeout(() => { console.log(`${word}`); }, 5000)*/
 
   const keys = document.querySelectorAll('.keyboard-row button')
   
@@ -31,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
   a condensed dictionary will have to be created*/
 
   function getNewWord() {
+    var startTime = performance.now()
     fetch(
       `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
       {
@@ -50,7 +50,11 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch((err) => {
         console.error(err);
       });
+      var endTime = performance.now()
+      console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
   }
+
+  asyncCall()
 
   function getTileColor (letter, index) {
     const letterInWord = word.includes(letter)
