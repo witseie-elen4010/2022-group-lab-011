@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', () => {
   function handleGuess () {
     const currentWordArr = getCurrentWordArr()
     if (currentWordArr.length !== 5) {
-      alert('Word must be 5 letters.')
+      window.alert('Word must be 5 letters.')
       return
     }
     const currentGuess = currentWordArr.join('')
