@@ -1,12 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
+  /*init*/
   createBoardGrid()
+  getNewWord()
+
+  let word
+  const numGuesses = [[]]
+  let availableSpace = 1  
+  let numGuessCount = 0
+
+  /* the word might be very obscure so the console out of
+  the word can be used to test
+  
+  the 5000 delay is to give enough time for the getNewWord() function to
+  interact with the API*/
+
+  async function asyncCall() {
+    console.log('calling');
+    const result = await getNewWord();
+    console.log(`${word}`);
+  }
+
+  /*setTimeout(() => { console.log(`${word}`); }, 5000)*/
 
   const keys = document.querySelectorAll('.keyboard-row button')
-  const numGuesses = [[]]
-  let availableSpace = 1
+  
+  /*accessing API for a new random word
+  
+  The problem is that most of the words are obscure english words and/or names
+  a condensed dictionary will have to be created*/
 
-  const word = 'grape'
-  let numGuessCount = 0
+  function getNewWord() {
+    var startTime = performance.now()
+    fetch(
+      `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
+      {
+        method: "GET",
+        headers: {
+          "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
+          "X-RapidAPI-Key": "02aa9418c4msh9e030e399f79480p15dd0bjsn17744f8ca659",
+        },
+      }
+    )
+      .then((response) => {
+        return response.json();
+      })
+      .then((res) => {
+        word = res.word;
+      })
+      .catch((err) => {
+        console.error(err);
+      });
+      var endTime = performance.now()
+      console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+  }
+
+  asyncCall()
 
   function getTileColor (letter, index) {
     const letterInWord = word.includes(letter)
@@ -30,34 +78,60 @@ document.addEventListener('DOMContentLoaded', () => {
     const currentWordArr = getCurrentWordArr()
     if (currentWordArr.length !== 5) {
       window.alert('Word must be 5 letters.')
+      return
     }
     const currentGuess = currentWordArr.join('')
 
-    const firstLetterId = numGuessCount * 5 + 1
-    const interval = 500
-    currentWordArr.forEach((letter, index) => {
-      setTimeout(() => {
-        const tileColor = getTileColor(letter, index)
-        const letterId = firstLetterId + index
-        const letterEl = document.getElementById(letterId)
-        letterEl.style = `background-color:${tileColor};color:${'rgb(230, 230, 230)'}`
-      }, interval * index)
-    })
+    /* comparing the guessed word with all words on the Words API */
 
-    numGuessCount += 1
+    fetch(
+      `https://wordsapiv1.p.rapidapi.com/words/${currentGuess}`,
+      {
+        method: "GET",
+        headers: {
+          'X-RapidAPI-Host': 'wordsapiv1.p.rapidapi.com',
+          'X-RapidAPI-Key': '02aa9418c4msh9e030e399f79480p15dd0bjsn17744f8ca659',
+        },
+      } 
+    ).then((res) => {
+      if(!res.ok){
+        throw Error()
+      } 
 
-    if (currentGuess === word) {
-      window.alert('congratulations')
-    }
-    if (numGuesses.length === 6) {
-      window.alert(`Better Luck Next Time! The word is ${word}.`)
-    }
-    numGuesses.push([])
+      const firstLetterId = numGuessCount * 5 + 1
+      const interval = 500
+      currentWordArr.forEach((letter, index) => {
+        setTimeout(() => {
+          const tileColor = getTileColor(letter, index)
+          const letterId = firstLetterId + index
+          const letterEl = document.getElementById(letterId)
+          letterEl.style = `background-color:${tileColor};color:${'rgb(230, 230, 230)'}`
+        }, interval * index)
+      })
+  
+      numGuessCount += 1
+  
+      if (currentGuess === word) {
+        window.alert('congratulations')
+      }
+      if (numGuesses.length === 6) {
+        window.alert(`Better Luck Next Time! The word is ${word}.`)
+      }
+      numGuesses.push([])
+
+    }).catch(() => {
+      window.alert("word is not recognised")
+    });
   }
 
   for (let i = 0; i < keys.length; i++) {
     keys[i].onclick = ({ target }) => {
       const letter = target.getAttribute('data-key')
+
+      if (letter === 'del') {
+        handleDeleteLetter()
+        return
+      }
 
       if (letter === 'enter') {
         handleGuess()
@@ -83,6 +157,18 @@ document.addEventListener('DOMContentLoaded', () => {
       availableSpace = availableSpace + 1
       availableSpaceEl.textContent = letter
     }
+  }
+
+  function handleDeleteLetter() {
+    const currentWordArr = getCurrentWordArr();
+    const removedLetter = currentWordArr.pop();
+
+    numGuesses[numGuesses.length - 1] = currentWordArr;
+
+    const lastLetterEl = document.getElementById(String(availableSpace - 1));
+
+    lastLetterEl.textContent = "";
+    availableSpace = availableSpace - 1;
   }
 
   function createBoardGrid () {
