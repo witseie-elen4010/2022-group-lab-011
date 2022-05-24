@@ -2,9 +2,12 @@ const express = require('express')
 const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 const router = express.Router()
-const jwt = require('jsonwebtoken')
+
+const cookieParser = require("cookie-parser");
+const sessions = require('express-session');
 
 router.get('/', (req, res) => {
+
     res.render('users/create')
 })
 
@@ -13,8 +16,9 @@ router.post('/', async (req, res) => {
     const email = req.body.email
     const password = req.body.password
     const confirmPassword = req.body.confirm_password
+    
 
-    if (password === confirmPassword) {
+    if (password === confirmPassword && username.length !== 0 &&  email.length !== 0) {
         const hashedPassword = await bcrypt.hash(password, 10)
         db.pools
         // Run query
@@ -45,6 +49,7 @@ router.post('/', async (req, res) => {
                   res.send({ Error: err })
                 })
             } else {
+              //code for email in use
               return res.redirect('/create')
             }
           })
@@ -53,6 +58,7 @@ router.post('/', async (req, res) => {
             res.send({ Error: err })
           })
       } else {
+        //code for incorrect passwords
         return res.redirect('/create')
       }
 })
