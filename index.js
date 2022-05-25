@@ -11,17 +11,17 @@ app.use(express.json())
 app.set('view engine', 'ejs')
 app.use(logger)
 
-const createRouter = require('./routes/create')
-const userRouter = require('./routes/users')
+const createRouter = require('./routes/create_account')
+const loginRouter = require('./routes/login')
 const homeRouter = require('./routes/home')
-const gameRouter = require('./routes/game')
+const gameRouter = require('./routes/solo_game')
 const leadRouter = require('./routes/leaderboard')
 
 //Define routes
-app.use('/create', createRouter)
-app.use('/users', userRouter)
+app.use('/create_account', createRouter)
+app.use('/login', loginRouter)
 app.use('/home', homeRouter)
-app.use('/game', gameRouter)
+app.use('/solo_game', gameRouter)
 app.use('/leaderboard', leadRouter)
 
 
