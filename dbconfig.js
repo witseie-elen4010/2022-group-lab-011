@@ -4,8 +4,8 @@ const dotenv = require('dotenv')
 dotenv.config()
 // Make sure this is private to this module
 const config = {
-  server: 'elen430.database.windows.net',
-  database: 'wordleDB',
+  server: 'wordle-world-party.database.windows.net',
+  database: 'WordleDB',
   // Put login details in env. variables for security
   user: process.env.db_username,
   password: process.env.db_password,
@@ -41,6 +41,7 @@ module.exports = {
   pools: pools,
   isConnected: isConnected,
   connectionError: connectionError
+
 }
 
 

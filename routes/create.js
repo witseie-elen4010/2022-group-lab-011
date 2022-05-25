@@ -11,13 +11,12 @@ router.get('/', (req, res) => {
     res.render('users/create')
 })
 
-
 router.post('/', async (req, res) => {
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
     const confirmPassword = req.body.confirm_password
-    
+
     if (password === confirmPassword) {
         const hashedPassword = await bcrypt.hash(password, 10)
         db.pools
@@ -25,7 +24,7 @@ router.post('/', async (req, res) => {
           .then((pool) => {
             return pool.request()
               .input('email', email)
-              .query('Select email from dbo.account where email = @email;')         
+              .query('Select email from dbo.accounts where email = @email;')         
           })
           // Send back the result
           .then(result => {
@@ -38,7 +37,7 @@ router.post('/', async (req, res) => {
                     .input('username', username)
                     .input('password', hashedPassword)
                     .input('email', email)
-                    .query('INSERT INTO dbo.account (username, password, email) VALUES (@username, @password, @email);')
+                    .query('INSERT INTO dbo.accounts (username, password, email) VALUES (@username, @password, @email);')
                 })
               // Send back the result
                 .then(result => {
