@@ -17,10 +17,10 @@ document.addEventListener('DOMContentLoaded', () => {
   async function asyncCall() {
     console.log('calling');
     const result = await getNewWord();
-    console.log(`${word}`);
+    //console.log(`${word}`);
   }
 
-  /*setTimeout(() => { console.log(`${word}`); }, 5000)*/
+  setTimeout(() => { console.log(`${word}`); }, 5000)
 
   const keys = document.querySelectorAll('.keyboard-row button')
   
@@ -56,7 +56,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   asyncCall()
 
-  function getTileColor (letter, index) {
+  function getTileColour (letter, index) {
     const letterInWord = word.includes(letter)
 
     if (!letterInWord) {
@@ -99,10 +99,10 @@ document.addEventListener('DOMContentLoaded', () => {
       } 
 
       const firstLetterId = numGuessCount * 5 + 1
-      const interval = 500
+      const interval = 200
       currentWordArr.forEach((letter, index) => {
         setTimeout(() => {
-          const tileColor = getTileColor(letter, index)
+          const tileColor = getTileColour(letter, index)
           const letterId = firstLetterId + index
           const letterEl = document.getElementById(letterId)
           letterEl.style = `background-color:${tileColor};color:${'rgb(230, 230, 230)'}`
@@ -110,9 +110,9 @@ document.addEventListener('DOMContentLoaded', () => {
       })
   
       numGuessCount += 1
-  
+
       if (currentGuess === word) {
-        window.alert('congratulations')
+        setTimeout(() => { window.alert('congratulations');} , 1000) 
       }
       if (numGuesses.length === 6) {
         window.alert(`Better Luck Next Time! The word is ${word}.`)
@@ -148,7 +148,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
   function updateGuesses (letter) {
     const currentWordArr = getCurrentWordArr()
-
     if (currentWordArr && currentWordArr.length < 5) {
       currentWordArr.push(letter)
 
@@ -159,16 +158,34 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
+  /* temp solution for the backspace problem, the whole 'availableSpace'
+    needs to be refactored if time allows:
+    three backspace conditions: 1) if word === 5 letters
+                                2) if no letters in row
+                                3) all other configs
+  */
   function handleDeleteLetter() {
-    const currentWordArr = getCurrentWordArr();
-    const removedLetter = currentWordArr.pop();
+    const currentWordArr = getCurrentWordArr()
+    const removedLetter = currentWordArr.pop()
 
+    if (currentWordArr.length === 4){
+      const removedLetter = currentWordArr.pop()
+      numGuesses[numGuesses.length - 1] = currentWordArr
+      const lastLetterEl = document.getElementById(String(availableSpace - 1))
+      lastLetterEl.textContent = ""   
+      availableSpace = availableSpace - 1   
+      return
+    }
+    if(availableSpace%5 === 1){
+      return
+    }
     numGuesses[numGuesses.length - 1] = currentWordArr;
 
     const lastLetterEl = document.getElementById(String(availableSpace - 1));
 
     lastLetterEl.textContent = "";
     availableSpace = availableSpace - 1;
+    console.log(availableSpace)
   }
 
   function createBoardGrid () {
