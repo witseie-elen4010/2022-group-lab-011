@@ -8,7 +8,7 @@ const sessions = require('express-session');
 
 router.get('/', (req, res) => {
 
-    res.render('users/create')
+    res.render('users/create_account')
 })
 
 router.post('/', async (req, res) => {
@@ -49,7 +49,7 @@ router.post('/', async (req, res) => {
                 })
             } else {
               //code for email in use
-              return res.redirect('/create')
+              return res.redirect('/create_account')
             }
           })
           // If there's an error, return that with some description
@@ -58,7 +58,7 @@ router.post('/', async (req, res) => {
           })
       } else {
         //code for incorrect passwords
-        return res.redirect('/create')
+        return res.redirect('/create_account')
       }
 })
 

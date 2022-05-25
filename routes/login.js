@@ -4,12 +4,11 @@ const router = express.Router()
 const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
 
 router.get('/', (req, res) => {
-    console.log(req.query.username)
-    res.send('User List')
+    res.render('users/login')
 })
 
-router.get('/new', (req, res) => {
-    res.render("users/new")
+router.get('/login', (req, res) => {
+    res.render("users/login")
 })   
 
 router.post('/', (req, res) => {
@@ -17,10 +16,10 @@ router.post('/', (req, res) => {
     let y = req.body.password
     let isValid = validateLogin(x, y, users)
     if (isValid != undefined) {
-        res.redirect('/users/'+isValid)
+        res.redirect('/login/'+isValid)
     } else {
         console.log("Error")
-        res.render('users/new', { username: x})
+        res.render('users/login', { username: x})
     }
 })
 
