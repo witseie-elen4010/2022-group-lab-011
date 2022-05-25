@@ -24,7 +24,7 @@ app.use('/login', loginRouter)
 app.use('/home', homeRouter)
 app.use('/solo_game', gameRouter)
 app.use('/leaderboard', leadRouter)
-app.use('game_log', gameLogRouter)
+app.use('/game_log', gameLogRouter)
 
 
 function logger(req, res, next) {
