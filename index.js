@@ -15,12 +15,14 @@ const createRouter = require('./routes/create')
 const userRouter = require('./routes/users')
 const homeRouter = require('./routes/home')
 const gameRouter = require('./routes/game')
+const leadRouter = require('./routes/leaderboard')
 
 //Define routes
 app.use('/create', createRouter)
 app.use('/users', userRouter)
 app.use('/home', homeRouter)
 app.use('/game', gameRouter)
+app.use('/leaderboard', leadRouter)
 
 
 function logger(req, res, next) {
