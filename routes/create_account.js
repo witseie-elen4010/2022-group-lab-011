@@ -3,15 +3,14 @@ const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 const router = express.Router()
 
-const cookieParser = require("cookie-parser");
-const sessions = require('express-session');
-
 router.get('/', (req, res) => {
-
     res.render('users/create_account')
 })
 
 router.post('/', async (req, res) => {
+    if (!req.session.ID) {
+    res.redirect('/')
+    } else {
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
@@ -41,7 +40,7 @@ router.post('/', async (req, res) => {
                 })
               // Send back the result
                 .then(result => {
-                  return res.redirect('/home')
+                  return res.redirect('/login')
                 })
               // If there's an error, return that with some description
                 .catch(err => {
@@ -60,6 +59,7 @@ router.post('/', async (req, res) => {
         //code for incorrect passwords
         return res.redirect('/create_account')
       }
+    }
 })
 
 
