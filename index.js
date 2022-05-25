@@ -16,7 +16,8 @@ const loginRouter = require('./routes/login')
 const homeRouter = require('./routes/home')
 const gameRouter = require('./routes/solo_game')
 const leadRouter = require('./routes/leaderboard')
-const gameLogRouter = require('./routes/game_log.js')
+const gameLogRouter = require('./routes/game_log')
+const lobbyRouter = require('./routes/lobby')
 
 //Define routes
 app.use('/create_account', createRouter)
@@ -25,6 +26,7 @@ app.use('/home', homeRouter)
 app.use('/solo_game', gameRouter)
 app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
+app.use('/lobby', lobbyRouter)
 
 
 function logger(req, res, next) {
