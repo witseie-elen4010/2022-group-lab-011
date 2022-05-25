@@ -11,6 +11,7 @@ router.get('/', (req, res) => {
     res.render('users/create')
 })
 
+
 router.post('/', async (req, res) => {
     const username = req.body.username
     const email = req.body.email
@@ -61,5 +62,6 @@ router.post('/', async (req, res) => {
         return res.redirect('/create')
       }
 })
+
 
 module.exports = router
