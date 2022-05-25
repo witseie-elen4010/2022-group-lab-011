@@ -17,8 +17,7 @@ router.post('/', async (req, res) => {
     const password = req.body.password
     const confirmPassword = req.body.confirm_password
     
-
-    if (password === confirmPassword && username.length !== 0 &&  email.length !== 0) {
+    if (password === confirmPassword) {
         const hashedPassword = await bcrypt.hash(password, 10)
         db.pools
         // Run query
