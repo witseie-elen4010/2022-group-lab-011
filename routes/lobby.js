@@ -7,6 +7,7 @@ router.get('/', (req, res) => {
 
 router.post('/', (req, res) => {
     console.log('Button was clicked')
+    res.redirect('/multi_game')
 })
 
 module.exports = router
