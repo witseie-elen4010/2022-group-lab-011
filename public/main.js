@@ -30,9 +30,6 @@ document.addEventListener('DOMContentLoaded', () => {
   a condensed dictionary will have to be created*/
 
   function getNewWord() {
-    if (!req.session.ID) {
-      res.redirect('/')
-      } else {
     var startTime = performance.now()
     fetch(
       `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
@@ -55,7 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       var endTime = performance.now()
       console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-    }
+    
   }
 
   asyncCall()

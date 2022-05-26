@@ -5,9 +5,16 @@ const FileStore = require('session-file-store')(session)
 const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 
-
 router.get('/', (req, res) => {
-  req.session.destroy()
+  req.session.destroy(function(err) {
+    if (err) {
+      console.error(err);
+    } else {
+      //res.clearCookie();
+      //res.redirect('/');
+    }
+  });
+  
   res.render('users/login')
 })
 

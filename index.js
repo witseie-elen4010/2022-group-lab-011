@@ -5,12 +5,13 @@ const app = express()
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 
+
 app.use(session({
-    store: new FileStore(),
-    secret: 'WordleSession43652912',
-    resave: false,
-    saveUninitialized: false,
-  })
+  store: new FileStore(),
+  secret: 'WordleSession43652912',
+  resave: false,
+  saveUninitialized: false
+})
 )
 
 app.use(express.static("public"))
