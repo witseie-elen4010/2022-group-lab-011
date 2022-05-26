@@ -165,6 +165,7 @@ document.addEventListener('DOMContentLoaded', () => {
                                 2) if no letters in row
                                 3) all other configs
   */
+ 
   function handleDeleteLetter() {
     const currentWordArr = getCurrentWordArr()
     const removedLetter = currentWordArr.pop()
