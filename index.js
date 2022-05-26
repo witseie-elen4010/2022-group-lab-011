@@ -8,7 +8,7 @@ const FileStore = require('session-file-store')(session)
 
 app.use(session({
   store: new FileStore(),
-  secret: 'WordleSession43652912',
+  secret: 'easypeasyazsdfahsdghasdh',
   resave: false,
   saveUninitialized: false
 })
