@@ -8,9 +8,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    if (!req.session.ID) {
-    res.redirect('/')
-    } else {
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
@@ -59,7 +56,6 @@ router.post('/', async (req, res) => {
         //code for incorrect passwords
         return res.redirect('/create_account')
       }
-    }
 })
 
 

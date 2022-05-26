@@ -12,6 +12,9 @@ router.post('/', (req, res) => {
     if (!req.session.ID) {
       res.redirect('/login')
       } else {
+    let playerOne
+    let playerTwo
+    let playerAdmin
     const playerRole = req.body.game_role
     const accountId = req.session.ID
     db.pools
@@ -43,16 +46,51 @@ router.post('/', (req, res) => {
                   // Run query
                   .then((pool) => {
                       return pool.request()
-                        // insert user into lobby
-                        .input('account_id', accountId)
-                        .input('player_role', playerRole)
-                        .query('SELECT * FROM dbo.game_lobby;')
+                        // Select game players
+                        .input('player_role', 0)
+                        .query('SELECT TOP 2 * FROM dbo.game_lobby WHERE player_role = @player_role;')
                   })
                   .then(result => {
                     console.log("selected")
                     console.log(result)
+                    if (result.recordset.length > 0) {
+                      playerOne = result.recordset[0].account_id
+                    }
+                    if (result.recordset.length > 1) {
+                      playerTwo = result.recordset[1].account_id
+                    }
                     if (result.recordset.length === 2) {
-                        console.log("Create game")
+                      console.log("create game")
+                      db.pools
+                      // Run query
+                        .then((pool) => {
+                            return pool.request()
+                             // Select game admins
+                              .input('player_role', 1)
+                              .query('SELECT TOP 1 * FROM dbo.game_lobby WHERE player_role = @player_role;')
+                      .then(result => {
+                        if (result.recordset.length === 1) {
+                          playerAdmin = result.recordset[0].account_id
+                        } else{
+                          playerAdmin = 0
+                        }                   
+                        db.pools
+                      // Run query
+                        .then((pool) => {
+                            return pool.request()
+                             // Select game admins
+                              .input('player_one', playerOne)
+                              .input('player_two', playerTwo)
+                              .input('player_admin', playerAdmin)
+                              .input('word', '')
+                              .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
+                        })
+                        .then(result => {
+                          console.log('game created')
+                        })
+
+                      })
+                  })
                     } else {
                       //code for already in lobby
                       //res.redirect('/multi_game')
