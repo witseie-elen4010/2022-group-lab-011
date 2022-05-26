@@ -2,7 +2,17 @@
 
 const express = require('express')
 const app = express()
-const db = require('./dbconfig.js')
+const session = require('express-session');
+const FileStore = require('session-file-store')(session)
+
+
+app.use(session({
+  store: new FileStore(),
+  secret: 'WordleSession43652912',
+  resave: false,
+  saveUninitialized: false
+})
+)
 
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
@@ -39,5 +49,4 @@ module.exports = app
 const port = process.env.PORT || 3000
 app.listen(port)
 console.log('Listening to port: ', port)
-
 

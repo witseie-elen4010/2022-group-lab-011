@@ -1,66 +1,60 @@
 const express = require('express')
 const router = express.Router()
-
-const users = [{ username: "Kyle", password: "1234"}, { username: "Sally", password: "1234"}, { username: "admin", password: "admin"}]
+const session = require('express-session');
+const FileStore = require('session-file-store')(session)
+const db = require('../dbconfig.js')
+const bcrypt = require('bcrypt')
 
 router.get('/', (req, res) => {
-    res.render('users/login')
+  req.session.destroy(function(err) {
+    if (err) {
+      console.error(err);
+    } else {
+      //res.clearCookie();
+      //res.redirect('/');
+    }
+  });
+  
+  res.render('users/login')
 })
-
-router.get('/login', (req, res) => {
-    res.render("users/login")
-})   
 
 router.post('/', (req, res) => {
-    let x = req.body.username
-    let y = req.body.password
-    let isValid = validateLogin(x, y, users)
-    if (isValid != undefined) {
-        res.redirect('/login/'+isValid)
+    let username = req.body.username
+    let password = req.body.password
+  
+  //  retrieve account with specified username
+  db.pools
+  // SQL
+  .then((pool) => {
+    return pool.request()
+      .input('username', username)
+      .query('Select password, id from dbo.accounts where username = @username;')
+  })
+// Compare hashed passsword with entered result
+  .then(async (result) => {
+    if (await bcrypt.compare(password, result.recordset[0].password)) {      
+      // Login success
+      sessData = req.session
+      sessData.ID = result.recordset[0].id
+      console.log(req.session.ID)
+      return res.redirect('/home')
+      // Login failed
     } else {
-        console.log("Error")
-        res.render('users/login', { username: x})
+      //SAY INCORRECT LOGIN CREDENTIALS
+      return res.redirect('/login')
     }
+  })
+// database error
+  .catch(err => {
+    res.send({ Error: err })
+  })
+
 })
-
-router
-    .route("/:id")
-    .get((req, res) => {
-        let x = req.params.id
-        let y = users[x].username
-        let z = users[x].password
-        res.redirect('/home')
-    })
-    .put((req, res) => {
-        let x = req.params.id
-        res.send('Update User with ID '+x)
-    })
-    .delete((req, res) => {
-        let x = req.params.id
-        res.send('Delete User with ID '+x)
-    })
-
-router.param('id', (req, res, next, id) => {
-    req.user = users[id]
-    next()
-})
-
-function validateLogin(username_, password_, users_){
-    let temp
-    for (let i=0; i < users_.length; i++){
-        if (username_ === users_[i].username){
-            temp = i
-        }
-    }
-    if (temp === undefined){
-        return undefined
-    }
-    if (users_[temp].password === password_){
-        return temp
-    }
-    else {
-        return undefined
-    }
+const maxAge = 3 * 60 * 60
+const createToken = (id) =>{
+  return jwt.sign({id}, process.env.JWT_SECRET, {
+    expiresIn: maxAge 
+  })
 }
 
 module.exports = router
