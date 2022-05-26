@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     if (!req.session.ID) {
         res.redirect('/')
         } else {
-    res.render('users/leaderboard')
+    res.render('users/game_log')
     }
 })
 

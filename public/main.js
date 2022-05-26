@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
       var endTime = performance.now()
       console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+    
   }
 
   asyncCall()

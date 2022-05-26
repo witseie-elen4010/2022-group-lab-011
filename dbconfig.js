@@ -1,7 +1,6 @@
 const mssql = require('mssql')
-const dotenv = require('dotenv')
+require("dotenv").config()
 
-dotenv.config()
 // Make sure this is private to this module
 const config = {
   server: 'wordle-world-party.database.windows.net',
@@ -9,6 +8,8 @@ const config = {
   // Put login details in env. variables for security
   user: process.env.db_username,
   password: process.env.db_password,
+  //user: process.env.db_username,
+  //password: process.env.db_password,
   port: 1433,
   // Required for Azure
   options: {
