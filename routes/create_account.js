@@ -8,9 +8,6 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', async (req, res) => {
-    if (!req.session.ID) {
-    res.redirect('/')
-    } else {
     const username = req.body.username
     const email = req.body.email
     const password = req.body.password
@@ -22,8 +19,8 @@ router.post('/', async (req, res) => {
         // Run query
           .then((pool) => {
             return pool.request()
-              .input('email', email)
-              .query('Select email from dbo.accounts where email = @email;')         
+              .input('username', username)
+              .query('Select username from dbo.accounts where username = @username;')         
           })
           // Send back the result
           .then(result => {
@@ -47,7 +44,7 @@ router.post('/', async (req, res) => {
                   res.send({ Error: err })
                 })
             } else {
-              //code for email in use
+              //code for username in use
               return res.redirect('/create_account')
             }
           })
@@ -59,7 +56,6 @@ router.post('/', async (req, res) => {
         //code for incorrect passwords
         return res.redirect('/create_account')
       }
-    }
 })
 
 
