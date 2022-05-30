@@ -1,10 +1,9 @@
 'use strict'
 
 const {Builder, By, Key, util} = require("selenium-webdriver");
-const assert = require("assert");
 var should = require("chai").should();
 
-// describe is used specifically by mocha, use npx mocha to run
+// describe is used specifically by mocha, use npx mocha --no-timeouts <file path> to run
 describe("Testing Index.html", function(){
     it("Button says Login", async function(){
 

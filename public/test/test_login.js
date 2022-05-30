@@ -1,7 +1,6 @@
 'use strict'
 
 const {Builder, By, Key, util} = require("selenium-webdriver");
-const assert = require("assert");
 var should = require("chai").should();
 // chai is used for making code more readable.
 
