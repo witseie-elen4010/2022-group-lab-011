@@ -4,7 +4,7 @@ const db = require('../dbconfig.js')
 
 router.get('/', (req, res) => {
   if (!req.session.ID) {
-      res.redirect('/')
+      res.redirect('/login')
       } else {
   res.render("users/lobby")
   }

@@ -4,9 +4,9 @@ const db = require('../dbconfig.js')
 
 router.get('/', (req, res) => {
     if (!req.session.ID) {
-        res.redirect('/')
+        res.redirect('/login')
         } else {
-    res.render('users/leaderboard')
+    //res.render('users/leaderboard')
     //const accountId = req.session.ID
     const accountId = 1
     const username = 'Test Name'
@@ -47,17 +47,11 @@ router.get('/', (req, res) => {
                     }
                     console.log(table)
                 }
+                res.render('users/leaderboard', {table: table})
             })
         .catch(err => {
             res.send({ Error: err })
             })
-                
-                
-
-
-
-
-
     }
 })
 
