@@ -32,8 +32,8 @@ describe("Testing login.ejs", function(){
           newLocation.should.equal("Create account");
   
           await driver.quit();
-      });
-      it("Button name is login on Login page", async function(){ 
+     });
+     it("Button name is login on Login page", async function(){ 
         let driver = await new Builder().forBrowser("firefox").build();
         await driver.get("https://wordleworldparty.azurewebsites.net/");
 
@@ -47,26 +47,26 @@ describe("Testing login.ejs", function(){
         buttonName.should.equal("Login");
 
         await driver.quit();
-   });
-   it("Button redirects to home page", async function(){
-    let driver = await new Builder().forBrowser("firefox").build();
-    await driver.get("https://wordleworldparty.azurewebsites.net/");
-
-    await driver.findElement(By.xpath("//a")).click();
-    
-    // enter a saved account
-
-    driver.findElement(By.id("username")).sendKeys("123");
-    driver.findElement(By.id("password")).sendKeys("123");
-    
-    await driver.findElement(By.id("myButton")).click();
-
-    let newLocation = await driver.findElement(By.xpath("//h1")).getText().then(function(value){
-         return value;
      });
+     it("Button redirects to home page", async function(){
+          let driver = await new Builder().forBrowser("firefox").build();
+          await driver.get("https://wordleworldparty.azurewebsites.net/");
 
-    newLocation.should.equal("Homepage");
+          await driver.findElement(By.xpath("//a")).click();
+    
+          // enter a saved account
 
-    await driver.quit();
-});
+          driver.findElement(By.id("username")).sendKeys("123");
+          driver.findElement(By.id("password")).sendKeys("123");
+    
+          await driver.findElement(By.id("myButton")).click();
+
+          let newLocation = await driver.findElement(By.xpath("//h1")).getText().then(function(value){
+               return value;
+          });
+
+          newLocation.should.equal("Homepage");
+
+          await driver.quit();
+     });
 });
