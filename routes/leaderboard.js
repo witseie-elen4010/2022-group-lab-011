@@ -13,6 +13,8 @@ router.get('/', (req, res) => {
     let game_count = 1
     let score = 4
     let average_score = score/game_count
+
+    // this is here just to show how to insert new data onto the DB
     /*db.pools
             // Run query
             .then((pool) => {
@@ -38,21 +40,26 @@ router.get('/', (req, res) => {
                 let cols = columns.length
                 let rows = result.recordset.length
                 if (rows > 0) {
-                    const table = Array.from(Array(rows), () => new Array(cols));
+                    const myTable = Array.from(Array(rows), () => new Array(cols));
                     for (let row = 0; row < rows; row++) {
                         for (let col = 0; col < cols; col++) {
                             let x = result.recordsets[0][row][columns[col]]
-                            table [row] [col] = x
+                            myTable [row] [col] = x
                         }
                     }
-                    console.log(table)
+                    leaderboard.stats = myTable
                 }
-                res.render('users/leaderboard', {table: table})
+                res.render('users/leaderboard', {data: leaderboard})
             })
         .catch(err => {
             res.send({ Error: err })
             })
     }
 })
+
+const leaderboard = {
+    name : 'leaderboard',
+    stats: []
+}
 
 module.exports = router

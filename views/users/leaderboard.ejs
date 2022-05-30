@@ -7,7 +7,6 @@
         <title>Leaderboard</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
-    
     <body>
 
         <div class="container">
@@ -37,33 +36,28 @@
             </div>
 
             <div class="row justify-content-center my-4">
-                <div class="col-lg-6 justify-content-center">
+                <div class="col justify-content-center">
                     <form action="/leaderboard" method="post">
                         <div class="card">
                             <table class="table table-striped">
                                 <thead class="text-center">
                                     <tr>
                                         <th>#</th>
-                                        <th>User</th>
-                                        <th>Score</th> 
+                                        <th>User #</th>
+                                        <th>Username</th>
+                                        <th>Games Played</th>
+                                        <th>Total Score</th>
+                                        <th>Average Score</th>  
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
+                                    <% for (let row = 0; row < 2; row++){%>
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>250</td>
+                                        <% data.stats[row].forEach((stats)=>{%>
+                                        <td><%=stats%></td> 
+                                        <%});%>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>Ben</td>
-                                        <td>200</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>Rob</td>
-                                        <td>150</td>
-                                    </tr>
+                                    <%};%>
                                 </tbody>
                             </table>
                         </div>
