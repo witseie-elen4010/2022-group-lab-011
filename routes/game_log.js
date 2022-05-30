@@ -3,7 +3,7 @@ const router = express.Router()
 
 router.get('/', (req, res) => {
     if (!req.session.ID) {
-        res.redirect('/')
+        res.redirect('/login')
         } else {
     res.render('users/game_log')
     }
