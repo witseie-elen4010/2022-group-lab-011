@@ -33,4 +33,19 @@ describe("Testing login.ejs", function(){
   
           await driver.quit();
       });
+      it("Button name is login on Login page", async function(){ 
+        let driver = await new Builder().forBrowser("firefox").build();
+        await driver.get("https://wordleworldparty.azurewebsites.net/");
+
+        await driver.findElement(By.xpath("//a")).click();
+       
+
+        let buttonName = await driver.findElement(By.xpath("//button")).getText().then(function(value){
+            return value;
+        });
+
+        buttonName.should.equal("Login");
+
+        await driver.quit();
+   });
 });
