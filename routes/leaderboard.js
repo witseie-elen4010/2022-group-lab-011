@@ -37,14 +37,16 @@ router.get('/', (req, res) => {
                 let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
                 let cols = columns.length
                 let rows = result.recordset.length
-                const table = Array.from(Array(rows), () => new Array(cols));
-                for (let row = 0; row < rows; row++) {
-                    for (let col = 0; col < cols; col++) {
-                        let x = result.recordsets[0][row][columns[col]]
-                        table [row] [col] = x
+                if (rows > 0) {
+                    const table = Array.from(Array(rows), () => new Array(cols));
+                    for (let row = 0; row < rows; row++) {
+                        for (let col = 0; col < cols; col++) {
+                            let x = result.recordsets[0][row][columns[col]]
+                            table [row] [col] = x
+                        }
                     }
+                    console.log(table)
                 }
-                console.log(table)
             })
         .catch(err => {
             res.send({ Error: err })
