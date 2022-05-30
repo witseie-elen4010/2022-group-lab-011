@@ -7,7 +7,6 @@ router.get('/', (req, res) => {
         res.redirect('/')
         } else {
     res.render('users/leaderboard')
-    console.log("at leaderboard db insert")
     //const accountId = req.session.ID
     const accountId = 1
     const username = 'Test Name'
@@ -27,7 +26,6 @@ router.get('/', (req, res) => {
                 .input('average_score', average_score)
                 .query('INSERT INTO dbo.leaderboard (id, account_id, username, game_count, score, average_score) VALUES (@id, @account_id, @username, @game_count, @score, @average_score);')
             })*/
-    console.log("at leaderboard db select")
     db.pools
     // Run query
         .then((pool) => {
@@ -36,8 +34,17 @@ router.get('/', (req, res) => {
             .query('SELECT * FROM dbo.leaderboard;')
         })
             .then(result => {
-                let x = result.recordset
-                console.log(x)
+                let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
+                let cols = columns.length
+                let rows = result.recordset.length
+                const table = Array.from(Array(rows), () => new Array(cols));
+                for (let row = 0; row < rows; row++) {
+                    for (let col = 0; col < cols; col++) {
+                        let x = result.recordsets[0][row][columns[col]]
+                        table [row] [col] = x
+                    }
+                }
+                console.log(table)
             })
         .catch(err => {
             res.send({ Error: err })
