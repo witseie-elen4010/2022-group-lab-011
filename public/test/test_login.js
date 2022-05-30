@@ -19,4 +19,18 @@ describe("Testing login.ejs", function(){
 
          await driver.quit();
      });
-    });
+     it("Button redirects to create account page", async function(){
+          let driver = await new Builder().forBrowser("firefox").build();
+          await driver.get("https://wordleworldparty.azurewebsites.net/");
+  
+          await driver.findElement(By.xpath("//a")).click();
+          await driver.findElement(By.xpath("//a")).click();
+          let newLocation = await driver.findElement(By.xpath("//h1")).getText().then(function(value){
+              return value;
+          })
+  
+          newLocation.should.equal("Create account");
+  
+          await driver.quit();
+      });
+});
