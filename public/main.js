@@ -129,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
       numGuesses.push([])
 
     }).catch(() => {
-      window.alert("Word is doesn't exist. Try again!")
+      window.alert("Word doesn't exist. Try again!")
     });
   }
 
