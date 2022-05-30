@@ -138,10 +138,3 @@ header {
   flex-grow: 0.5;
 }
 
-#alert-container {
-  display: flex;
-  justify-content: left;
-  align-items: left;
-  flex-grow: 1;
-  overflow: hidden;
-}

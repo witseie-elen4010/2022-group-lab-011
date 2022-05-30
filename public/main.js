@@ -2,11 +2,17 @@ document.addEventListener('DOMContentLoaded', () => {
   /*init*/
   createBoardGrid()
   getNewWord()
+  
+
+  //let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
+  //console.log(rightGuessString)
 
   let word
   const numGuesses = [[]]
   let availableSpace = 1  
   let numGuessCount = 0
+  let score = 7
+  let answer = false
 
   /* the word might be very obscure so the console out of
   the word can be used to test
@@ -113,15 +119,17 @@ document.addEventListener('DOMContentLoaded', () => {
       numGuessCount += 1
 
       if (currentGuess === word) {
-        setTimeout(() => { window.alert('congratulations');} , 1000) 
+        answer = true
+        setTimeout(() => { window.alert(`Congratulations! Your score is: ${calcScore()}`);} , 1000) 
       }
       if (numGuesses.length === 6) {
-        window.alert(`Better Luck Next Time! The word is ${word}.`)
+        answer = false
+        setTimeout(() => {window.alert(`Better Luck Next Time! The word is ${word}. Your score is: ${calcScore()}`);} , 1000) 
       }
       numGuesses.push([])
 
     }).catch(() => {
-      window.alert("word is not recognised")
+      window.alert("Word doesn't exist. Try again!")
     });
   }
 
@@ -187,7 +195,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     lastLetterEl.textContent = "";
     availableSpace = availableSpace - 1;
-    console.log(availableSpace)
+    //console.log(availableSpace)
   }
 
   function createBoardGrid () {
@@ -199,5 +207,28 @@ document.addEventListener('DOMContentLoaded', () => {
       square.setAttribute('id', index + 1)
       gameBoard.appendChild(square)
     }
+  }
+
+/* scoring sytem is based on the amount of guesses a player takes to solve the puzzle.
+1 guess:   10
+2 guesses: 5
+3 guesses: 4
+4 guesses: 3
+5 guesses: 2
+6 guesses: 1
+All wrong guesses: 0 
+The calcScore() function is called in handleGuess()*/
+
+  function calcScore () {
+    if (numGuessCount === 1) {
+      let score = 10
+      return score
+    }
+    if (answer === false){
+      let score = 0
+      return score
+    }
+    score = score - numGuessCount
+    return score
   }
 })
