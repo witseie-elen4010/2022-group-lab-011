@@ -3,7 +3,11 @@ const router = express.Router()
 const db = require('../dbconfig.js')
 
 router.get('/', (req, res) => {
-    res.render('users/lobby')
+  if (!req.session.ID) {
+      res.redirect('/')
+      } else {
+  res.render("users/lobby")
+  }
 })
 
 router.post('/', (req, res) => {
