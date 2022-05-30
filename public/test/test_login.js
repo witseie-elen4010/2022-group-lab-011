@@ -3,6 +3,7 @@
 const {Builder, By, Key, util} = require("selenium-webdriver");
 const assert = require("assert");
 var should = require("chai").should();
+// chai is used for making code more readable.
 
 describe("Testing login.ejs", function(){
     it("Login page opened", async function(){
