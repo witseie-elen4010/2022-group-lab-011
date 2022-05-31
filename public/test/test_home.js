@@ -109,4 +109,25 @@ describe("Test Home page", function () {
         
         await driver.quit()
     });
+    it("Test Multiplayer Lobby button redirects to Lobby", async function () {
+        const driver = await new Builder().forBrowser('firefox').build()
+        
+        await driver.get("https://wordleworldparty.azurewebsites.net/")
+        await driver.findElement(By.xpath("//a")).click();
+                
+        driver.findElement(By.id("username")).sendKeys("123");
+        driver.findElement(By.id("password")).sendKeys("123");
+          
+        await driver.findElement(By.id("myButton")).click();
+        await driver.findElement(By.xpath("//button")).click();
+        await driver.findElement(By.id("lobby")).click();
+        
+        let heading = await driver.findElement(By.xpath("//h1")).getText().then(function (value) {
+            return value
+        });
+        
+        heading.should.equal("Lobby");
+        
+        await driver.quit()
+    });
 });
