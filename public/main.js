@@ -2,18 +2,16 @@ document.addEventListener('DOMContentLoaded', () => {
   /*init*/
   createBoardGrid()
   getNewWord()
-  
 
   //let rightGuessString = WORDS[Math.floor(Math.random() * WORDS.length)]
   //console.log(rightGuessString)
-
   let word
   const numGuesses = [[]]
   let availableSpace = 1  
   let numGuessCount = 0
   let score = 7
   let answer = false
-
+    
   /* the word might be very obscure so the console out of
   the word can be used to test
   
@@ -23,7 +21,6 @@ document.addEventListener('DOMContentLoaded', () => {
   async function asyncCall() {
     console.log('calling');
     const result = await getNewWord();
-    //console.log(`${word}`);
   }
 
   setTimeout(() => { console.log(`${word}`); }, 5000)
@@ -120,11 +117,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
       if (currentGuess === word) {
         answer = true
-        setTimeout(() => { window.alert(`Congratulations! Your score is: ${calcScore()}`);} , 1000) 
+        setTimeout(() => { window.alert(`Congratulations! Your score is: ${calcScore(numGuessCount,answer)}`);} , 1000) 
       }
       if (numGuesses.length === 6) {
         answer = false
-        setTimeout(() => {window.alert(`Better Luck Next Time! The word is ${word}. Your score is: ${calcScore()}`);} , 1000) 
+        setTimeout(() => {window.alert(`Better Luck Next Time! The word is ${word}. Your score is: ${calcScore(numGuessCount,answer)}`);} , 1000) 
       }
       numGuesses.push([])
 
@@ -218,8 +215,8 @@ document.addEventListener('DOMContentLoaded', () => {
 6 guesses: 1
 All wrong guesses: 0 
 The calcScore() function is called in handleGuess()*/
-
-  function calcScore () {
+  const calcScore = require('../calcScore')  
+  /*function calcScore (numGuessCount,answer) {
     if (numGuessCount === 1) {
       let score = 10
       return score
@@ -230,5 +227,5 @@ The calcScore() function is called in handleGuess()*/
     }
     score = score - numGuessCount
     return score
-  }
+  }*/
 })
