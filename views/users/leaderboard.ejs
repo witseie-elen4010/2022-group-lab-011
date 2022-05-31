@@ -51,7 +51,7 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <% for (let row = 0; row < 2; row++){%>
+                                    <% for (let row = 0; row < data.stats.length; row++){%>
                                     <tr>
                                         <% data.stats[row].forEach((stats)=>{%>
                                         <td><%=stats%></td> 
