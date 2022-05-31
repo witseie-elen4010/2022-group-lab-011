@@ -1,6 +1,6 @@
 function calcScore(numGuessCount,answer){
-  //let numGuessCount = 1
-    if (numGuessCount === 1) {
+  let score = 7  
+  if (numGuessCount === 1) {
       let score = 10
       return score
     }
