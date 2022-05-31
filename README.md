@@ -18,11 +18,10 @@
 
 ## [*CLICK HERE TO PLAY THE GAME*] (https://wordleworldparty.azurewebsites.net/)
 
-### To login use the account details username: 'admin' and password: 'admin'.
-### Loggin in and creating of account bugs will be fixed for the sprint 3 release
+### The game is functional, create an account to login, multiplayer is not working as of yet
 
 ### Instructions
 
-- To view current progress play the game via the link provided above, the use of the creation table only works locally and will be operational in sprint 3.
+- To view current progress play the game via the link provided above, multiplayer will be operation in release 4.
 
 
