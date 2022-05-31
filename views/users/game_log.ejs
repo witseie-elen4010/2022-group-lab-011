@@ -37,45 +37,34 @@
             </div>
 
             <div class="row justify-content-center my-4">
-                <div class="col-lg-6 justify-content-center">
+                <div class="col justify-content-center">
                     <form action="/game_log" method="post">
                         <div class="card">
                             <table class="table table-striped">
                                 <thead class="text-center">
                                     <tr>
                                         <th>#</th>
-                                        <th>User 1</th>
-                                        <th>User 2</th>
-                                        <th>Score 1</th>
-                                        <th>Score 2</th>
-                                        <th>Winner</th>
+                                        <th>Game #</th>
+                                        <th>User #</th>
+                                        <th>Opponent</th>
+                                        <th>Admin</th>
+                                        <th>Guess 1</th>
+                                        <th>Guess 2</th>
+                                        <th>Guess 3</th>
+                                        <th>Guess 4</th>
+                                        <th>Guess 5</th>
+                                        <th>Guess 6</th>
+                                        <th>Word</th>   
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
+                                    <% for (let row = 0; row < data.stats.length; row++){%>
                                     <tr>
-                                        <th scope="row">1</th>
-                                        <td>John</td>
-                                        <td>Ben</td>
-                                        <td>150</td>
-                                        <td>250</td>
-                                        <td>Ben</td>
+                                        <% data.stats[row].forEach((stats)=>{%>
+                                        <td><%=stats%></td> 
+                                        <%});%>
                                     </tr>
-                                    <tr>
-                                        <th scope="row">2</th>
-                                        <td>John</td>
-                                        <td>Ben</td>
-                                        <td>100</td>
-                                        <td>50</td>
-                                        <td>John</td>
-                                    </tr>
-                                    <tr>
-                                        <th scope="row">3</th>
-                                        <td>John</td>
-                                        <td>Rob</td>
-                                        <td>150</td>
-                                        <td>300</td>
-                                        <td>Rob</td>
-                                    </tr>
+                                    <%};%>
                                 </tbody>
                             </table>
                         </div>
