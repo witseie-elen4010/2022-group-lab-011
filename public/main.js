@@ -215,5 +215,18 @@ document.addEventListener('DOMContentLoaded', () => {
 6 guesses: 1
 All wrong guesses: 0 
 The calcScore() function is called in handleGuess()*/
-  const calcScore = require('../calcScore')  
+  //const calcScore = require('../calcScore')  
+  function calcScore(){
+    if (numGuessCount === 1) {
+      let score = 10
+      return score
+    }
+    if (answer === false){
+      let score = 0
+      return score
+    }
+    score = score - numGuessCount
+    return score
+  }
 })
+
