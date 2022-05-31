@@ -297,7 +297,7 @@ function updateDB (score) {
               .input('game_count', game_count)
               .input('new_score', new_score)
               .input('average_score', average_score)
-              .query('UPDATE dbo.leaderboard SET (game_count = game_count, score = new_score, average_score = average_score) WHERE (account_id = account_id, username = username);')
+              .query('UPDATE dbo.leaderboard SET (game_count = @game_count, score = @new_score, average_score = @average_score) WHERE (account_id = @account_id, username = @username);')
           })
         })
       }
