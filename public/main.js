@@ -234,7 +234,8 @@ The calcScore() function is called in handleGuess()*/
 
 function updateDB (score) {
   // set variables
-  const account_id = req.session.ID
+  //const account_id = req.session.ID
+  const account_id = 1 // req and session is currently not defined due to the make up of the main.js file, will be changed, func not called yet
   const score = score
   // get username from accounts database
   db.pools
