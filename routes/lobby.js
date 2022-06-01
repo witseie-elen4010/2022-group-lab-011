@@ -11,15 +11,17 @@ router.get('/', (req, res) => {
 })
 
 router.post('/', (req, res) => {
-    console.log('Button was clicked')
-
     if (!req.session.ID) {
       res.redirect('/login')
       } else {
+    console.log('Button was clicked')
     let playerOne
     let playerTwo
     let playerAdmin
     const playerRole = req.body.game_role
+    if (playerRole===1) {
+      const word = req.body.admin_input
+    }
     const accountId = req.session.ID
     db.pools
     // Run query
