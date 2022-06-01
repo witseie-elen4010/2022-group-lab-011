@@ -1,12 +1,13 @@
-const tileDisplay = document.querySelector('.tile-container')
+const tileBox = document.querySelector('.tile-container')
 const keyboard = document.querySelector('.key-container')
-const messageDisplay = document.querySelector('.message-container')
+const message = document.querySelector('.message-container')
 
-//setup
+// Setup of keys of keyboard
 const keys = [
     'Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','ENTER','Z','X','C','V','B','N','M','Del',
 ]
 
+// Setup of area of empty values as placeholders for tiles
 const wordEntry = [
     ['', '', '', '', ''],
     ['', '', '', '', ''],
@@ -16,11 +17,12 @@ const wordEntry = [
     ['', '', '', '', '']
 ]
 
+// Setup of global variables
 let currentRow = 0
 let currentTile = 0
-let isGameOver = false
+let GameOver = false
 
-//create placeholders for entry words
+// Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
     rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
@@ -30,10 +32,10 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         tileElement.classList.add('tile')
         rowElement.append(tileElement)
     })
-    tileDisplay.append(rowElement)
+    tileBox.append(rowElement)
 })
 
-//create keys for keyboard
+// Create keys for keyboard and add button listener
 keys.forEach(key => {
     const buttonElement = document.createElement('button')
     buttonElement.textContent = key
@@ -42,8 +44,8 @@ keys.forEach(key => {
     keyboard.append(buttonElement)
 })
 
-//get word
-const setWord = () => {
+// Get word from server side
+function setWord() {
     fetch('/word')
         .then(response => response.json())
         .then(json => {
@@ -53,9 +55,9 @@ const setWord = () => {
 }
 setWord()
 
-//Input handling
-const handleClick = (input) => {
-    if (!isGameOver) {
+// Handle events when a key is clicked
+function handleClick(input) {
+    if (!GameOver) {
         if (input === 'Del') {
             if (currentTile > 0) {
                 deleteLetter()
@@ -63,7 +65,7 @@ const handleClick = (input) => {
             return
         }
         if (input === 'ENTER') {
-            checkRow()
+            checkGuess()
             return
         }
         else{
@@ -74,7 +76,8 @@ const handleClick = (input) => {
     }
 }
 
-function addLetter(letter){
+// Add a new letter on a tile
+function addLetter(letter) {
     const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
     tile.textContent = letter
     wordEntry[currentRow][currentTile] = letter
@@ -82,7 +85,8 @@ function addLetter(letter){
     currentTile++
 }
 
-function deleteLetter(letter){
+// Remove a letter from a tile
+function deleteLetter() {
     currentTile--
     const tile = document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
     tile.textContent = ''
@@ -90,7 +94,8 @@ function deleteLetter(letter){
     tile.setAttribute('data', '')
 }
 
-function checkRow(){
+// Called when enter is clicked, verifies game progress ie. win/lose/continue
+function checkGuess() {
     const tempWord = wordEntry[currentRow].join('')
     if (currentTile > 4) {
         fetch(`/check/?word=${tempWord}`)
@@ -102,23 +107,19 @@ function checkRow(){
                 } else {
                     flipTile()
                     if (wordle == tempWord) {
-                        isGameOver = true
+                        GameOver = true
                         showMessage('Magnificent!')
                         wordEntry.push(wordle)
                         wordEntry.push(calcScore(currentRow))
-                        console.log(wordEntry)
                         fetch(`/game_end/?wordEntries=${wordEntry}`)
-                        
                         return
                     } else {
                         if (currentRow >= 5) {
-                            isGameOver = true
+                            GameOver = true
                             showMessage('Game Over')
                             wordEntry.push(wordle)
                             wordEntry.push(0)
-                            console.log(wordEntry)
                             fetch(`/game_end/?wordEntries=${wordEntry}`)
-                            
                             return
                         }
                         if (currentRow < 5) {
@@ -131,6 +132,7 @@ function checkRow(){
     }
 }
 
+// Finds score received for game for leaderboard
 function calcScore(currentRow) {
     let score = 7
     if (currentRow === 0) {
@@ -141,19 +143,22 @@ function calcScore(currentRow) {
     return score
 }
 
-const showMessage = (message) => {
+// Outputs message to client
+function showMessage(message) {
     const messageElement = document.createElement('p')
     messageElement.textContent = message
-    messageDisplay.append(messageElement)
-    setTimeout(() => messageDisplay.removeChild(messageElement), 2000)
+    message.append(messageElement)
+    setTimeout(() => message.removeChild(messageElement), 2000)
 }
 
-const addColorToKey = (keyLetter, color) => {
+// Shows clients their correct letter guesses and positions  ie. green/yellow/dark
+function addColorToKey(keyLetter, color) {
     const key = document.getElementById(keyLetter)
     key.classList.add(color)
 }
 
-const flipTile = () => {
+// Flip the tile to show client the output of their guess
+function flipTile() {
     const rowTiles = document.querySelector('#guessRow-' + currentRow).childNodes
     let checkWordle = wordle
     const guess = []
