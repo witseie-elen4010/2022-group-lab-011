@@ -57,6 +57,29 @@ console.log('Listening to port: ', port)
 
 app.get('/word', (req, res) => {
   res.json('hello')
+  /*var startTime = performance.now()
+  fetch(
+    `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
+    {
+      method: "GET",
+      headers: {
+        "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
+        "X-RapidAPI-Key": "02aa9418c4msh9e030e399f79480p15dd0bjsn17744f8ca659",
+      },
+    }
+  )
+    .then((response) => {
+      return response.json();
+    })
+    .then((res) => {
+      word = res.word;
+    })
+    .catch((err) => {
+      console.error(err);
+    });
+  var endTime = performance.now()
+  console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
+  */
 })
 
 app.get('/check', (req, res) => {
