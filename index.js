@@ -5,7 +5,7 @@ const app = express()
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 const cookieParser = require('cookie-parser')
-//const db = require('../dbconfig.js')
+const db = require('./dbconfig.js')
 
 app.use(session({
   store: new FileStore(),
@@ -77,7 +77,29 @@ app.get('/game_end', (req, res) => {
     console.log(tempWord)
     wordAns[i] = tempWord
   }
+  let finalWord = 'tests'
 
+  db.pools
+  // Run query
+  .then((pool) => {
+    return pool.request()
+    // This is only a test query, change it to whatever you need
+    .input('game_id', 0)
+    .input('account_id', req.session.ID)
+    .input('opponent_id', 0)
+    .input('admin_id', 0)
+    .input('guess_1', wordAns[0])
+    .input('guess_2', wordAns[1])
+    .input('guess_3', wordAns[2])
+    .input('guess_4', wordAns[3])
+    .input('guess_5', wordAns[4])
+    .input('guess_6', wordAns[5])
+    .input('word', finalWord)
+    .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
+  })
+  .catch(err => {
+    res.send({Error: err })
+  })
   
   console.log("input game to database")
 })
