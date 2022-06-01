@@ -1,34 +1,45 @@
 * {
-    color: #ffffff;
-    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande',
-    'Lucida Sans', Arial, sans-serif;
+    color: #000000;
 }
 
 body {
     background-color: #121213;
 }
 
-.game-container {
-    height: 90vh;
+.landing-container {
+    height: 98vh;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    background-color: #131313;
+}
+
+
+.app-container {
+    height: 98vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #131313;
 }
 
 .title-container {
     text-align: center;
-    width: 510px;
-    border-bottom: solid 1px #3a3a3c;
+    width: 550px;
+    color: rgb(0, 0, 0);
+    background-color: #ffffff;
+    border: solid 2px #000000;
 }
 
 .tile-container {
-    width: 330px;
+    max-width: 50%;
     margin-bottom: 30px;
 }
 
 .key-container {
-    width: 510px;
+    width: 550px;
     display: flex;
     flex-wrap: wrap;
 }
@@ -37,9 +48,10 @@ body {
     width: 43px;
     height: 58px;
     border-radius: 4px;
-    border: none;
-    background-color: #818384;
+    border: solid 1px #000000;
+    background-color: #ffffff;
     margin: 4px;
+    color: rgb(0, 0, 0);
 }
 
 .key-container button:nth-child(11) {
@@ -53,12 +65,14 @@ body {
 
 .tile-container div {
     display: flex;
+    color: white;
+    border: 1px solid #3a3a3c;
 }
 
 .tile-container .tile {
     width: 62px;
     height: 62px;
-    border: 2px solid#3a3a3c;
+    border: 3px solid #3a3a3c;
     box-sizing: border-box;
     display: flex;
     justify-content: center;
@@ -78,7 +92,7 @@ body {
 }
 
 .tile.flip {
-    animation: 0.5s linear flipping;
+    animation: 0.7s linear flipping;
 }
 
 @keyframes flipping {
@@ -93,18 +107,16 @@ body {
     }
 }
 
-
-
 .grey-overlay {
-    background-color: #3a3a3c !important;
-    border:none !important;
+    background-color: #222222 !important;
+    border: 3px solid #3a3a3c;
 }
 .yellow-overlay {
-    background-color: #b59f3a !important;
-    border:none !important;
+    background-color: #bba028 !important;
+    border: 3px solid #3a3a3c;
 }
 
 .green-overlay {
-    background-color: #538d4e !important;
-    border:none !important;
+    background-color: #419939 !important;
+    border: 3px solid #3a3a3c;
 }

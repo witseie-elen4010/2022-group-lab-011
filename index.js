@@ -69,15 +69,17 @@ app.get('/game_end', (req, res) => {
   const words = wordsArr.split(",")
 
   let wordAns = []
-  for (let i = 0; i < 6; i++){
+  for (let i = 0; i < 7; i++){
     let tempWord = ''
-    for (let j = 0; j < 5; j++){
+    if (i !==6){
+      for (let j = 0; j < 5; j++){
       tempWord = tempWord + words[i*5 + j]
+      }
+    } else {
+      tempWord = tempWord + words[i*5]
     }
-    console.log(tempWord)
     wordAns[i] = tempWord
   }
-  let finalWord = 'tests'
 
   db.pools
   // Run query
@@ -94,12 +96,10 @@ app.get('/game_end', (req, res) => {
     .input('guess_4', wordAns[3])
     .input('guess_5', wordAns[4])
     .input('guess_6', wordAns[5])
-    .input('word', finalWord)
+    .input('word', wordAns[6])
     .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
   })
   .catch(err => {
     res.send({Error: err })
   })
-  
-  console.log("input game to database")
 })
