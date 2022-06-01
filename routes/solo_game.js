@@ -5,8 +5,9 @@ router.get('/', (req, res) => {
     if (!req.session.ID) {
         res.redirect('/login')
         } else {
-    res.render("users/solo_game")
+    res.render('users/wordle_solo')
     }
 })
+
 
 module.exports = router

@@ -6,14 +6,17 @@ const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 
 router.get('/', (req, res) => {
-  req.session.destroy(function(err) {
-    if (err) {
-      console.error(err);
-    } else {
-      //res.clearCookie();
-      //res.redirect('/');
-    }
-  });
+
+  if (req.session.ID) {
+    req.session.destroy(function(err) {
+      if (err) {
+        console.error(err);
+      } else {
+        //res.cookie.
+        res.redirect('/');
+      }
+    })
+  }
   
   res.render('users/login')
 })
@@ -36,7 +39,7 @@ router.post('/', (req, res) => {
       // Login success
       sessData = req.session
       sessData.ID = result.recordset[0].id
-      console.log(req.session.ID)
+      console.log(req.session.ID)   
       return res.redirect('/home')
       // Login failed
     } else {
@@ -50,11 +53,5 @@ router.post('/', (req, res) => {
   })
 
 })
-const maxAge = 3 * 60 * 60
-const createToken = (id) =>{
-  return jwt.sign({id}, process.env.JWT_SECRET, {
-    expiresIn: maxAge 
-  })
-}
 
 module.exports = router

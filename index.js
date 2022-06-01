@@ -4,7 +4,8 @@ const express = require('express')
 const app = express()
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
-
+const cookieParser = require('cookie-parser')
+//const db = require('../dbconfig.js')
 
 app.use(session({
   store: new FileStore(),
@@ -17,7 +18,7 @@ app.use(session({
 app.use(express.static("public"))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
-
+app.use(cookieParser())
 app.set('view engine', 'ejs')
 app.use(logger)
 
@@ -52,3 +53,31 @@ const port = process.env.PORT || 3000
 app.listen(port)
 console.log('Listening to port: ', port)
 
+//Wordle functionaliity
+
+app.get('/word', (req, res) => {
+  res.json('hello')
+})
+
+app.get('/check', (req, res) => {
+  const word = req.query.word
+  res.json("found")
+})
+
+app.get('/game_end', (req, res) => {
+  const wordsArr = req.query.wordEntries 
+  const words = wordsArr.split(",")
+
+  let wordAns = []
+  for (let i = 0; i < 6; i++){
+    let tempWord = ''
+    for (let j = 0; j < 5; j++){
+      tempWord = tempWord + words[i*5 + j]
+    }
+    console.log(tempWord)
+    wordAns[i] = tempWord
+  }
+
+  
+  console.log("input game to database")
+})
