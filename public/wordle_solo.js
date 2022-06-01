@@ -102,19 +102,23 @@ function checkRow(){
                 } else {
                     flipTile()
                     if (wordle == tempWord) {
+                        isGameOver = true
                         showMessage('Magnificent!')
                         wordEntry.push(wordle)
+                        wordEntry.push(calcScore(currentRow))
                         console.log(wordEntry)
                         fetch(`/game_end/?wordEntries=${wordEntry}`)
-                        isGameOver = true
+                        
                         return
                     } else {
                         if (currentRow >= 5) {
+                            isGameOver = true
                             showMessage('Game Over')
                             wordEntry.push(wordle)
+                            wordEntry.push(0)
                             console.log(wordEntry)
                             fetch(`/game_end/?wordEntries=${wordEntry}`)
-                            isGameOver = true
+                            
                             return
                         }
                         if (currentRow < 5) {
@@ -125,6 +129,16 @@ function checkRow(){
                 }
             }).catch(err => console.log(err))
     }
+}
+
+function calcScore(currentRow) {
+    let score = 7
+    if (currentRow === 0) {
+      score = 10
+      return score
+    }
+    score = score - currentRow - 1
+    return score
 }
 
 const showMessage = (message) => {

@@ -35,7 +35,7 @@ const multiGameRouter = require('./routes/multi_game')
 app.use('/create_account', createRouter)
 app.use('/login', loginRouter)
 app.use('/home', homeRouter)
-app.use('/worlde_solo', soloGameRouter)
+app.use('/wordle_solo', soloGameRouter)
 app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
 app.use('/lobby', lobbyRouter)
@@ -67,7 +67,7 @@ app.get('/check', (req, res) => {
 app.get('/game_end', (req, res) => {
   const wordsArr = req.query.wordEntries 
   const words = wordsArr.split(",")
-
+  let new_score
   let wordAns = []
   for (let i = 0; i < 7; i++){
     let tempWord = ''
@@ -77,10 +77,10 @@ app.get('/game_end', (req, res) => {
       }
     } else {
       tempWord = tempWord + words[i*5]
+      new_score = words[(i*5)+1]
     }
     wordAns[i] = tempWord
   }
-
   db.pools
   // Run query
   .then((pool) => {
@@ -97,9 +97,50 @@ app.get('/game_end', (req, res) => {
     .input('guess_5', wordAns[4])
     .input('guess_6', wordAns[5])
     .input('word', wordAns[6])
-    .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
+    //.query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
   })
   .catch(err => {
     res.send({Error: err })
   })
+  // set variables
+  const account_id = req.session.ID
+  // get username from accounts database
+    db.pools
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        .input('account_id', account_id)
+        .query('Select account_id from dbo.leaderboard where account_id = @account_id;') // check if user exists in DB        
+    })
+    .then(result => {
+      if (result.recordset.length === 0) { 
+        // insert new user into leaderboard
+        db.pools
+        // Run query
+        .then((pool) => {
+            // get data to input into leaderboard
+            let game_count = 1
+            let score = new_score
+            let average_score = score/game_count
+            // insert user into leaderboard
+            return pool.request()
+            .input('account_id', account_id)
+            .input('game_count', game_count)
+            .input('score', new_score)
+            .input('average_score', average_score)
+            .query('INSERT INTO dbo.leaderboard (account_id, game_count, score, average_score) VALUES (@account_id, @game_count, @score, @average_score);')
+        })
+      } else {
+        // update user in leaderboard
+        db.pools
+        .then((pool) => {
+          // info 
+          return pool.request()
+            .input('account_id', account_id)
+            .input('new_score', new_score)
+            .query('UPDATE dbo.leaderboard SET game_count = game_count+1, score = score + @new_score, average_score = (score + @new_score)/(game_count+1) WHERE account_id = @account_id;')
+        })
+      }
+    })
+  
 })
