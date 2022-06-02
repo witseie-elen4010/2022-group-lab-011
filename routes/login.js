@@ -6,18 +6,9 @@ const db = require('../dbconfig.js')
 const bcrypt = require('bcrypt')
 
 router.get('/', (req, res) => {
-
   if (req.session.ID) {
-    req.session.destroy(function(err) {
-      if (err) {
-        console.error(err);
-      } else {
-        //res.cookie.
-        res.redirect('/');
-      }
-    })
+    req.session.destroy()
   }
-  
   res.render('users/login')
 })
 
