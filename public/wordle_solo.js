@@ -144,9 +144,9 @@ function calcScore(currentRow) {
 }
 
 // Outputs message to client
-function showMessage(message) {
+function showMessage(msg) {
     const messageElement = document.createElement('p')
-    messageElement.textContent = message
+    messageElement.textContent = msg
     message.append(messageElement)
     setTimeout(() => message.removeChild(messageElement), 2000)
 }

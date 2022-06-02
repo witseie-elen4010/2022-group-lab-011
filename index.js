@@ -92,11 +92,12 @@ app.get('/check', (req, res) => {
     res.json('Valid')
   }).catch((error) => {
     res.json('Not valid')
-    console.log(error)
+    //console.log(error)
   })
 })
 
 app.get('/game_end', (req, res) => {
+  console.log('Enter into logs')
   const wordsArr = req.query.wordEntries 
   const words = wordsArr.split(",")
   let new_score
