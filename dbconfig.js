@@ -6,10 +6,8 @@ const config = {
   server: 'wordle-world-party.database.windows.net',
   database: 'WordleDB',
   // Put login details in env. variables for security
-  //user: process.env.db_username,
-  //password: process.env.db_password,
-  user: 'worlde420',
-  password: '86A/!GJG{u7f_(qL',
+  user: process.env.db_username,
+  password: process.env.db_password,
   port: 1433,
   // Required for Azure
   options: {
