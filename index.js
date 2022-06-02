@@ -6,6 +6,9 @@ const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 const cookieParser = require('cookie-parser')
 const db = require('./dbconfig.js')
+require("dotenv").config()
+const axios = require("axios").default
+const cors = require("cors")
 
 app.use(session({
   store: new FileStore(),
@@ -56,35 +59,41 @@ console.log('Listening to port: ', port)
 //Wordle functionaliity
 
 app.get('/word', (req, res) => {
-  res.json('hello')
-  /*var startTime = performance.now()
-  fetch(
-    `https://wordsapiv1.p.rapidapi.com/words/?random=true&lettersMin=5&lettersMax=5`,
-    {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Host": "wordsapiv1.p.rapidapi.com",
-        "X-RapidAPI-Key": "02aa9418c4msh9e030e399f79480p15dd0bjsn17744f8ca659",
-      },
+  const options = {
+    method: 'GET',
+    url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+    params: {count: '1', wordLength: '5'},
+    headers: {
+        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPID_API_KEY
     }
-  )
-    .then((response) => {
-      return response.json();
-    })
-    .then((res) => {
-      word = res.word;
-    })
-    .catch((err) => {
-      console.error(err);
-    });
-  var endTime = performance.now()
-  console.log(`Call to doSomething took ${endTime - startTime} milliseconds`)
-  */
+}
+axios.request(options).then((response) => {
+    console.log(response.data)
+    res.json(response.data[0])
+}).catch((error) => {
+    console.error(error)
+})
 })
 
 app.get('/check', (req, res) => {
   const word = req.query.word
-  res.json("found")
+  const options = {
+    method: 'GET',
+    url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+    params: {count: '1', wordLength: '5', includes: word},
+    headers: {
+        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPID_API_KEY
+    }
+} 
+    axios.request(options).then((response) => {
+    console.log(response.data)
+    res.json('Valid')
+  }).catch((error) => {
+    res.json('Not valid')
+    console.log(error)
+  })
 })
 
 app.get('/game_end', (req, res) => {
@@ -120,7 +129,7 @@ app.get('/game_end', (req, res) => {
     .input('guess_5', wordAns[4])
     .input('guess_6', wordAns[5])
     .input('word', wordAns[6])
-    //.query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
+    .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
   })
   .catch(err => {
     res.send({Error: err })

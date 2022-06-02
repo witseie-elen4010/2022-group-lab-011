@@ -101,14 +101,14 @@ function checkGuess() {
         fetch(`/check/?word=${tempWord}`)
             .then(response => response.json())
             .then(json => {
-                if (json == 'Entry word not found') {
-                    showMessage('word not in list')
+                if (json == 'Not valid') {
+                    showMessage('Invalid word')
                     return
                 } else {
                     flipTile()
                     if (wordle == tempWord) {
                         GameOver = true
-                        showMessage('Magnificent!')
+                        showMessage('Correct!')
                         wordEntry.push(wordle)
                         wordEntry.push(calcScore(currentRow))
                         fetch(`/game_end/?wordEntries=${wordEntry}`)
