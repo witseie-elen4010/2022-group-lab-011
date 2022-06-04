@@ -36,7 +36,7 @@ const soloGameRouter = require('./routes/wordle_solo')
 const leadRouter = require('./routes/leaderboard')
 const gameLogRouter = require('./routes/game_log')
 const lobbyRouter = require('./routes/lobby')
-const multiGameRouter = require('./routes/multi_game')
+const multiGameRouter = require('./routes/wordle_multi')
 
 //Define routes
 app.use('/create_account', createRouter)
@@ -46,7 +46,7 @@ app.use('/wordle_solo', soloGameRouter)
 app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
 app.use('/lobby', lobbyRouter)
-app.use('/multi_game', multiGameRouter)
+app.use('/wordle_multi', multiGameRouter)
 
 
 function logger(req, res, next) {
@@ -65,7 +65,7 @@ console.log('Listening to port: ', port)
 ////////////////////////////////////////////////////
 
 app.get('/to-multi', (req, res) => {
-  res.redirect('/multi_game')
+  res.redirect('/wordle_multi')
 })
 
 app.get('/userID', (req, res) => {
