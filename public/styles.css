@@ -27,10 +27,17 @@ body {
     border: solid 2px #000000;
 }
 
+
 .tile-container {
-    max-width: 50%;
+
     margin-bottom: 30px;
 }
+
+.opponent-container {
+
+    margin-bottom: 30px;
+}
+
 
 .key-container {
     width: 550px;
@@ -64,6 +71,23 @@ body {
 }
 
 .tile-container .tile {
+    width: 62px;
+    height: 62px;
+    border: 3px solid #3a3a3c;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+}
+
+.opponent-container div {
+    display: flex;
+    color: white;
+    border: 1px solid #3a3a3c;
+}
+
+.opponent-container .tile {
     width: 62px;
     height: 62px;
     border: 3px solid #3a3a3c;
