@@ -1,5 +1,5 @@
 /* eslint-env jest*/
-const calcScore  = require('../calcScore.js')
+const calcScore  = require('../functions.js')
 test('should validate score', () => {   // Check that score is 10 when first attempt is correct
     const text = calcScore(1, true)
     expect(text).toBe(10)
