@@ -2,10 +2,15 @@
 
 const express = require('express')
 const app = express()
+const path = require('path')
+const http = require('http')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 const cookieParser = require('cookie-parser')
 const db = require('./dbconfig.js')
+const server = http.createServer(app)
+const socketio = require('socket.io')
+const io = socketio(server)
 require("dotenv").config()
 const axios = require("axios").default
 const cors = require("cors")
@@ -18,7 +23,67 @@ app.use(session({
 })
 )
 
-app.use(express.static("public"))
+const users = [null, null]
+
+//socket connection
+io.on('connection', socket => {
+
+  //handle disconnect
+  socket.on('in-lobby', () => {
+    console.log(`Someone is in the lobby...`)
+  })
+
+
+
+
+  /////////////////////////////////////////////////////////
+  console.log('new WS connection')
+
+  //players
+  let playerIndex = -1
+  for (const i in users) {
+    if (users[i] === null) {
+      playerIndex = i
+      break
+    }
+  }
+  //tell connecting player what number they are
+  socket.emit('player-number', playerIndex)
+
+  console.log(`Player ${playerIndex} has connected`)
+
+  // ignore player 3
+  if (playerIndex === -1) return
+
+  users[playerIndex] = false
+
+  // tell everyone the player that jast connected
+  socket.broadcast.emit('player-connection', playerIndex)
+
+  //handle disconnect
+  socket.on('disconnect', () => {
+    console.log(`Player ${playerIndex} disconnected`)
+    users[playerIndex] = null
+    socket.broadcast.emit('player-connection', playerIndex)
+  })
+
+  socket.on('player-ready', () => {
+    socket.broadcast.emit('enemy-ready', playerIndex)
+    users[playerIndex] = true
+  })
+
+  socket.on('check-players', () => {
+    const players = []
+    for (const i in users) {
+      users[i] === null ? players.push({connected: false, ready: false}) : players.push({connected: true, ready: users[i]})
+    }
+    socket.emit('check-players', players)
+    console.log('checking connections')
+  })
+})
+////////////////////////////////////////////////////////////
+
+app.use(express.static(path.join(__dirname, "public")))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
 app.use(cookieParser())
