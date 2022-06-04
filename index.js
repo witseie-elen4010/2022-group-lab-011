@@ -359,7 +359,7 @@ app.get('/game_player_queue', async (req, res) => {
                 })
                   } else {
                     //code for already in lobby
-                    
+                    res.json('entered into db!')
                   }
                 })
           })

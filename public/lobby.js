@@ -45,12 +45,11 @@ function toMulti() {
     fetch(`/game_player_queue/?playerType=${playerType}`) 
         .then(response => response.json())
         .then(json =>  {
-            console.log(json)           
+            console.log(json)   
+            (window.location.replace('/wordle_multi'))        
         })
-        .then(window.location.replace('/wordle_multi'))
-        .catch(err => console.log(err))
-
-        
+        //.then(window.location.replace('/wordle_multi'))
+        .catch(err => console.log(err))   
     }
 }
 
