@@ -13,7 +13,6 @@ const socketio = require('socket.io')
 const io = socketio(server)
 require("dotenv").config()
 const axios = require("axios").default
-const cors = require("cors")
 
 app.use(session({
   store: new FileStore(),
@@ -118,7 +117,7 @@ function logger(req, res, next) {
 module.exports = app
 
 const port = process.env.PORT || 3000
-app.listen(port)
+server.listen(port)
 console.log('Listening to port: ', port)
 
 //Wordle functionaliity
@@ -241,4 +240,54 @@ app.get('/game_end', (req, res) => {
       }
     })
   
+})
+
+//////////////////////////////////////////////////////
+//socket connection
+/////////////////////////////////////////////////////
+
+io.on('connection', socket => {
+  console.log('new WS connection')
+
+  //players
+  let playerIndex = -1
+  for (const i in users) {
+    if (users[i] === null) {
+      playerIndex = i
+      break
+    }
+  }
+  //tell connecting player what number they are
+  socket.emit('player-number', playerIndex)
+
+  console.log(`Player ${playerIndex} has connected`)
+
+  // ignore player 3
+  if (playerIndex === -1) return
+
+  users[playerIndex] = false
+
+  // tell everyone the player that jast connected
+  socket.broadcast.emit('player-connection', playerIndex)
+
+  //handle disconnect
+  socket.on('disconnect', () => {
+    console.log(`Player ${playerIndex} disconnected`)
+    users[playerIndex] = null
+    socket.broadcast.emit('player-connection', playerIndex)
+  })
+
+  socket.on('player-ready', () => {
+    socket.broadcast.emit('enemy-ready', playerIndex)
+    users[playerIndex] = true
+  })
+
+  socket.on('check-players', () => {
+    const players = []
+    for (const i in users) {
+      users[i] === null ? players.push({connected: false, ready: false}) : players.push({connected: true, ready: users[i]})
+    }
+    socket.emit('check-players', players)
+    console.log('checking connections')
+  })
 })
