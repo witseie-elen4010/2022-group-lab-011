@@ -65,7 +65,7 @@ app.get('/word', (req, res) => {
     params: {count: '1', wordLength: '5'},
     headers: {
         'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPID_API_KEY
+        'x-rapidapi-key': process.env.RAPID_API_KEY1
     }
 }
 axios.request(options).then((response) => {
@@ -78,21 +78,21 @@ axios.request(options).then((response) => {
 
 app.get('/check', (req, res) => {
   const word = req.query.word
+
   const options = {
-    method: 'GET',
-    url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
-    params: {count: '1', wordLength: '5', includes: word},
-    headers: {
-        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPID_API_KEY
-    }
-} 
-    axios.request(options).then((response) => {
-    console.log(response.data)
-    res.json('Valid')
+      method: 'GET',
+      url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',
+      params: {entry: word},
+      headers: {
+          'x-rapidapi-host': 'twinword-word-graph-dictionary.p.rapidapi.com',
+          'x-rapidapi-key': process.env.RAPID_API_KEY2
+      }
+  }
+  axios.request(options).then((response) => {
+      console.log(response.data)
+      res.json(response.data.result_msg)
   }).catch((error) => {
-    res.json('Not valid')
-    //console.log(error)
+      console.error(error)
   })
 })
 
