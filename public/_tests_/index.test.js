@@ -4,9 +4,6 @@ const timeout = 60000;
 jest.setTimeout(timeout);
 
 describe('Test index page:', () => {
-    beforeAll( async () => {
-
-    });
     it('Index Page is opened:', async () => {
 
         const browser = await puppeteer.launch()
