@@ -22,32 +22,25 @@ socket.emit('in-lobby')
 function toMulti() {
     playerType = document.getElementById("game_role").value
     adminWord = document.getElementById("admin_input").value
-    console.log('in to multi func')
-    if (playerType === 1) {
-        console.log('in admin func')
-        validEntry = checkWord(adminWord)
-        socket.emit('set-admin-word', adminWord)
+    console.log(adminWord)
+    console.log(playerType)
+    if (playerType === '1') {
+        fetch(`/check/?word=${adminWord}`)
+            .then(response => response.json())
+            .then(json => {
+                if (json === 'Entry word not found' || adminWord.length != 5) {
+                    showMessage('Invalid word')
+                    validEntry = false
+                } else {
+                    validEntry = true
+                    socket.emit('set-word', adminWord)
+                }
+            }).catch(err => console.log(err))
     }
     if (validEntry) {
-        console.log('in player func')
-        const userInfo = [playerType, playerID]
-        socket.emit('game-enter', userInfo)
-        fetch('/to-multi')   
+        //const userInfo = [playerType, playerID]
+        socket.emit('game-enter', playerType, playerID)
     }
-}
-
-function checkWord(word) {
-    console.log('in checkWord func')
-    fetch(`/check/?word=${word}`)
-        .then(response => response.json())
-        .then(json => {
-            if (json == 'Entry word not found') {
-                showMessage('Invalid word')
-                return false
-            } else {
-                return true
-            }
-        }).catch(err => console.log(err))
 }
 
 // Outputs message to client
@@ -56,5 +49,5 @@ function showMessage(msg) {
     const messageElement = document.createElement('p')
     messageElement.textContent = msg
     message.append(messageElement)
-    setTimeout(() => message.removeChild(messageElement), 2000)
+    setTimeout(() => message.removeChild(messageElement), 5000)
 }
