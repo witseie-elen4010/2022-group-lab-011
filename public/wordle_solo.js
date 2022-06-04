@@ -108,6 +108,7 @@ function checkGuess() {
                     return
                 } else {
                     flipTile()
+                    LogAction(tempWord)
                     if (wordle == tempWord) {
                         GameOver = true
                         showMessage('Correct!')
@@ -191,3 +192,12 @@ function flipTile() {
         }, 500 * index)
     })
 }
+
+function LogAction(word) {
+    let action_data = 'SOLO WORD GUESS: '+word
+    console.log(action_data)
+    fetch(`/log-guess-solo/?data=${action_data}`)
+        .then(response => response.json())
+        .catch(err => console.log(err))
+}
+

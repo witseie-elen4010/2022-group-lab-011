@@ -6,28 +6,6 @@ router.get('/', (req, res) => {
     if (!req.session.ID) {
         res.redirect('/login')
         } else {
-    //res.render('users/leaderboard')
-    //const accountId = req.session.ID
-    const accountId = 1
-    const username = 'Test Name'
-    let game_count = 1
-    let score = 4
-    let average_score = score/game_count
-
-    // this is here just to show how to insert new data onto the DB
-    /*db.pools
-            // Run query
-            .then((pool) => {
-                return pool.request()
-                  // insert user into lobby
-                .input('id', accountId)
-                .input('account_id', accountId)
-                .input('username', username)
-                .input('game_count', game_count)
-                .input('score', score)
-                .input('average_score', average_score)
-                .query('INSERT INTO dbo.leaderboard (id, account_id, username, game_count, score, average_score) VALUES (@id, @account_id, @username, @game_count, @score, @average_score);')
-            })*/
     db.pools
     // Run query
         .then((pool) => {
@@ -54,6 +32,7 @@ router.get('/', (req, res) => {
         .catch(err => {
             res.send({ Error: err })
             })
+    newAction(req.session.ID, 'VIEWED: LEADERBOARD')    
     }
 })
 
@@ -61,5 +40,23 @@ const leaderboard = {
     name : 'leaderboard',
     stats: []
 }
+
+function newAction(user_ID, action_details) {
+    // enter action into the actions log
+    const account_id = user_ID
+    const action = action_details
+    let current = new Date();
+    let cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+    let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+    let time = cDate + ' ' + cTime;
+    db.pools
+      .then((pool) => {
+          return pool.request()
+          .input('account_id', account_id)
+          .input('action', action)
+          .input('time', time)
+          .query('INSERT INTO dbo.actions (account_id, action, time) VALUES (@account_id, @action, @time);')
+      })
+  }
 
 module.exports = router

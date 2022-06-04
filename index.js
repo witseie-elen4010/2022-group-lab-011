@@ -35,6 +35,7 @@ const homeRouter = require('./routes/home')
 const soloGameRouter = require('./routes/wordle_solo')
 const leadRouter = require('./routes/leaderboard')
 const gameLogRouter = require('./routes/game_log')
+const actionsLogRouter = require('./routes/actions_log')
 const lobbyRouter = require('./routes/lobby')
 const multiGameRouter = require('./routes/wordle_multi')
 
@@ -45,6 +46,7 @@ app.use('/home', homeRouter)
 app.use('/wordle_solo', soloGameRouter)
 app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
+app.use('/actions_log', actionsLogRouter)
 app.use('/lobby', lobbyRouter)
 app.use('/wordle_multi', multiGameRouter)
 
@@ -109,6 +111,13 @@ app.get('/check', (req, res) => {
   }).catch((error) => {
       console.error(error)
   })
+})
+
+app.get('/log-guess-solo', (req, res) => {
+  const data = req.query.data
+  let ID = req.session.ID
+  let msg = data
+  newAction(ID, msg)
 })
 
 app.get('/game_end', (req, res) => {
@@ -193,6 +202,24 @@ app.get('/game_end', (req, res) => {
   
 })
 
+function newAction(user_ID, action_details) {
+  // enter action into the actions log
+  const account_id = user_ID
+  const action = action_details
+  let current = new Date();
+  let cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+  let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+  let time = cDate + ' ' + cTime;
+  db.pools
+    .then((pool) => {
+        return pool.request()
+        .input('account_id', account_id)
+        .input('action', action)
+        .input('time', time)
+        .query('INSERT INTO dbo.actions (account_id, action, time) VALUES (@account_id, @action, @time);')
+    })
+}
+
 ////////////////////////////////////////////////////
 //socket connection
 ////////////////////////////////////////////////////
@@ -221,8 +248,8 @@ io.on('connection', socket => {
   console.log('new WS connection')
   
   //handle enter lobby
-  socket.on('in-lobby', () => {
-    console.log(`Someone is in the lobby...`)
+  socket.on('in-multi', () => {
+    console.log(`Someone is in the multi...`)
   })
 
   socket.on('enter', (playerType, playerId) => {
