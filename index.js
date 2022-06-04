@@ -22,8 +22,6 @@ app.use(session({
 })
 )
 
-const users = [null, null]
-
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.urlencoded({ extended: true }))
 app.use(express.json())
@@ -62,7 +60,36 @@ const port = process.env.PORT || 3000
 server.listen(port)
 console.log('Listening to port: ', port)
 
+////////////////////////////////////////////////////
 //Wordle functionaliity
+////////////////////////////////////////////////////
+
+app.get('/to-multi', (req, res) => {
+  res.redirect('/multi_game')
+})
+
+app.get('/userID', (req, res) => {
+  res.json(req.session.ID)
+})
+
+app.get('/word', async (req, res) => {
+  const options = {
+    method: 'GET',
+    url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+    params: {count: '1', wordLength: '5'},
+    headers: {
+        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+        'x-rapidapi-key': process.env.RAPID_API_KEY1
+    }
+}
+axios.request(options).then((response) => {
+    console.log(response.data)
+     res.json(response.data[0])
+  }).catch((error) => {
+    console.error(error)
+    return error
+  })
+})
 
 app.get('/word', (req, res) => {
   const options = {
@@ -184,57 +211,73 @@ app.get('/game_end', (req, res) => {
   
 })
 
-//////////////////////////////////////////////////////
+////////////////////////////////////////////////////
 //socket connection
-/////////////////////////////////////////////////////
+////////////////////////////////////////////////////
+let games = []
+let gamesIndex = 0
+let game = {
+  player1: '',
+  player2: '',
+  admin:  '',
+  word: ''
+}
 
 io.on('connection', socket => {
   console.log('new WS connection')
+  
+  //handle enter lobby
+  socket.on('in-lobby', () => {
+    console.log(`Someone is in the lobby...`)
+  })
 
-    //handle disconnect
-    socket.on('in-lobby', () => {
-      console.log(`Someone is in the lobby...`)
-    })
-
-  //players
-  let playerIndex = -1
-  for (const i in users) {
-    if (users[i] === null) {
-      playerIndex = i
-      break
+  //handle playes and admins
+  socket.on('enter-game', (userType, accountId) => {
+  games[gamesIndex] = game
+    if (userType === 0){
+      if (games[gamesIndex].player1 === ''){
+        games[gamesIndex].player1 = accountId
+        console.log("p1 created")
+      } else {
+        // set word if one hasnt been selected by admin
+        if (games[gamesIndex].word === ''){
+          const options = {
+            method: 'GET',
+            url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+            params: {count: '1', wordLength: '5'},
+            headers: {
+                'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+                'x-rapidapi-key': process.env.RAPID_API_KEY1
+            }
+        }
+        axios.request(options).then((response) => {
+            console.log(response.data)
+            games[gamesIndex].word = response.data[0]
+          }).catch((error) => {
+            console.error(error)
+            return error
+          })
+        }
+        games[gamesIndex].player2 = accountId
+        //game requires 2 players to be valid: create game now
+        //socket emit game to specified players
+        console.log("socket game created")
+        gamesIndex++ 
+      }
+    } else {
+      games[gamesIndex].admin = accountId
     }
-  }
-  //tell connecting player what number they are
-  socket.emit('player-number', playerIndex)
-
-  console.log(`Player ${playerIndex} has connected`)
-
-  // ignore player 3
-  if (playerIndex === -1) return
-
-  users[playerIndex] = false
-
-  // tell everyone the player that jast connected
-  socket.broadcast.emit('player-connection', playerIndex)
-
-  //handle disconnect
-  socket.on('disconnect', () => {
-    console.log(`Player ${playerIndex} disconnected`)
-    users[playerIndex] = null
-    socket.broadcast.emit('player-connection', playerIndex)
   })
 
-  socket.on('player-ready', () => {
-    socket.broadcast.emit('enemy-ready', playerIndex)
-    users[playerIndex] = true
+  //handle playes and admins
+  socket.on('set-word', (word) => {
+    games[gamesIndex].word = word 
   })
 
-  socket.on('check-players', () => {
-    const players = []
-    for (const i in users) {
-      users[i] === null ? players.push({connected: false, ready: false}) : players.push({connected: true, ready: users[i]})
-    }
-    socket.emit('check-players', players)
-    console.log('checking connections')
+  //handle disconnects
+  socket.on('disconnect', (accountId) => {
+    games[gamesIndex].player1 = accountId
+    games[gamesIndex].player2 = ''
   })
+
 })
