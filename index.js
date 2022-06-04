@@ -84,28 +84,10 @@ app.get('/word', async (req, res) => {
 }
 axios.request(options).then((response) => {
     console.log(response.data)
-     res.json(response.data[0])
-  }).catch((error) => {
-    console.error(error)
-    return error
-  })
-})
-
-app.get('/word', (req, res) => {
-  const options = {
-    method: 'GET',
-    url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
-    params: {count: '1', wordLength: '5'},
-    headers: {
-        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPID_API_KEY1
-    }
-}
-axios.request(options).then((response) => {
-    console.log(response.data)
     res.json(response.data[0])
 }).catch((error) => {
     console.error(error)
+    return error
 })
 })
 
@@ -214,13 +196,23 @@ app.get('/game_end', (req, res) => {
 ////////////////////////////////////////////////////
 //socket connection
 ////////////////////////////////////////////////////
-let games = []
-let gamesIndex = 0
+
+
 let game = {
   player1: '',
   player2: '',
   admin:  '',
   word: ''
+}
+
+let games = [game, game, game, game, game, game, game, game, game, game]
+let gamesIndex = 0
+
+function gameReset(){
+  game.player1 = '',
+  game.player2 = '',
+  game.admin =  '',
+  game.word = ''
 }
 
 io.on('connection', socket => {
@@ -233,14 +225,13 @@ io.on('connection', socket => {
 
   //handle playes and admins
   socket.on('enter-game', (userType, accountId) => {
-  games[gamesIndex] = game
     if (userType === 0){
       if (games[gamesIndex].player1 === ''){
         games[gamesIndex].player1 = accountId
         console.log("p1 created")
       } else {
         // set word if one hasnt been selected by admin
-        if (games[gamesIndex].word === ''){
+        if (game.word === ''){
           const options = {
             method: 'GET',
             url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
@@ -265,6 +256,7 @@ io.on('connection', socket => {
         gamesIndex++ 
       }
     } else {
+
       games[gamesIndex].admin = accountId
     }
   })
