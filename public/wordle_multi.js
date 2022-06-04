@@ -60,7 +60,7 @@ keys.forEach(key => {
 })
 
 // Get word from server side
-function setWord() {
+/*function setWord() {
     fetch('/word')
         .then(response => response.json())
         .then(json => {
@@ -68,7 +68,7 @@ function setWord() {
         })
         .catch(err => console.log(err))
 }
-setWord()
+setWord()*/
 
 // Handle events when a key is clicked
 function handleClick(input) {

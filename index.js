@@ -219,6 +219,165 @@ function newAction(user_ID, action_details) {
         .query('INSERT INTO dbo.actions (account_id, action, time) VALUES (@account_id, @action, @time);')
     })
 }
+app.get('/game_admin_queue', async (req, res) => {
+  const word = req.query.word
+  const accountId = req.session.ID
+  // Run query
+  db.pools
+  .then((pool) => {
+      return pool.request()
+          //find if account is already in waiting lobby
+          .input('account_id', accountId)
+          .input('word', word)
+          .query('INSERT INTO dbo.admin_queue_words (account_id, word) VALUES (@account_id, @word);')         
+      })
+      .then(result => {
+        res.json('success!')
+        console.log(result)
+      })
+})
+
+app.get('/game_player_queue', async (req, res) => {
+  let playerOne
+  let playerTwo
+  let playerAdmin
+  let word
+
+  const playerRole = req.query.playerType
+  const accountId = req.session.ID
+
+  db.pools
+  // Run query
+  .then((pool) => {
+      return pool.request()
+          //find if account is already in waiting lobby
+          .input('accountId', accountId)
+          .query('Select account_id from dbo.multiplayer_queue where account_id = @accountId;')         
+      })
+      // Send back the result
+      .then(result => {
+      if (result.recordset.length === 0) {
+        console.log("at insert")
+        console.log(accountId)
+        console.log(playerRole)
+          db.pools
+          // Run query
+          .then((pool) => {
+              return pool.request()
+                // insert user into lobby
+              .input('account_id', accountId)
+              .input('player_role', playerRole)
+              .query('INSERT INTO dbo.multiplayer_queue (account_id, player_role) VALUES (@account_id, @player_role);')
+          })
+          // Succesfully inserted into lobby
+          .then(result => {  
+              console.log("attempt selected")
+                db.pools
+                // Run query
+                .then((pool) => {
+                    return pool.request()
+                      // Select game players
+                      .input('player_role', 0)
+                      .query('SELECT TOP 2 * FROM dbo.multiplayer_queue WHERE player_role = @player_role;')
+                })
+                .then(result => {
+                  console.log("selected")
+                  console.log(result)
+                  if (result.recordset.length > 0) {
+                    playerOne = result.recordset[0].account_id
+                  }
+                  if (result.recordset.length > 1) {
+                    playerTwo = result.recordset[1].account_id
+                  }
+                  if (result.recordset.length === 2) {
+                    console.log("create game")
+                    db.pools
+                    // Run query
+                      .then((pool) => {
+                          return pool.request()
+                           // Select game admins
+                            .input('player_role', 1)
+                            .query('SELECT TOP 1 * FROM dbo.multiplayer_queue JOIN dbo.admin_queue_words ON dbo.multiplayer_queue.account_id = dbo.admin_queue_words.account_id WHERE player_role = @player_role;')
+                    .then(result => {
+                      if (result.recordset.length === 1) {
+                        console.log(result)
+                        playerAdmin = result.recordset[0].account_id[0]
+                        console.log(playerAdmin)
+                        word = result.recordset[0].word
+                        db.pools
+                      // create in game
+                            .then((pool) => {
+                              console.log('attempt game creation')
+                                return pool.request()
+                                 // Select game admins
+                                  .input('player_one', playerOne)
+                                  .input('player_two', playerTwo)
+                                  .input('player_admin', playerAdmin)
+                                  .input('word', word)
+                                  .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
+                            })
+                            .then(result => {
+                              //delete people from queue and admin words
+                              console.log('game created')
+                            })
+                      } else{
+                        playerAdmin = 0                       
+                        const options = {
+                          method: 'GET',
+                          url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+                          params: {count: '1', wordLength: '5'},
+                          headers: {
+                              'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+                              'x-rapidapi-key': process.env.RAPID_API_KEY1
+                          }
+                      }
+                      axios.request(options).then((response) => {
+                          console.log(response.data)
+                          word = (response.data[0])
+                          db.pools
+                          // Run query
+                            .then((pool) => {
+                                return pool.request()
+                                 // Select game admins
+                                  .input('player_one', playerOne)
+                                  .input('player_two', playerTwo)
+                                  .input('player_admin', playerAdmin)
+                                  .input('word', word)
+                                  .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
+                            })
+                            .then(result => {
+                              //delete people from queue and admin words
+                              res.json('success!')
+                              console.log('game created')
+                            })
+                      }).catch((error) => {
+                          console.error(error)
+                          return error
+                      })
+                      }                   
+                    })
+                })
+                  } else {
+                    //code for already in lobby
+                    
+                  }
+                })
+          })
+          // If there's an error, return that with some description
+          .catch(err => {
+              res.send({ Error: err })
+          })
+          } else {
+            //code for already in lobby
+          }
+        })
+        // If there's an error, return that with some description
+        .catch(err => {
+          res.send({ Error: err })
+        })
+      
+})
+
 
 ////////////////////////////////////////////////////
 //socket connection

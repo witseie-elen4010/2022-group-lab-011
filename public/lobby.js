@@ -8,17 +8,6 @@ let adminWord
 let playerID
 let validEntry = true
 
-fetch('/userID')
-        .then(response => response.json())
-        .then(json => {
-            playerID = json
-        })
-        .catch(err => console.log(err))
-
-
-const socket = io()
-socket.emit('in-lobby')
-
 function toMulti() {
     playerType = document.getElementById("game_role").value
     adminWord = document.getElementById("admin_input").value
@@ -29,19 +18,39 @@ function toMulti() {
             .then(response => response.json())
             .then(json => {
                 if (json === 'Entry word not found' || adminWord.length != 5) {
-                    showMessage('Invalid word')
-                    validEntry = false
+                    showMessage('Invalid word')         
                 } else {
-                    validEntry = true
-                    socket.emit('set-word', adminWord)
+                    
+                    //valid word
+                    //place word in admin_queue_words                  
+                    fetch(`/game_admin_queue/?word=${adminWord}`)
+                        .then(response => response.json())
+                        .then(json => {
+                            console.log(json)
+                            //place player in multiplayer_queue
+                            fetch(`/game_player_queue/?playerType=${playerType}`)
+                            .then(response => response.json())
+                            .then(json => {
+                             console.log(json)
+                             
+                            })
+                            .then(window.location.replace('/wordle_multi'))
+                            .catch(err => console.log(err)) 
+                        })
+                        .catch(err => console.log(err))  
                 }
             }).catch(err => console.log(err))
-    }
-    if (validEntry) {
-        //const userInfo = [playerType, playerID]
-        //socket.emit('game-enter', playerType, playerID)
-        socket.emit('enter', playerType, playerID)
-        window.location.replace('/wordle_multi')
+    } else {
+    //place player in multiplayer_queue
+    fetch(`/game_player_queue/?playerType=${playerType}`) 
+        .then(response => response.json())
+        .then(json =>  {
+            console.log(json)           
+        })
+        .then(window.location.replace('/wordle_multi'))
+        .catch(err => console.log(err))
+
+        
     }
 }
 
