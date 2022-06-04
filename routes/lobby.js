@@ -10,7 +10,7 @@ router.get('/', (req, res) => {
   }
 })
 
-router.post('/', (req, res) => {
+/*router.post('/', (req, res) => {
     if (!req.session.ID) {
       res.redirect('/login')
       } else {
@@ -19,7 +19,7 @@ router.post('/', (req, res) => {
     let playerTwo
     let playerAdmin
     const playerRole = req.body.game_role
-    /*if (playerRole===1) {
+    if (playerRole===1) {
       const word = req.body.admin_input
       checkWord(word)
       // set /word page variable - in here for now as backup
@@ -28,12 +28,11 @@ router.post('/', (req, res) => {
       })
     } else {
       res.redirect('/multi_game')
-    }*/
-    res.redirect('/wordle_multi')
+    }
   }
 }) 
   
-/*
+
   const accountId = req.session.ID
     db.pools
     // Run query

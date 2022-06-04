@@ -1,8 +1,10 @@
 const message = document.querySelector('.message-container')
 
-document.getElementById("to_multi").addEventListener("click", toMulti());
-const playerType = document.getElementById("game_role")
-const adminWord = document.getElementById("admin_input")
+const button = document.getElementById('to_multi')
+button.addEventListener("click", () => toMulti())
+
+let playerType 
+let adminWord 
 let playerID
 let validEntry = true
 
@@ -18,12 +20,16 @@ const socket = io()
 socket.emit('in-lobby')
 
 function toMulti() {
+    playerType = document.getElementById("game_role").value
+    adminWord = document.getElementById("admin_input").value
     console.log('in to multi func')
     if (playerType === 1) {
+        console.log('in admin func')
         validEntry = checkWord(adminWord)
         socket.emit('set-admin-word', adminWord)
     }
     if (validEntry) {
+        console.log('in player func')
         const userInfo = [playerType, playerID]
         socket.emit('game-enter', userInfo)
         fetch('/to-multi')   
