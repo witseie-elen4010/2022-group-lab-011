@@ -65,7 +65,7 @@ console.log('Listening to port: ', port)
 ////////////////////////////////////////////////////
 
 app.get('/to-multi', (req, res) => {
-  res.redirect('/wordle_multi')
+  res.redirect('../views/users/wordle_multi')
 })
 
 app.get('/userID', (req, res) => {
@@ -197,6 +197,7 @@ app.get('/game_end', (req, res) => {
 //socket connection
 ////////////////////////////////////////////////////
 
+module.exports = io
 
 let game = {
   player1: '',
@@ -206,6 +207,7 @@ let game = {
 }
 
 let games = [game, game, game, game, game, game, game, game, game, game]
+let rooms = ['room1', 'room2', 'room3', 'room4', 'room5', 'room6', 'room7', 'room8', 'room9' , 'room10']
 let gamesIndex = 0
 
 function gameReset(){
@@ -223,46 +225,37 @@ io.on('connection', socket => {
     console.log(`Someone is in the lobby...`)
   })
 
-  //handle playes and admins
-  socket.on('enter-game', (userType, accountId) => {
-    if (userType === 0){
+  socket.on('enter', (playerType, playerId) => {
+    console.log(`in game`)
+    console.log(playerType)
+    console.log(playerId)
+    console.log(games[gamesIndex])
+    if (playerType === '0'){
       if (games[gamesIndex].player1 === ''){
-        games[gamesIndex].player1 = accountId
+        socket.join('room 1');
+        games[gamesIndex].player1 = playerId
+        console.log(games[gamesIndex])
         console.log("p1 created")
       } else {
-        // set word if one hasnt been selected by admin
-        if (game.word === ''){
-          const options = {
-            method: 'GET',
-            url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
-            params: {count: '1', wordLength: '5'},
-            headers: {
-                'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-                'x-rapidapi-key': process.env.RAPID_API_KEY1
-            }
-        }
-        axios.request(options).then((response) => {
-            console.log(response.data)
-            games[gamesIndex].word = response.data[0]
-          }).catch((error) => {
-            console.error(error)
-            return error
-          })
-        }
-        games[gamesIndex].player2 = accountId
+        games[gamesIndex].player2 = playerId  
+        socket.join('room 1');
+        io.to("room 1").emit("some event", 3);
+        console.log(games[gamesIndex])
+        console.log("p2 created")
         //game requires 2 players to be valid: create game now
         //socket emit game to specified players
         console.log("socket game created")
         gamesIndex++ 
       }
     } else {
-
-      games[gamesIndex].admin = accountId
+      games[gamesIndex].admin = playerId
     }
   })
 
+
   //handle playes and admins
   socket.on('set-word', (word) => {
+    console.log('in set word')
     games[gamesIndex].word = word 
   })
 

@@ -39,7 +39,9 @@ function toMulti() {
     }
     if (validEntry) {
         //const userInfo = [playerType, playerID]
-        socket.emit('game-enter', playerType, playerID)
+        //socket.emit('game-enter', playerType, playerID)
+        socket.emit('enter', playerType, playerID)
+        window.location.replace('/wordle_multi')
     }
 }
 
