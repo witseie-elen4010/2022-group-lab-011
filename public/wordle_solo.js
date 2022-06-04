@@ -1,4 +1,5 @@
 const tileBox = document.querySelector('.tile-container')
+const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
 
@@ -35,6 +36,20 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
     tileBox.append(rowElement)
 })
 
+// Create placeholders for entry words
+wordEntry.forEach((guessRow, guessRowIndex) => {
+    const rowElement = document.createElement('div')
+    rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
+    guessRow.forEach((_guess, guessIndex) => {
+        const tileElement = document.createElement('div')
+        tileElement.setAttribute('id', 'guessRow-' + guessRowIndex + '-tile-' + guessIndex)
+        tileElement.classList.add('tile')
+        rowElement.append(tileElement)
+    })
+    opponentBox.append(rowElement)
+})
+
+
 // Create keys for keyboard and add button listener
 keys.forEach(key => {
     const buttonElement = document.createElement('button')
@@ -57,6 +72,7 @@ setWord()
 
 // Handle events when a key is clicked
 function handleClick(input) {
+    console.log('Key was clicked...')
     if (!GameOver) {
         if (input === 'Del') {
             if (currentTile > 0) {
