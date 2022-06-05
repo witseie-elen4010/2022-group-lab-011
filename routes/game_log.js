@@ -12,10 +12,10 @@ router.get('/', (req, res) => {
             .then((pool) => {
                 return pool.request()
                 // Select game log
-                .query('SELECT * FROM dbo.solo_game_log;')
+                .query('SELECT * FROM dbo.solo_game_log JOIN dbo.accounts ON dbo.solo_game_log.account_id = dbo.accounts.id;')
             })
             .then(result => {
-                let columns = ['id', 'account_id', 'guess_1', 'guess_2', 'guess_3', 'guess_4', 'guess_5', 'guess_6', 'word']
+                let columns = ['id', 'username', 'guess_1', 'guess_2', 'guess_3', 'guess_4', 'guess_5', 'guess_6', 'word']
                 let cols = columns.length
                 let rows = result.recordset.length
                 let x
@@ -40,10 +40,10 @@ router.get('/', (req, res) => {
                 .then((pool) => {
                     return pool.request()
                     // Select game log
-                    .query('SELECT * FROM dbo.multi_game_log;')
+                    .query('SELECT * FROM dbo.multi_game_log JOIN dbo.accounts ON dbo.multi_game_log.account_id = dbo.accounts.id;')
                 })
                 .then(result => {
-                    let columns = ['id', 'game_id', 'account_id', 'opponent_id', 'admin_id', 'guess_1', 'guess_2', 'guess_3', 'guess_4', 'guess_5', 'guess_6', 'word']
+                    let columns = ['id', 'game_id', 'username', 'opponent_id', 'admin_id', 'guess_1', 'guess_2', 'guess_3', 'guess_4', 'guess_5', 'guess_6', 'word', 'result']
                     let cols = columns.length
                     let rows = result.recordset.length
                     if (rows > 0) {
