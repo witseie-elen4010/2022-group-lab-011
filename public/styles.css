@@ -4,6 +4,7 @@
 
 body {
     background-color: #121213;
+    font-family: 'Russo One', sans-serif;
 }
 
 .landing-container {
@@ -20,7 +21,7 @@ body {
     float:none;
     color: rgb(255, 255, 255);
     position: absolute;
-    left: calc(50vw - 340px/2);
+    left: calc(50vw - 478px/2);
     top: 100px;
 }
 
@@ -29,7 +30,7 @@ body {
     float:none;
     color: rgb(255, 255, 255);
     position: absolute;
-    left: calc(50vw - 65.27px/2);
+    left: calc(50vw - 163px/2);
     top: 150px; 
 }
 

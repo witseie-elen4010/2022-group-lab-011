@@ -22,7 +22,7 @@ document.addEventListener('DOMContentLoaded',() => {
                 Math.random() * 600 - 300
             );
             star.velocity = 0;
-            star.acceleration = 0.001;
+            star.acceleration = 0.0015;
             starGeo.vertices.push(star);
         }
         let sprite = new THREE.TextureLoader().load('/assets/images/star.png')
@@ -53,7 +53,7 @@ document.addEventListener('DOMContentLoaded',() => {
             }
         })
         starGeo.verticesNeedUpdate = true;
-        stars.rotation.y += 0.001;
+        stars.rotation.y += 0.0015;
         renderer.render(scene,camera);
         requestAnimationFrame(animate);
     }

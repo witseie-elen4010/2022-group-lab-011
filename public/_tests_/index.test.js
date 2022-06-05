@@ -10,7 +10,7 @@ describe('Test index page:', () => {
         const page = await browser.newPage()
         await page.goto('https://wordleworldparty.azurewebsites.net/')
 
-        await expect(page.title()).resolves.toMatch('Document');
+        await expect(page.title()).resolves.toMatch('Welcome!');
         await browser.close();
     })
     it("Login button reverts to Login Page:", async () => {
