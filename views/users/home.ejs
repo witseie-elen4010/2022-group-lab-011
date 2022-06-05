@@ -6,6 +6,10 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Homepage</title>
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/styles.css"/>
     </head>
     
     <body>
@@ -16,21 +20,22 @@
             </div>
     
             <div class="row justify-content-center my-4">
-                <div class="col-lg-6 justify-content-center">
+                <div class="col justify-content-center">
                     <form action="/home" method="post">
     
                         <!-- Image card -->
-                        <div class="card mb-3" >
+                        <div class="card" >
                             <div class="row">
     
-                              <div class="col-md-6">
+                              <div class="col-lg-6">
                                 <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
                               </div>
     
-                              <div class="col-md-6 text-center my-auto">
+                              <div class="col-lg-6 text-center my-auto">
                                 <div class="card-body">
                                   <h2 class="card-title">Wordle World Party</h2>
-                                  <p class="card-text">Welcome <%= locals.name %>! Select your game mode below:</p>
+                                  <p class="card-text my-4">Welcome<mark> <%=locals.name%></mark></p>
+                                  <p class="card-text my-4">Select your game mode in the dropdown below:</p>
                                 </div>
                               </div>
     

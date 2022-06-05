@@ -7,6 +7,34 @@ body {
     font-family: 'Russo One', sans-serif;
 }
 
+h1 {
+    font-family: 'Russo One', sans-serif;
+}
+
+h2, p, input, label, th, td {
+    color: #000000;
+    font-family: 'Russo One', sans-serif;
+}
+
+.myRow {
+    color: #ff0000;
+    font-weight: bold;
+    font-family: 'Russo One', sans-serif;
+}
+
+mark {
+    color: #131313;
+    font-weight: bold;
+    font-size: 25px;
+    font-style: italic;
+    background-color: #ffffff;
+    font-family: 'Russo One', sans-serif;
+}
+
+.set-icon-dark{
+    filter: saturate(100%) brightness(0);
+}
+
 .landing-container {
     background-color: rgb(0, 0, 0);
     height:100%;
