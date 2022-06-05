@@ -40,8 +40,9 @@ describe('Test Create Account Page:', () => {
         await page.waitForSelector('input[name="confirm_password"]');
         await page.$eval('input[name="confirm_password"]', el => el.value = 'Test');
         
-        // Now click Register
+        // Now click Register, should stay on same page
         await page.click('[name="createbutton"]');
+        await expect(page.title()).resolves.toMatch('Create account');
 
         await page.waitForTimeout(1000);
         await browser.close();
