@@ -521,8 +521,13 @@ let gamesIndex = 0
 io.on('connection', socket => {
   console.log('new WS connection')
 
-  socket.on('game-created', gameId, playerOne, playerTwo, adminId, word => {
-    socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+  socket.on('game-created', (gameId, playerOne, playerTwo, adminId, word) => {
+    let gameIdS = gameId
+    let playerOneS = playerOne
+    let playerTwoS = playerTwo
+    let adminIdS = adminId
+    let wordS = word
+    socket.broadcast.emit('send-game', gameIdS, playerOneS, playerTwoS, adminIdS, wordS)
   })
 
 

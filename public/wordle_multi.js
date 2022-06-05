@@ -35,7 +35,6 @@ fetch(`/userID`)
               playerTwo = json.recordset[0].player_two
               adminId = json.recordset[0].player_admin
               word = json.recordset[0].word
-              console.log(word)
               gameStart = true
 
               let opponentId
@@ -48,6 +47,7 @@ fetch(`/userID`)
              } else if (accountId === adminId){
                 gameRole = 'admin'
              }
+             
              let multiGameData = [gameId, accountId, opponentId, adminId, word]
              console.log(multiGameData)
              fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
@@ -70,7 +70,7 @@ fetch(`/userID`)
 getGame()
 
 
-socket.on('game-created', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
     console.log('game-created')
     let isMyGame = false
     if (accountId === playerOneS){
