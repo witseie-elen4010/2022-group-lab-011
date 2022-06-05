@@ -2,6 +2,7 @@
 const calcScore  = require('../functions/calc_score.js')
 const addLetter = require('../functions/add_letter.js')
 const checkGuess = require('../functions/check_guess.js')
+const deleteLetter = require('../functions/delete_letter.js')
 test('Check that score is 10 when first attempt is correct', () => {  
     const score = calcScore(0)
     expect(score).toBe(10)
@@ -41,7 +42,7 @@ test('Check that game ends when user guessed correctly', () => {
     expect(game).toBe(true)
 })
 
-test('Check that countertile increases when letter is added to row', () => {   
+test('Check that countertile increases when letter is added to the row', () => {   
     const wordEntry = [
         ['', '', '', '', ''],
         ['', '', '', '', ''],
@@ -52,4 +53,17 @@ test('Check that countertile increases when letter is added to row', () => {
     ]
     const count = addLetter(wordEntry,'l', 1, 0)
     expect(count).toBe(1) 
+})
+
+test('Check that countertile decreases when letter is delted from the row', () => {   
+    const wordEntry = [
+        ['l', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', ''],
+        ['', '', '', '', '']
+    ]
+    const count = deleteLetter(wordEntry, 0, 1)
+    expect(count).toBe(0) 
 })
