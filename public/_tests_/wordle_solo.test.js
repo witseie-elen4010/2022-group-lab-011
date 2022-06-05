@@ -13,10 +13,10 @@ describe('Test the solo game page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
 
         await page.click('[name="loginbutton"]');

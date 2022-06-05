@@ -41,10 +41,10 @@ describe('Test index page:', () => {
         
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+       // await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '123');
 
         await page.click('[name="loginbutton"]');
@@ -62,10 +62,10 @@ describe('Test index page:', () => {
         
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '1234');
 
         await page.click('[name="loginbutton"]');
