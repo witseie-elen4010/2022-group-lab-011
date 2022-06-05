@@ -6,6 +6,7 @@ router.get('/', (req, res) => {
     if (!req.session.ID) {
         res.redirect('/login')
     } else {
+        const myID = req.session.ID
         db.pools
         // Run query
             .then((pool) => {
@@ -26,8 +27,11 @@ router.get('/', (req, res) => {
                         }
                     }
                     actions_log.stats = myTable
-                }
-                res.render('users/actions_log', {data: actions_log})
+                    console.log(myID)
+                    console.log('ayy '+actions_log.stats[6][1])
+                    console.log('ayy '+actions_log.stats[6][2])
+                } 
+                res.render('users/actions_log', {data: actions_log, id: myID})
             })
             .catch(err => {
                 res.send({ Error: err })
