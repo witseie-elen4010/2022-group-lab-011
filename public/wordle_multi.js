@@ -1,3 +1,8 @@
+const tileBox = document.querySelector('.tile-container')
+const opponentBox = document.querySelector('.opponent-container')
+const keyboard = document.querySelector('.key-container')
+const message = document.querySelector('.message-container')
+
 const socket = io()
 
 let gameId
@@ -64,19 +69,11 @@ socket.on('check-in-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) =>
         adminId = adminIdS
         word = wordS
         gameStart = true
-        //call to game start
 
-        console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)    
+        console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)   
     }
 
 })
-
-
-const tileBox = document.querySelector('.tile-container')
-const opponentBox = document.querySelector('.opponent-container')
-const keyboard = document.querySelector('.key-container')
-const message = document.querySelector('.message-container')
-
 
 // Setup of keys of keyboard
 const keys = [
@@ -151,7 +148,7 @@ keys.forEach(key => {
     keyboard.append(buttonElement)
 })
 
-
+/*
 function setWord() {
     fetch('/word')
         .then(response => response.json())
@@ -161,7 +158,7 @@ function setWord() {
         .catch(err => console.log(err))
 }
 setWord()
-
+*/
 
 // Handle events when a key is clicked
 function handleClick(input) {
@@ -235,7 +232,7 @@ function checkGuess() {
                         if (currentRow < 5) {
                             currentRow++
                             currentTile = 0
-                            console.log(`before socket ${currentRow}`)
+                            //console.log(`before socket ${currentRow}`)
                             
                         }
                     }
