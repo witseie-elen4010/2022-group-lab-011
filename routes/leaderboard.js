@@ -11,7 +11,7 @@ router.get('/', (req, res) => {
         .then((pool) => {
             return pool.request()
             // Select leaderboard
-            .query('SELECT * FROM dbo.leaderboard;')
+            .query('SELECT * FROM dbo.leaderboard ORDER BY average_score DESC;')
         })
             .then(result => {
                 let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
