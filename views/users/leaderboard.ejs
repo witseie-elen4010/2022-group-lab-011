@@ -31,8 +31,8 @@
                             <div class="col-md-6 text-center my-auto">
                             <div class="card-body">
                                 <h2 class="card-title">Wordle World Party</h2>
-                                <p class="card-text my-4">Check the leaderboard below:</p>
-                                <p class="card-text my-4">Note: If you have played a solo game before then you will find your row highlighted in red. </p>
+                                <p class="card-text my-4">Check the leaderboard and rankings below:</p>
+                                <p class="card-text my-4">Note: If you have played a game before then you will find your row highlighted in red. </p>
                             </div>
                             </div>
                         </div>  
@@ -42,9 +42,12 @@
 
             <div class="row justify-content-center my-4">
                 <div class="col justify-content-center">
-                    <form action="/leaderboard" method="post">
+
                         <div class="card">
-                            <table class="table table-striped">
+                            <h3 class="card-text text-center my-2">Leaderboard</h3>
+                            <p class="card-text text-center my-2">The stats of different users' games relating to the Solo Wordle Mode</p>
+                            <h6 class="card-text text-center my-2">The score is calculated when you finish the game. The quicker the guess the better. You get 1 point per attempt remaining on the board and then an additional point for successfully getting the word. Guess what! Get the word correctly on your first try and get 10 points. </h6>
+                            <table class="table">
                                 <thead class="text-center">
                                     <tr>
                                         <th>#</th>
@@ -56,14 +59,14 @@
                                     </tr>
                                 </thead>
                                 <tbody class="text-center">
-                                    <% for (let row = 0; row < data.stats.length; row++){%>
+                                    <% for (let row = 0; row < data_l.stats.length; row++){%>
                                     <tr>
-                                        <%if (data.stats[row][1] === id) {%>
-                                            <%data.stats[row].forEach((stats)=>{%>
+                                        <%if (data_l.stats[row][1] === id) {%>
+                                            <%data_l.stats[row].forEach((stats)=>{%>
                                                 <td class="myRow"><%=stats%></td> 
                                                 <%})%>
                                             <%} else {%>
-                                            <%data.stats[row].forEach((stats)=>{%>
+                                            <%data_l.stats[row].forEach((stats)=>{%>
                                             <td><%=stats%></td> 
                                             <%});%>
                                             <%}%>
@@ -72,7 +75,40 @@
                                 </tbody>
                             </table>
                         </div>
-                    </form>
+
+                        <div class="card my-4">
+                            <h3 class="card-text text-center my-2">Multiplayer Ranking</h3>
+                            <p class="card-text text-center my-2">The stats of different users' games relating to the Multiplayer Wordle Mode</p>
+                            <h6 class="card-text text-center my-2">Who is the best player? Using the same scoring system as explained above, except with a catch, lose against your opponent and your total score decreases. </h6>
+                            <table class="table">
+                                <thead class="text-center">
+                                    <tr>
+                                        <th>#</th>
+                                        <th>User #</th>
+                                        <th>Username</th>
+                                        <th>Games Played</th>
+                                        <th>Total Score</th>
+                                        <th>Average Score</th>  
+                                    </tr>
+                                </thead>
+                                <tbody class="text-center">
+                                    <% for (let row = 0; row < data_r.stats.length; row++){%>
+                                    <tr>
+                                        <%if (data_r.stats[row][1] === id) {%>
+                                            <%data_r.stats[row].forEach((stats)=>{%>
+                                                <td class="myRow"><%=stats%></td> 
+                                                <%})%>
+                                            <%} else {%>
+                                            <%data_r.stats[row].forEach((stats)=>{%>
+                                            <td><%=stats%></td> 
+                                            <%});%>
+                                            <%}%>
+                                    </tr>
+                                    <%};%>
+                                </tbody>
+                            </table>
+                        </div>
+
                 </div>
             </div>
 

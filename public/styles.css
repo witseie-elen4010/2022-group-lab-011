@@ -16,6 +16,19 @@ h2, p, input, label, th, td, option {
     font-family: 'Russo One', sans-serif;
 }
 
+h3 {
+    color:  #121213;
+    font-size: 22px;
+    font-family: 'Russo One', sans-serif;
+}
+
+h6 {
+    color:  #1d1d1d;
+    font-size: 13.5px;
+    font-family: 'Russo One', sans-serif;
+}
+
+
 .myRow {
     color: #ff0000;
     font-weight: bold;

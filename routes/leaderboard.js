@@ -33,18 +33,51 @@ router.get('/', (req, res) => {
                         }
                     }
                     leaderboard.stats = myTable
-                }
-                res.render('users/leaderboard', {data: leaderboard, id: myID})
+                } 
+            })
+            .then(result => {
+                db.pools
+                // Run query
+                .then((pool) => {
+                    return pool.request()
+                    // Select game log
+                    .query('SELECT * FROM dbo.ranking JOIN dbo.accounts ON dbo.ranking.account_id = dbo.accounts.id ORDER BY average_score DESC;')
+                })
+                .then(result => {
+                    let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
+                    let cols = columns.length
+                    let rows = result.recordset.length
+                    if (rows > 0) {
+                        const myTable = Array.from(Array(rows), () => new Array(cols));
+                        for (let row = 0; row < rows; row++) {
+                            for (let col = 0; col < cols; col++) {
+                                if (columns[col] === 'id') {
+                                    x = row + 1
+                                } else {
+                                    x = result.recordsets[0][row][columns[col]]
+                                }
+                                myTable [row] [col] = x
+                            }
+                        }
+                        ranking.stats = myTable
+                    }
+                    res.render('users/leaderboard', {data_l: leaderboard, data_r: ranking, id: myID})
+                })
             })
         .catch(err => {
             res.send({ Error: err })
             })
-    newAction(req.session.ID, 'VIEWED: LEADERBOARD')    
+    newAction(req.session.ID, 'VIEWED: LEADERBOARD PAGE')    
     }
 })
 
 const leaderboard = {
     name : 'leaderboard',
+    stats: []
+}
+
+const ranking = {
+    name : 'ranking',
     stats: []
 }
 
