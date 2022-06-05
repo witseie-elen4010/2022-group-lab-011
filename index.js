@@ -318,7 +318,36 @@ app.get('/game_player_queue', async (req, res) => {
                             })
                             .then(result => {
                               //delete people from queue and admin words
-                              console.log('game created')
+                              db.pools
+                              // create in game
+                                    .then((pool) => {
+                                        return pool.request()
+                                         // Select game admins
+                                        .input('player_one', playerOne)
+                                        .input('player_two', playerTwo)
+                                        .input('player_admin', playerAdmin)
+                                        .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')                                     
+                                })
+                                .then(result => {
+                                  console.log('Players removed from queue')
+                                  if (playerAdmin !== 0){
+                                    db.pools
+                                    // create in game
+                                          .then((pool) => {
+                                            return pool.request()
+                                            .input('player_admin', playerAdmin)
+                                            .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')    
+
+                                          })
+                                          .then(result => {
+                                            console.log('word removed from word queue')
+                                            res.json('success!')
+                                          })
+                                  } else {
+                                    res.json('success!')
+                                  }
+
+                                })
                             })
                       } else{
                         playerAdmin = 0                       
@@ -346,7 +375,6 @@ app.get('/game_player_queue', async (req, res) => {
                                   .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
                             })
                             .then(result => {
-                              //delete people from queue and admin words
                               res.json('success!')
                               console.log('game created')
                             })
