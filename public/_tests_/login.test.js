@@ -14,6 +14,7 @@ describe('Test index page:', () => {
         await page.click('[name="landing"]');
 
         await expect(page.title()).resolves.toMatch('Login Page');
+        await page.waitForTimeout(1000);
         await browser.close();
      })
      it("Register button redirects to Create Account Page:", async () => {
@@ -27,6 +28,7 @@ describe('Test index page:', () => {
         await page.click('[name="landing"]');
         await page.click('[name="registerbutton"]');
         await expect(page.title()).resolves.toMatch('Create account');
+        await page.waitForTimeout(1000);
         await browser.close();
      })
      it('Login directs to HomePage:', async () => {
@@ -47,6 +49,7 @@ describe('Test index page:', () => {
         await page.click('[name="loginbutton"]');
 
         await expect(page.title()).resolves.toMatch('Homepage');
+        await page.waitForTimeout(1000);
         await browser.close();
     })
     it('Login page reloads when password is incorrect:', async () => {
@@ -67,6 +70,7 @@ describe('Test index page:', () => {
         await page.click('[name="loginbutton"]');
 
         await expect(page.title()).resolves.toMatch('Login Page');
+        await page.waitForTimeout(1000);
         await browser.close();
     })
      it('Login button says login', async () => {
@@ -81,6 +85,7 @@ describe('Test index page:', () => {
         console.log(text)
 
         await expect(text).toMatch('Login');
+        await page.waitForTimeout(1000);
         await browser.close();
     })  
 })
