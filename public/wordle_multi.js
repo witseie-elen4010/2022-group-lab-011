@@ -36,6 +36,8 @@ let adminId
 let gameStart = false
 let word = ''
 
+startMessage(gameStart)
+
 /////////////////////////////////////////////
 // Interface setup
 ////////////////////////////////////////////
@@ -103,7 +105,6 @@ fetch(`/userID`)
               adminId = json.recordset[0].player_admin
               word = json.recordset[0].word.toUpperCase()
               gameStart = true
-
               let opponentId
               if (accountId === playerOne ){
                 gameRole  = 'playerOne'
@@ -139,6 +140,7 @@ fetch(`/userID`)
 ////////////////////////////////////////
 // Socket functionality
 ///////////////////////////////////////
+
 socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
     console.log('game-created')
     let isMyGame = false
@@ -393,6 +395,17 @@ function showMessage(msg) {
     messageElement.textContent = msg
     message.append(messageElement)
     setTimeout(() => message.removeChild(messageElement), 2000)
+}
+
+// Outputs message to client
+function startMessage(started) {
+    if (!started) {
+        const messageElement = document.createElement('p')
+        messageElement.textContent = 'Waiting for game to start...'
+        message.append(messageElement)
+    } else {
+        message.removeChild(messageElement)
+    }
 }
 
 
