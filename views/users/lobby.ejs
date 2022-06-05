@@ -6,9 +6,12 @@
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lobby</title>
         <script src="/socket.io/socket.io.js"></script>
-        
-       
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="stylesheet" href="/styles.css"/>
     </head>
     
     <body>
@@ -30,7 +33,8 @@
                             <div class="col-md-6 text-center my-auto">
                             <div class="card-body">
                                 <h2 class="card-title">Wordle World Party</h2>
-                                <p class="card-text">Select your player type for the match and then ready up to play. 'Player' is a user that competes against another user and 'Admin' selects the word that the 'Player' needs to try and guess.</p>
+                                <p class="card-text">Select your player type for the match and then ready up to play. </p>
+                                <p class="card-text">'Player' is a user that competes against another user and 'Admin' selects the word that the 'Player' needs to try and guess.</p>
                             </div>
                             </div>
                         </div>  
@@ -39,12 +43,12 @@
             </div>
             <div class="row justify-content-center ">
                 <div class="col-lg-6 justify-content-center">
-                    <div class="message-container"></div>
+                    <div class="message-container my-4"></div>
                 </div>
             </div>
             <div class="row justify-content-center ">
                 <div class="col-lg-6 justify-content-center">
-                    <div class="text-center my-4">
+                    <div class="text-center">
                         <div class="text">Select Your Player Type</div>
                         <select name="game_role" id="game_role" class="form-select mb-3 btn-dark" aria-label=".form-select-lg example" >
                             <option value=0 selected>Player</option>

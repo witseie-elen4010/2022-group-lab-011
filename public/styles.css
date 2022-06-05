@@ -11,7 +11,7 @@ h1 {
     font-family: 'Russo One', sans-serif;
 }
 
-h2, p, input, label, th, td {
+h2, p, input, label, th, td, option {
     color: #000000;
     font-family: 'Russo One', sans-serif;
 }
@@ -74,9 +74,8 @@ mark {
 .title-container {
     text-align: center;
     width: 550px;
-    color: rgb(0, 0, 0);
-    background-color: #ffffff;
-    border: solid 2px #000000;
+    color: rgb(255, 255, 255);
+    border-bottom: solid 4px #ffffff;
 }
 
 
@@ -154,7 +153,8 @@ mark {
 }
 
 .message-container p {
-    background-color: #818384;
+    color: #ffffff;
+    background-color: #c23b3b;
     border-radius: 10px;
     padding: 10px;
     margin: 0;
