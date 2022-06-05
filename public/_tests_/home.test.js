@@ -11,7 +11,7 @@ describe('Test home page:', () => {
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080});
         await page.goto('https://wordleworldparty.azurewebsites.net/')
-        // click login
+        // click Let's Get Started
         await page.click('[name="landing"]');
         // input username
         await page.waitForSelector('input[name="username"]');
@@ -32,7 +32,7 @@ describe('Test home page:', () => {
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080});
         await page.goto('https://wordleworldparty.azurewebsites.net/')
-
+        // click Let's Get Started
         await page.click('[name="landing"]');
 
         await page.waitForSelector('input[name="username"]');
@@ -44,7 +44,7 @@ describe('Test home page:', () => {
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
         await page.click('[name=dropdownbutton]');
-
+        await page.waitForTimeout(1000);
         await browser.close();
     })
     it('Click Solo Word Game which redirects to Solo page:', async () => {
@@ -52,7 +52,7 @@ describe('Test home page:', () => {
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080});
         await page.goto('https://wordleworldparty.azurewebsites.net/')
-
+        // click Let's Get Started
         await page.click('[name="landing"]');
 
         await page.waitForSelector('input[name="username"]');
@@ -68,7 +68,7 @@ describe('Test home page:', () => {
         await page.click('[name="sologame"]')
         
         await page.waitForTimeout(10);
-        await expect(page.title()).resolves.toMatch('Wordle');
+        await expect(page.title()).resolves.toMatch('Wordle Solo');
         await page.waitForTimeout(1000);
         await browser.close();
     })
@@ -77,7 +77,7 @@ describe('Test home page:', () => {
         const page = await browser.newPage()
         await page.setViewport({width: 1920, height: 1080});
         await page.goto('https://wordleworldparty.azurewebsites.net/')
-
+        // click Let's Get Started
         await page.click('[name="landing"]');
 
         await page.waitForSelector('input[name="username"]');
