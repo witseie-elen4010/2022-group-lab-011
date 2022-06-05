@@ -18,7 +18,7 @@ describe('Test Create Account Page:', () => {
         await page.waitForTimeout(1000);
         await browser.close();
      })
-     it("Test existing account can't be created", () => {
+     it("Test existing account can't be created because passwords don't match", async () => {
         // Open browser
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
@@ -27,8 +27,21 @@ describe('Test Create Account Page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
         await page.click('[name="registerbutton"]');
-
-        //Add code here to fill in form
+        // enter username
+        await page.waitForSelector('input[name="username"]');
+        await page.$eval('input[name="username"]', el => el.value = 'SeleniumTester');
+        // enter email
+        await page.waitForSelector('input[name="email"]');
+        await page.$eval('input[name="email"]', el => el.value = 'SeleniumTester@gmail.com');
+        // enter password
+        await page.waitForSelector('input[name="password"]');
+        await page.$eval('input[name="password"]', el => el.value = 'Tests');
+        // confirm password
+        await page.waitForSelector('input[name="confirm_password"]');
+        await page.$eval('input[name="confirm_password"]', el => el.value = 'Test');
+        
+        // Now click Register
+        await page.click('[name="createbutton"]');
 
         await page.waitForTimeout(1000);
         await browser.close();
