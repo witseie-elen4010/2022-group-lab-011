@@ -13,6 +13,7 @@ describe('Test Create Account Page:', () => {
         await page.goto('https://wordleworldparty.azurewebsites.net/')
         // click Let's Get Started
         await page.click('[name="landing"]');
+        await page.waitForTimeout(10);
         await page.click('[name="registerbutton"]');
         await expect(page.title()).resolves.toMatch('Create account');
         await page.waitForTimeout(1000);
@@ -41,6 +42,7 @@ describe('Test Create Account Page:', () => {
         await page.$eval('input[name="confirm_password"]', el => el.value = 'Test');
         
         // Now click Register, should stay on same page
+        await page.waitForTimeout(10);
         await page.click('[name="createbutton"]');
         await expect(page.title()).resolves.toMatch('Create account');
 
