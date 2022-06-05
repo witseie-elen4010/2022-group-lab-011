@@ -15,10 +15,10 @@ describe('Test home page:', () => {
         await page.click('[name="landing"]');
         // input username
         await page.waitForSelector('input[name="username"]');
-        await page.$eval('input[name="username"]', el => el.value = '123');
+        await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
         //input password
         await page.waitForSelector('input[name="password"]');
-        await page.$eval('input[name="password"]', el => el.value = '123');
+        await page.$eval('input[name="password"]', el => el.value = 'Tests');
         // click login
         await page.click('[name="loginbutton"]');
         // New page should be hompage
@@ -36,10 +36,10 @@ describe('Test home page:', () => {
         await page.click('[name="landing"]');
 
         await page.waitForSelector('input[name="username"]');
-        await page.$eval('input[name="username"]', el => el.value = '123');
+        await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
 
         await page.waitForSelector('input[name="password"]');
-        await page.$eval('input[name="password"]', el => el.value = '123');
+        await page.$eval('input[name="password"]', el => el.value = 'Tests');
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
@@ -56,10 +56,10 @@ describe('Test home page:', () => {
         await page.click('[name="landing"]');
 
         await page.waitForSelector('input[name="username"]');
-        await page.$eval('input[name="username"]', el => el.value = '123');
+        await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
 
         await page.waitForSelector('input[name="password"]');
-        await page.$eval('input[name="password"]', el => el.value = '123');
+        await page.$eval('input[name="password"]', el => el.value = 'Tests');
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
@@ -69,7 +69,7 @@ describe('Test home page:', () => {
         await page.click('[name="sologame"]')
         
         await page.waitForTimeout(10);
-        await expect(page.title()).resolves.toMatch('Wordle Solo');
+        await expect(page.title()).resolves.toMatch('Wordle'); //Wordle Solo
         await page.waitForTimeout(1000);
         await browser.close();
     })
@@ -203,4 +203,5 @@ describe('Test home page:', () => {
         await page.waitForTimeout(1000);
         await browser.close();
     })
+ 
 })
