@@ -49,11 +49,14 @@ fetch(`/userID`)
                 gameRole = 'admin'
              }
              let multiGameData = [gameId, accountId, opponentId, adminId, word]
+             console.log(multiGameData)
              fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
               .then(response => response.json())
               .then(json => {
-                console.log(json)
+                console.log(word)
+                //console.log(gameId)
                 socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+                
              })
               //send to other players that there is a game that has started
               
@@ -67,7 +70,8 @@ fetch(`/userID`)
 getGame()
 
 
-socket.on('check-in-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+socket.on('game-created', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+    console.log('game-created')
     let isMyGame = false
     if (accountId === playerOneS){
         gameRole  = 'playerOne'

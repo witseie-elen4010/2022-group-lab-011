@@ -521,6 +521,10 @@ let gamesIndex = 0
 io.on('connection', socket => {
   console.log('new WS connection')
 
+  socket.on('game-created', gameId, playerOne, playerTwo, adminId, word => {
+    socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+  })
+
 
   //////////////////////////////////////////
   /////// Multiplayer Comms
