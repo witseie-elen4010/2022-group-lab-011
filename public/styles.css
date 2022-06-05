@@ -4,6 +4,35 @@
 
 body {
     background-color: #121213;
+    font-family: 'Russo One', sans-serif;
+}
+
+h1 {
+    font-family: 'Russo One', sans-serif;
+}
+
+h2, p, input, label, th, td, option {
+    color:  #121213;
+    font-family: 'Russo One', sans-serif;
+}
+
+.myRow {
+    color: #ff0000;
+    font-weight: bold;
+    font-family: 'Russo One', sans-serif;
+}
+
+mark {
+    color: #131313;
+    font-weight: bold;
+    font-size: 25px;
+    font-style: italic;
+    background-color: #ffffff;
+    font-family: 'Russo One', sans-serif;
+}
+
+.set-icon-dark{
+    filter: saturate(100%) brightness(0);
 }
 
 .landing-container {
@@ -20,7 +49,7 @@ body {
     float:none;
     color: rgb(255, 255, 255);
     position: absolute;
-    left: calc(50vw - 340px/2);
+    left: calc(50vw - 478px/2);
     top: 100px;
 }
 
@@ -29,7 +58,7 @@ body {
     float:none;
     color: rgb(255, 255, 255);
     position: absolute;
-    left: calc(50vw - 65.27px/2);
+    left: calc(50vw - 163px/2);
     top: 150px; 
 }
 
@@ -45,9 +74,8 @@ body {
 .title-container {
     text-align: center;
     width: 550px;
-    color: rgb(0, 0, 0);
-    background-color: #ffffff;
-    border: solid 2px #000000;
+    color: rgb(255, 255, 255);
+    border-bottom: solid 4px #ffffff;
 }
 
 
@@ -125,7 +153,8 @@ body {
 }
 
 .message-container p {
-    background-color: #818384;
+    color: #ffffff;
+    background-color: #3b76c2;
     border-radius: 10px;
     padding: 10px;
     margin: 0;
