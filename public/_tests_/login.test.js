@@ -82,7 +82,6 @@ describe('Test index page:', () => {
 
         await page.click('[name="landing"]');
         const text = await page.$eval('button', element => element.textContent)
-        console.log(text)
 
         await expect(text).toMatch('Login');
         await page.waitForTimeout(1000);

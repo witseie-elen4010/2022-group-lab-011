@@ -63,6 +63,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click solo word game:
         await page.click('[name="sologame"]')
@@ -88,6 +89,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click lobby:
         await page.click('[name="lobby"]')
@@ -113,6 +115,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click actions log:
         await page.click('[name="actions_log"]')
@@ -138,6 +141,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click leaderboard:
         await page.click('[name="leaderboard"]')
@@ -163,6 +167,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click game log:
         await page.click('[name="game_log"]')
@@ -188,6 +193,7 @@ describe('Test home page:', () => {
 
         await page.click('[name="loginbutton"]');
         // Now on Homepage: click Select game mode
+        await page.waitForTimeout(10)
         await page.click('[name=dropdownbutton]');
         // Click logout:
         await page.click('[name="logout"]')
