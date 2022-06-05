@@ -74,6 +74,32 @@ app.get('/userID', (req, res) => {
   res.json(req.session.ID)
 })
 
+app.get('/set-multi-log', (req, res) => {
+  //enter game into multi player logs
+  let records = req.query.multiGameData
+  records = records.split(',')
+  db.pools
+  .then((pool) => {
+    return pool.request()
+    .input('game_id', records[0])
+    .input('account_id', records[1])
+    .input('opponent_id', records[2])
+    .input('admin_id', records[3])
+    .input('guess_1', '')
+    .input('guess_2', '')
+    .input('guess_3', '')
+    .input('guess_4', '')
+    .input('guess_5', '')
+    .input('guess_6', '')
+    .input('word', records[4])
+    .query('INSERT INTO dbo.multi_game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')     
+  })
+  .then(result => {
+    console.log('entered into multi log')
+    res.json(records)
+  })   
+})
+ 
 
 app.get('/getGame', (req, res) => {
   const accountId = req.query.accountId
@@ -98,8 +124,8 @@ app.get('/getGame', (req, res) => {
             .query('Delete from dbo.games where player_one = @account_id OR player_TWO = @account_id or player_admin = @account_id;') // check if user exists in DB        
         })
         .then(result => {
-          res.json(records)
           console.log('deleted game entry')
+          res.json(records)   
         })
       } else {
         res.json('not in game')
@@ -159,7 +185,7 @@ app.get('/log-guess-solo', (req, res) => {
 app.get('/game_end', (req, res) => {
   console.log('Enter into logs')
   const wordsArr = req.query.wordEntries
-  const words = wordsArr.split(",")
+  const words = wordsArr.split(',')
   let new_score
   let wordAns = []
   for (let i = 0; i < 7; i++) {
@@ -179,10 +205,7 @@ app.get('/game_end', (req, res) => {
     .then((pool) => {
       return pool.request()
         // This is only a test query, change it to whatever you need
-        .input('game_id', 0)
         .input('account_id', req.session.ID)
-        .input('opponent_id', 0)
-        .input('admin_id', 0)
         .input('guess_1', wordAns[0])
         .input('guess_2', wordAns[1])
         .input('guess_3', wordAns[2])
@@ -190,7 +213,7 @@ app.get('/game_end', (req, res) => {
         .input('guess_5', wordAns[4])
         .input('guess_6', wordAns[5])
         .input('word', wordAns[6])
-        .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
+        .query('INSERT INTO dbo.solo_game_log (account_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@account_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
     })
     .catch(err => {
       res.send({ Error: err })
