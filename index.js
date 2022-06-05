@@ -529,9 +529,9 @@ io.on('connection', socket => {
   /////// Multiplayer Comms
   //////////////////////////////////////////
 
-  socket.on('player-word', opponentGuess => {
-    console.log(`opponent guess received`)
-    socket.broadcast.emit('player-word', opponentGuess)
+  socket.on('player-word', (opponentGuess, currentRow) => {
+    console.log(`opponent guess received at ${currentRow}`)
+    socket.broadcast.emit('player-word', opponentGuess, currentRow)
   })
   /*
     socket.on('player-ready', Pid => {

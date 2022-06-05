@@ -22,10 +22,10 @@ const wordEntry = [
 
 // Setup of global variables
 let currentRow = 0
-
 let currentTile = 0
 let GameOver = false
 let opponentGuess = []
+let opponentRow = 0
 
 //socket.emit('player-ready', Pid)
 /*
@@ -33,8 +33,8 @@ socket.on('game-start', () => {
     let gameStart = true
 })
 */
-socket.on('player-word', opponentGuess => {
-    flipTile2(opponentGuess)
+socket.on('player-word', (opponentGuess, row) => {
+    flipTile2(opponentGuess, row)
 })
 /*
 socket.on('game-over', () => {
@@ -78,7 +78,7 @@ keys.forEach(key => {
     keyboard.append(buttonElement)
 })
 
-/*
+
 function setWord() {
     fetch('/word')
         .then(response => response.json())
@@ -88,7 +88,7 @@ function setWord() {
         .catch(err => console.log(err))
 }
 setWord()
-*/
+
 
 // Handle events when a key is clicked
 function handleClick(input) {
@@ -142,7 +142,7 @@ function checkGuess() {
                     return
                 } else {
                     flipTile()
-                    socket.emit('player-word', opponentGuess)
+                    socket.emit('player-word', opponentGuess, currentRow)
                     if (wordle == tempWord) {
                         GameOver = true
                         showMessage('Correct!')
@@ -162,6 +162,8 @@ function checkGuess() {
                         if (currentRow < 5) {
                             currentRow++
                             currentTile = 0
+                            console.log(`before socket ${currentRow}`)
+                            
                         }
                     }
                 }
@@ -200,10 +202,11 @@ function flipTile() {
     let checkWordle = wordle
     const guess = []
     opponentGuess = []
+    console.log(`currentRow = ${currentRow}`)
 
     rowTiles.forEach(tile => {
         guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
-        opponentGuess.push({color: 'grey-overlay'})
+        opponentGuess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
     })
 
     guess.forEach((guess, index) => {
@@ -231,14 +234,19 @@ function flipTile() {
     })
 }
 
-function flipTile2(opponentGuess) {
-    const rowTiles = document.querySelector('#showRow-' + currentRow).childNodes
+function flipTile2(opponentGuess, row) {
+    opponentRow = row
+    const rowTiles = document.querySelector('#showRow-' + opponentRow).childNodes
+    let adminView = []
 
     rowTiles.forEach((tile, index) => {
         setTimeout(() => {
             tile.classList.add('flip')
+            tile.textContent = opponentGuess[index].letter
+            tile.setAttribute('data', opponentGuess[index].letter)
+            console.log(opponentGuess[index].letter)
             tile.classList.add(opponentGuess[index].color)
-            //addColorToKey(opponentGuess[index].color)
+            //addColorToKey(/*guess[index].letter,*/opponentGuess[index].color)
         }, 500 * index)
     })
 }
