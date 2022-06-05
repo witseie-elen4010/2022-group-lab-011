@@ -12,7 +12,7 @@ h1 {
 }
 
 h2, p, input, label, th, td, option {
-    color: #000000;
+    color:  #121213;
     font-family: 'Russo One', sans-serif;
 }
 
@@ -154,7 +154,7 @@ mark {
 
 .message-container p {
     color: #ffffff;
-    background-color: #c23b3b;
+    background-color: #3b76c2;
     border-radius: 10px;
     padding: 10px;
     margin: 0;
