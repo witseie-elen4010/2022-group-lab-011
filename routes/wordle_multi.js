@@ -5,7 +5,7 @@ router.get('/', (req, res) => {
     if (!req.session.ID) {
         res.redirect('/login')
         } else {
-    res.render("users/multi_game")
+    res.render("users/wordle_multi")
     }
 })
 
