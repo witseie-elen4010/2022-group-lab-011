@@ -49,7 +49,6 @@ describe('Test index page:', () => {
         await expect(page.title()).resolves.toMatch('Homepage');
         await browser.close();
     })
-    
     it('Login page reloads when password is incorrect:', async () => {
 
         const browser = await puppeteer.launch()
@@ -70,5 +69,19 @@ describe('Test index page:', () => {
         await expect(page.title()).resolves.toMatch('Login Page');
         await browser.close();
     })
+     it('Login button says login', async () => {
+
+        const browser = await puppeteer.launch()
+        const page = await browser.newPage()
+        await page.setViewport({width: 1920, height: 1080});
+        await page.goto('https://wordleworldparty.azurewebsites.net/')
+
+        await page.click('[name="landing"]');
+        const text = await page.$eval('button', element => element.textContent)
+        console.log(text)
+
+        await expect(text).toMatch('Login');
+        await browser.close();
+    })  
 })
 
