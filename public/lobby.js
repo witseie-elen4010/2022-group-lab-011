@@ -32,9 +32,9 @@ function toMulti() {
                             .then(response => response.json())
                             .then(json => {
                              console.log(json)
-                             
+                             window.location.replace('/wordle_multi')
                             })
-                            .then(window.location.replace('/wordle_multi'))
+
                             .catch(err => console.log(err)) 
                         })
                         .catch(err => console.log(err))  
@@ -46,9 +46,8 @@ function toMulti() {
         .then(response => response.json())
         .then(json =>  {
             console.log(json)   
-            (window.location.replace('/wordle_multi'))        
+            window.location.replace('/wordle_multi')        
         })
-        //.then(window.location.replace('/wordle_multi'))
         .catch(err => console.log(err))   
     }
 }
