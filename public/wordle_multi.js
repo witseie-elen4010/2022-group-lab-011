@@ -33,8 +33,25 @@ fetch(`/userID`)
               console.log(word)
               gameStart = true
 
+              let opponentId
+              if (accountId === playerOne ){
+                gameRole  = 'playerOne'
+                opponentId = playerTwo
+             } else if (accountId === playerTwo){
+                gameRole = 'playerTwo'
+                opponentId = playerOne
+             } else if (accountId === adminId){
+                gameRole = 'admin'
+             }
+             let multiGameData = [gameId, accountId, opponentId, adminId, word]
+             fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
+              .then(response => response.json())
+              .then(json => {
+                console.log(json)
+                socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+             })
               //send to other players that there is a game that has started
-              socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+              
             }
         })
 
@@ -43,6 +60,7 @@ fetch(`/userID`)
 }
 
 getGame()
+
 
 socket.on('check-in-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
     let isMyGame = false
