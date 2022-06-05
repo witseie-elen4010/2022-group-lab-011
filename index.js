@@ -52,8 +52,8 @@ app.use('/wordle_multi', multiGameRouter)
 
 
 function logger(req, res, next) {
-    console.log(req.originalUrl)
-    next()
+  console.log(req.originalUrl)
+  next()
 }
 
 module.exports = app
@@ -78,38 +78,38 @@ app.get('/word', async (req, res) => {
   const options = {
     method: 'GET',
     url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
-    params: {count: '1', wordLength: '5'},
+    params: { count: '1', wordLength: '5' },
     headers: {
-        'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-        'x-rapidapi-key': process.env.RAPID_API_KEY1
+      'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+      'x-rapidapi-key': process.env.RAPID_API_KEY1
     }
-}
-axios.request(options).then((response) => {
+  }
+  axios.request(options).then((response) => {
     console.log(response.data)
     res.json(response.data[0])
-}).catch((error) => {
+  }).catch((error) => {
     console.error(error)
     return error
-})
+  })
 })
 
 app.get('/check', (req, res) => {
   const word = req.query.word
 
   const options = {
-      method: 'GET',
-      url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',
-      params: {entry: word},
-      headers: {
-          'x-rapidapi-host': 'twinword-word-graph-dictionary.p.rapidapi.com',
-          'x-rapidapi-key': process.env.RAPID_API_KEY2
-      }
+    method: 'GET',
+    url: 'https://twinword-word-graph-dictionary.p.rapidapi.com/association/',
+    params: { entry: word },
+    headers: {
+      'x-rapidapi-host': 'twinword-word-graph-dictionary.p.rapidapi.com',
+      'x-rapidapi-key': process.env.RAPID_API_KEY2
+    }
   }
   axios.request(options).then((response) => {
-      console.log(response.data)
-      res.json(response.data.result_msg)
+    console.log(response.data)
+    res.json(response.data.result_msg)
   }).catch((error) => {
-      console.error(error)
+    console.error(error)
   })
 })
 
@@ -122,47 +122,47 @@ app.get('/log-guess-solo', (req, res) => {
 
 app.get('/game_end', (req, res) => {
   console.log('Enter into logs')
-  const wordsArr = req.query.wordEntries 
+  const wordsArr = req.query.wordEntries
   const words = wordsArr.split(",")
   let new_score
   let wordAns = []
-  for (let i = 0; i < 7; i++){
+  for (let i = 0; i < 7; i++) {
     let tempWord = ''
-    if (i !==6){
-      for (let j = 0; j < 5; j++){
-      tempWord = tempWord + words[i*5 + j]
+    if (i !== 6) {
+      for (let j = 0; j < 5; j++) {
+        tempWord = tempWord + words[i * 5 + j]
       }
     } else {
-      tempWord = tempWord + words[i*5]
-      new_score = words[(i*5)+1]
+      tempWord = tempWord + words[i * 5]
+      new_score = words[(i * 5) + 1]
     }
     wordAns[i] = tempWord
   }
   db.pools
-  // Run query
-  .then((pool) => {
-    return pool.request()
-    // This is only a test query, change it to whatever you need
-    .input('game_id', 0)
-    .input('account_id', req.session.ID)
-    .input('opponent_id', 0)
-    .input('admin_id', 0)
-    .input('guess_1', wordAns[0])
-    .input('guess_2', wordAns[1])
-    .input('guess_3', wordAns[2])
-    .input('guess_4', wordAns[3])
-    .input('guess_5', wordAns[4])
-    .input('guess_6', wordAns[5])
-    .input('word', wordAns[6])
-    .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
-  })
-  .catch(err => {
-    res.send({Error: err })
-  })
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        // This is only a test query, change it to whatever you need
+        .input('game_id', 0)
+        .input('account_id', req.session.ID)
+        .input('opponent_id', 0)
+        .input('admin_id', 0)
+        .input('guess_1', wordAns[0])
+        .input('guess_2', wordAns[1])
+        .input('guess_3', wordAns[2])
+        .input('guess_4', wordAns[3])
+        .input('guess_5', wordAns[4])
+        .input('guess_6', wordAns[5])
+        .input('word', wordAns[6])
+        .query('INSERT INTO dbo.game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')
+    })
+    .catch(err => {
+      res.send({ Error: err })
+    })
   // set variables
   const account_id = req.session.ID
   // get username from accounts database
-    db.pools
+  db.pools
     // Run query
     .then((pool) => {
       return pool.request()
@@ -170,36 +170,36 @@ app.get('/game_end', (req, res) => {
         .query('Select account_id from dbo.leaderboard where account_id = @account_id;') // check if user exists in DB        
     })
     .then(result => {
-      if (result.recordset.length === 0) { 
+      if (result.recordset.length === 0) {
         // insert new user into leaderboard
         db.pools
-        // Run query
-        .then((pool) => {
+          // Run query
+          .then((pool) => {
             // get data to input into leaderboard
             let game_count = 1
             let score = new_score
-            let average_score = score/game_count
+            let average_score = score / game_count
             // insert user into leaderboard
             return pool.request()
-            .input('account_id', account_id)
-            .input('game_count', game_count)
-            .input('score', new_score)
-            .input('average_score', average_score)
-            .query('INSERT INTO dbo.leaderboard (account_id, game_count, score, average_score) VALUES (@account_id, @game_count, @score, @average_score);')
-        })
+              .input('account_id', account_id)
+              .input('game_count', game_count)
+              .input('score', new_score)
+              .input('average_score', average_score)
+              .query('INSERT INTO dbo.leaderboard (account_id, game_count, score, average_score) VALUES (@account_id, @game_count, @score, @average_score);')
+          })
       } else {
         // update user in leaderboard
         db.pools
-        .then((pool) => {
-          // info 
-          return pool.request()
-            .input('account_id', account_id)
-            .input('new_score', new_score)
-            .query('UPDATE dbo.leaderboard SET game_count = game_count+1, score = score + @new_score, average_score = (score + @new_score)/(game_count+1) WHERE account_id = @account_id;')
-        })
+          .then((pool) => {
+            // info 
+            return pool.request()
+              .input('account_id', account_id)
+              .input('new_score', new_score)
+              .query('UPDATE dbo.leaderboard SET game_count = game_count+1, score = score + @new_score, average_score = (score + @new_score)/(game_count+1) WHERE account_id = @account_id;')
+          })
       }
     })
-  
+
 })
 
 function newAction(user_ID, action_details) {
@@ -212,7 +212,7 @@ function newAction(user_ID, action_details) {
   let time = cDate + ' ' + cTime;
   db.pools
     .then((pool) => {
-        return pool.request()
+      return pool.request()
         .input('account_id', account_id)
         .input('action', action)
         .input('time', time)
@@ -225,18 +225,18 @@ app.get('/game_admin_queue', async (req, res) => {
   const accountId = req.session.ID
   // Run query
   db.pools
-  .then((pool) => {
+    .then((pool) => {
       return pool.request()
-          //find if account is already in waiting lobby
-          .input('account_id', accountId)
-          .input('word', word)
-          .query('INSERT INTO dbo.admin_queue_words (account_id, word) VALUES (@account_id, @word);')         
-      })
-      .then(result => {
-        res.json('success!')
-        console.log(result)
-        newAction(accountId, `MULTI: ${word} WAS ENTERED BY ADMIN`) 
-      })
+        //find if account is already in waiting lobby
+        .input('account_id', accountId)
+        .input('word', word)
+        .query('INSERT INTO dbo.admin_queue_words (account_id, word) VALUES (@account_id, @word);')
+    })
+    .then(result => {
+      res.json('success!')
+      console.log(result)
+      newAction(accountId, `MULTI: ${word} WAS ENTERED BY ADMIN`)
+    })
 })
 
 app.get('/game_player_queue', async (req, res) => {
@@ -249,207 +249,207 @@ app.get('/game_player_queue', async (req, res) => {
   const accountId = req.session.ID
 
   db.pools
-  // Run query
-  .then((pool) => {
+    // Run query
+    .then((pool) => {
       return pool.request()
-          //find if account is already in waiting lobby
-          .input('accountId', accountId)
-          .query('Select account_id from dbo.multiplayer_queue where account_id = @accountId;')         
-      })
-      // Send back the result
-      .then(result => {
+        //find if account is already in waiting lobby
+        .input('accountId', accountId)
+        .query('Select account_id from dbo.multiplayer_queue where account_id = @accountId;')
+    })
+    // Send back the result
+    .then(result => {
       if (result.recordset.length === 0) {
         console.log("at insert")
         console.log(accountId)
         console.log(playerRole)
-          db.pools
+        db.pools
           // Run query
           .then((pool) => {
-              return pool.request()
-                // insert user into lobby
+            return pool.request()
+              // insert user into lobby
               .input('account_id', accountId)
               .input('player_role', playerRole)
               .query('INSERT INTO dbo.multiplayer_queue (account_id, player_role) VALUES (@account_id, @player_role);')
           })
           // Succesfully inserted into lobby
-          .then(result => {  
-              console.log("attempt selected")
-              let type
-              if (playerRole === '0') {
-                type = 'PLAYER'
-              } else {
-                type = 'ADMIN'
-              }
-              newAction(accountId, `MULTI: ${type} ENTERED IN QUEUE`)
-                db.pools
-                // Run query
-                .then((pool) => {
-                    return pool.request()
-                      // Select game players
-                      .input('player_role', 0)
-                      .query('SELECT TOP 2 * FROM dbo.multiplayer_queue WHERE player_role = @player_role;')
-                })
-                .then(result => {
-                  console.log("selected")
-                  console.log(result)
-                  if (result.recordset.length > 0) {
-                    playerOne = result.recordset[0].account_id
-                  }
-                  if (result.recordset.length > 1) {
-                    playerTwo = result.recordset[1].account_id
-                  }
-                  if (result.recordset.length === 2) {
-                    console.log("create game")
-                    db.pools
+          .then(result => {
+            console.log("attempt selected")
+            let type
+            if (playerRole === '0') {
+              type = 'PLAYER'
+            } else {
+              type = 'ADMIN'
+            }
+            newAction(accountId, `MULTI: ${type} ENTERED IN QUEUE`)
+            db.pools
+              // Run query
+              .then((pool) => {
+                return pool.request()
+                  // Select game players
+                  .input('player_role', 0)
+                  .query('SELECT TOP 2 * FROM dbo.multiplayer_queue WHERE player_role = @player_role;')
+              })
+              .then(result => {
+                console.log("selected")
+                console.log(result)
+                if (result.recordset.length > 0) {
+                  playerOne = result.recordset[0].account_id
+                }
+                if (result.recordset.length > 1) {
+                  playerTwo = result.recordset[1].account_id
+                }
+                if (result.recordset.length === 2) {
+                  console.log("create game")
+                  db.pools
                     // Run query
-                      .then((pool) => {
-                          return pool.request()
-                           // Select game admins
-                            .input('player_role', 1)
-                            .query('SELECT TOP 1 * FROM dbo.multiplayer_queue JOIN dbo.admin_queue_words ON dbo.multiplayer_queue.account_id = dbo.admin_queue_words.account_id WHERE player_role = @player_role;')
-                    .then(result => {
-                      if (result.recordset.length === 1) {
-                        console.log(result)
-                        playerAdmin = result.recordset[0].account_id[0]
-                        console.log(playerAdmin)
-                        word = result.recordset[0].word
-                        word = word.upper()
-                        db.pools
-                      // create in game
-                            .then((pool) => {
-                              console.log('attempt game creation')
+                    .then((pool) => {
+                      return pool.request()
+                        // Select game admins
+                        .input('player_role', 1)
+                        .query('SELECT TOP 1 * FROM dbo.multiplayer_queue JOIN dbo.admin_queue_words ON dbo.multiplayer_queue.account_id = dbo.admin_queue_words.account_id WHERE player_role = @player_role;')
+                        .then(result => {
+                          if (result.recordset.length === 1) {
+                            console.log(result)
+                            playerAdmin = result.recordset[0].account_id[0]
+                            console.log(playerAdmin)
+                            word = result.recordset[0].word
+                            word = word.upper()
+                            db.pools
+                              // create in game
+                              .then((pool) => {
+                                console.log('attempt game creation')
                                 return pool.request()
-                                 // Select game admins
+                                  // Select game admins
                                   .input('player_one', playerOne)
                                   .input('player_two', playerTwo)
                                   .input('player_admin', playerAdmin)
                                   .input('word', word)
-                                  .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
-                            })
-                            .then(result => {
-                              //delete people from queue and admin words
-                              console.log('game created')
-                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN`)
-                              db.pools
-                              // create in game
-                                    .then((pool) => {
-                                        return pool.request()
-                                         // Select game admins
-                                        .input('player_one', playerOne)
-                                        .input('player_two', playerTwo)
-                                        .input('player_admin', playerAdmin)
-                                        .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')                                     
-                                })
-                                .then(result => {
-                                  console.log('Players removed from queue')
-                                  newAction(accountId, `MULTI: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN REMOVED FROM QUEUE`)
-                                  if (playerAdmin !== 0){
-                                    db.pools
-                                    // create in game
-                                          .then((pool) => {
-                                            return pool.request()
+                                  .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')
+                              })
+                              .then(result => {
+                                //delete people from queue and admin words
+                                console.log('game created')
+                                newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN`)
+                                db.pools
+                                  // create in game
+                                  .then((pool) => {
+                                    return pool.request()
+                                      // Select game admins
+                                      .input('player_one', playerOne)
+                                      .input('player_two', playerTwo)
+                                      .input('player_admin', playerAdmin)
+                                      .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')
+                                  })
+                                  .then(result => {
+                                    console.log('Players removed from queue')
+                                    newAction(accountId, `MULTI: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN REMOVED FROM QUEUE`)
+                                    if (playerAdmin !== 0) {
+                                      db.pools
+                                        // create in game
+                                        .then((pool) => {
+                                          return pool.request()
                                             .input('player_admin', playerAdmin)
-                                            .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')    
+                                            .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')
 
-                                          })
-                                          .then(result => {
-                                            console.log('word removed from word queue')
-                                            newAction(accountId, `MULTI: ${word} REMOVED FROM QUEUE`)
-                                            res.json('success!')
-                                          })
-                                  } else {
-                                    res.json('success!')
-                                  }
+                                        })
+                                        .then(result => {
+                                          console.log('word removed from word queue')
+                                          newAction(accountId, `MULTI: ${word} REMOVED FROM QUEUE`)
+                                          res.json('success!')
+                                        })
+                                    } else {
+                                      res.json('success!')
+                                    }
 
-                                })
-                            })
-                      } else{
-                        playerAdmin = 0                       
-                        const options = {
-                          method: 'GET',
-                          url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
-                          params: {count: '1', wordLength: '5'},
-                          headers: {
-                              'x-rapidapi-host': 'random-words5.p.rapidapi.com',
-                              'x-rapidapi-key': process.env.RAPID_API_KEY1
-                          }
-                      }
-                      axios.request(options).then((response) => {
-                          console.log(response.data)
-                          word = (response.data[0])
-                          db.pools
-                          // Run query
-                            .then((pool) => {
-                                return pool.request()
-                                 // Select game admins
-                                  .input('player_one', playerOne)
-                                  .input('player_two', playerTwo)
-                                  .input('player_admin', playerAdmin)
-                                  .input('word', word)
-                                  .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
-                            })
-                            .then(result => {
-                              //delete people from queue and admin words
-                              res.json('success!')
-                              console.log('game created')
-                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
+                                  })
+                              })
+                          } else {
+                            playerAdmin = 0
+                            const options = {
+                              method: 'GET',
+                              url: 'https://random-words5.p.rapidapi.com/getMultipleRandom',
+                              params: { count: '1', wordLength: '5' },
+                              headers: {
+                                'x-rapidapi-host': 'random-words5.p.rapidapi.com',
+                                'x-rapidapi-key': process.env.RAPID_API_KEY1
+                              }
+                            }
+                            axios.request(options).then((response) => {
+                              console.log(response.data)
+                              word = (response.data[0])
                               db.pools
-                              // create in game
-                                    .then((pool) => {
-                                        return pool.request()
-                                         // Select game admins
-                                        .input('player_one', playerOne)
-                                        .input('player_two', playerTwo)
-                                        .input('player_admin', playerAdmin)
-                                        .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')                                     
+                                // Run query
+                                .then((pool) => {
+                                  return pool.request()
+                                    // Select game admins
+                                    .input('player_one', playerOne)
+                                    .input('player_two', playerTwo)
+                                    .input('player_admin', playerAdmin)
+                                    .input('word', word)
+                                    .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')
                                 })
                                 .then(result => {
-                                  console.log('Players removed from queue')
+                                  //delete people from queue and admin words
+                                  res.json('success!')
+                                  console.log('game created')
                                   newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
-                                  if (playerAdmin !== 0){
-                                    db.pools
+                                  db.pools
                                     // create in game
+                                    .then((pool) => {
+                                      return pool.request()
+                                        // Select game admins
+                                        .input('player_one', playerOne)
+                                        .input('player_two', playerTwo)
+                                        .input('player_admin', playerAdmin)
+                                        .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')
+                                    })
+                                    .then(result => {
+                                      console.log('Players removed from queue')
+                                      newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
+                                      if (playerAdmin !== 0) {
+                                        db.pools
+                                          // create in game
                                           .then((pool) => {
                                             return pool.request()
-                                            .input('player_admin', playerAdmin)
-                                            .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')    
+                                              .input('player_admin', playerAdmin)
+                                              .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')
 
                                           })
                                           .then(result => {
                                             console.log('word removed from word queue')
                                             res.json('success!')
                                           })
-                                  } else {
-                                    res.json('success!')
-                                  }
+                                      } else {
+                                        res.json('success!')
+                                      }
+                                    })
                                 })
+                            }).catch((error) => {
+                              console.error(error)
+                              return error
                             })
-                      }).catch((error) => {
-                          console.error(error)
-                          return error
-                      })
-                      }                   
+                          }
+                        })
                     })
-                })
-                  } else {
-                    //code for already in lobby
-                    res.json('entered into db!')
-                  }
-                })
+                } else {
+                  //code for already in lobby
+                  res.json('entered into db!')
+                }
+              })
           })
           // If there's an error, return that with some description
           .catch(err => {
-              res.send({ Error: err })
+            res.send({ Error: err })
           })
-          } else {
-            //code for already in lobby
-          }
-        })
-        // If there's an error, return that with some description
-        .catch(err => {
-          res.send({ Error: err })
-        })
-      
+      } else {
+        //code for already in lobby
+      }
+    })
+    // If there's an error, return that with some description
+    .catch(err => {
+      res.send({ Error: err })
+    })
+
 })
 
 
@@ -462,24 +462,24 @@ module.exports = io
 let game = {
   player1: '',
   player2: '',
-  admin:  '',
+  admin: '',
   word: ''
 }
 
 let games = [game, game, game, game, game, game, game, game, game, game]
-let rooms = ['room1', 'room2', 'room3', 'room4', 'room5', 'room6', 'room7', 'room8', 'room9' , 'room10']
+let rooms = ['room1', 'room2', 'room3', 'room4', 'room5', 'room6', 'room7', 'room8', 'room9', 'room10']
 let gamesIndex = 0
 
-function gameReset(){
+function gameReset() {
   game.player1 = '',
-  game.player2 = '',
-  game.admin =  '',
-  game.word = ''
+    game.player2 = '',
+    game.admin = '',
+    game.word = ''
 }
 
 io.on('connection', socket => {
   console.log('new WS connection')
-  
+
   //handle enter lobby
   socket.on('in-multi', () => {
     console.log(`Someone is in the multi...`)
@@ -490,14 +490,14 @@ io.on('connection', socket => {
     console.log(playerType)
     console.log(playerId)
     console.log(games[gamesIndex])
-    if (playerType === '0'){
-      if (games[gamesIndex].player1 === ''){
+    if (playerType === '0') {
+      if (games[gamesIndex].player1 === '') {
         socket.join('room 1');
         games[gamesIndex].player1 = playerId
         console.log(games[gamesIndex])
         console.log("p1 created")
       } else {
-        games[gamesIndex].player2 = playerId  
+        games[gamesIndex].player2 = playerId
         socket.join('room 1');
         io.to("room 1").emit("some event", 3);
         console.log(games[gamesIndex])
@@ -505,7 +505,7 @@ io.on('connection', socket => {
         //game requires 2 players to be valid: create game now
         //socket emit game to specified players
         console.log("socket game created")
-        gamesIndex++ 
+        gamesIndex++
       }
     } else {
       games[gamesIndex].admin = playerId
@@ -516,7 +516,7 @@ io.on('connection', socket => {
   //handle playes and admins
   socket.on('set-word', (word) => {
     console.log('in set word')
-    games[gamesIndex].word = word 
+    games[gamesIndex].word = word
   })
 
   //handle disconnects
@@ -524,5 +524,30 @@ io.on('connection', socket => {
     games[gamesIndex].player1 = accountId
     games[gamesIndex].player2 = ''
   })
+
+  //////////////////////////////////////////
+  /////// Multiplayer Comms
+  //////////////////////////////////////////
+
+  socket.on('player-word', opponentGuess => {
+    console.log(`opponent guess received`)
+    socket.broadcast.emit('player-word', opponentGuess)
+  })
+  /*
+    socket.on('player-ready', Pid => {
+      console.log('player-ready received')
+      // not sure about the player checking system
+    })
+  
+    socket.on('game-start', () => {
+      console.log('game-start received')
+      // array of players starts? if 2 (or 3) socket.emit('game-start')
+    })
+  
+    socket.on('game-over', player => {
+      console.log(`${player} wins`)
+      socket.broadcast.emit('game-over')
+    } )
+  */
 
 })

@@ -3,6 +3,8 @@ const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
 
+const socket = io()
+
 // Setup of keys of keyboard
 const keys = [
     'Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','ENTER','Z','X','C','V','B','N','M','Del',
@@ -20,8 +22,25 @@ const wordEntry = [
 
 // Setup of global variables
 let currentRow = 0
+
 let currentTile = 0
 let GameOver = false
+let opponentGuess = []
+
+//socket.emit('player-ready', Pid)
+/*
+socket.on('game-start', () => {
+    let gameStart = true
+})
+*/
+socket.on('player-word', opponentGuess => {
+    flipTile2(opponentGuess)
+})
+/*
+socket.on('game-over', () => {
+    GameOver = true
+} )
+*/
 
 // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
@@ -39,10 +58,10 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
 // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
-    rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
+    rowElement.setAttribute('id', 'showRow-' + guessRowIndex)
     guessRow.forEach((_guess, guessIndex) => {
         const tileElement = document.createElement('div')
-        tileElement.setAttribute('id', 'guessRow-' + guessRowIndex + '-tile-' + guessIndex)
+        tileElement.setAttribute('id', 'showRow-' + guessRowIndex + '-tile-' + guessIndex)
         tileElement.classList.add('tile')
         rowElement.append(tileElement)
     })
@@ -59,8 +78,8 @@ keys.forEach(key => {
     keyboard.append(buttonElement)
 })
 
-// Get word from server side
-/*function setWord() {
+/*
+function setWord() {
     fetch('/word')
         .then(response => response.json())
         .then(json => {
@@ -68,7 +87,8 @@ keys.forEach(key => {
         })
         .catch(err => console.log(err))
 }
-setWord()*/
+setWord()
+*/
 
 // Handle events when a key is clicked
 function handleClick(input) {
@@ -122,6 +142,7 @@ function checkGuess() {
                     return
                 } else {
                     flipTile()
+                    socket.emit('player-word', opponentGuess)
                     if (wordle == tempWord) {
                         GameOver = true
                         showMessage('Correct!')
@@ -178,21 +199,25 @@ function flipTile() {
     const rowTiles = document.querySelector('#guessRow-' + currentRow).childNodes
     let checkWordle = wordle
     const guess = []
+    opponentGuess = []
 
     rowTiles.forEach(tile => {
         guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
+        opponentGuess.push({color: 'grey-overlay'})
     })
 
     guess.forEach((guess, index) => {
         if (guess.letter == wordle[index]) {
             guess.color = 'green-overlay'
+            opponentGuess[index].color = 'green-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
     })
 
-    guess.forEach(guess => {
+    guess.forEach((guess, index) => {
         if (checkWordle.includes(guess.letter)) {
             guess.color = 'yellow-overlay'
+            opponentGuess[index].color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
     })
@@ -202,6 +227,18 @@ function flipTile() {
             tile.classList.add('flip')
             tile.classList.add(guess[index].color)
             addColorToKey(guess[index].letter, guess[index].color)
+        }, 500 * index)
+    })
+}
+
+function flipTile2(opponentGuess) {
+    const rowTiles = document.querySelector('#showRow-' + currentRow).childNodes
+
+    rowTiles.forEach((tile, index) => {
+        setTimeout(() => {
+            tile.classList.add('flip')
+            tile.classList.add(opponentGuess[index].color)
+            //addColorToKey(opponentGuess[index].color)
         }, 500 * index)
     })
 }
