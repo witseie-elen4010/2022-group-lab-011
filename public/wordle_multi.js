@@ -1,9 +1,82 @@
+const socket = io()
+
+let gameId
+let gameRole
+let accountId
+let playerOne
+let playerTwo
+let adminId
+let gameStart = false
+let word = ''
+
+//Create is waiting for oppenents sign
+
+function getGame(){
+fetch(`/userID`)
+    .then(response => response.json())
+    .then(json => {
+        accountId = json
+        fetch(`/getGame/?accountId=${accountId}`)
+         .then(response => response.json())
+         .then(json => {
+            if (json === 'not in game')
+            {
+              console.log('not in game')
+            } else {
+              console.log('game found')
+              console.log(json)
+              gameId = json.recordset[0].id
+              playerOne = json.recordset[0].player_one
+              playerTwo = json.recordset[0].player_two
+              adminId = json.recordset[0].player_admin
+              word = json.recordset[0].word
+              console.log(word)
+              gameStart = true
+
+              //send to other players that there is a game that has started
+              socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+            }
+        })
+
+})
+
+}
+
+getGame()
+
+socket.on('check-in-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+    let isMyGame = false
+    if (accountId === playerOneS){
+        gameRole  = 'playerOne'
+        isMyGame = true
+    } else if (accountId === playerTwoS){
+        gameRole = 'playerTwo'
+        isMyGame = true
+    } else if (accountId === adminIdS){
+        gameRole = 'admin'
+        isMyGame = true
+    }
+
+    if (isMyGame){
+        gameId = gameIdS
+        playerOne = playerOneS
+        playerTwo = playerTwoS
+        adminId = adminIdS
+        word = wordS
+        gameStart = true
+        //call to game start
+
+        console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)    
+    }
+
+})
+
+
 const tileBox = document.querySelector('.tile-container')
 const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
 
-const socket = io()
 
 // Setup of keys of keyboard
 const keys = [
