@@ -5,6 +5,9 @@
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>Lobby</title>
+        <script src="/socket.io/socket.io.js"></script>
+        
+       
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
     </head>
     
@@ -20,7 +23,6 @@
                     <!-- Image card -->
                     <div class="card mb-3" >
                         <div class="row">
-
                             <div class="col-md-6">
                             <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
                             </div>
@@ -35,42 +37,41 @@
                     </div>
                 </div>
             </div>
-
             <div class="row justify-content-center ">
                 <div class="col-lg-6 justify-content-center">
-                    <form action="/lobby" method="post">
-                            <div class="text-center my-4">
-                                <div class="text">Select Your Player Type</div>
-                                <select class="form-select mb-3 btn-dark" aria-label=".form-select-lg example" name="game_role">
-                                    <option value="0" selected>Player</option>
-                                    <option value="1">Admin</option>
-                                </select>
-                                <div class="text">If 'Admin' is your Player Type</div>
-                                <!-- Username entry container and floating label -->
-                                <div class="form-floating">
-                                    <input 
-                                        type="admin_input"
-                                        name="admin_input"
-                                        id="admin_input" 
-                                        placeholder="admin_input"
-                                        value="<%= locals.firstName %>"
-                                        class="form-control"
-                                    />
-                                    <label for="admin_input" class="form-label">Enter a 5 letter word here:</label>
-                                </div>
-
-                                <button type="button text-center" class="btn btn-dark btn-lg my-4">Ready
-                                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
-                                        <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
-                                    </svg>
-                                </button>
-
-                            </div>
-                    </form>
+                    <div class="message-container"></div>
                 </div>
             </div>
+            <div class="row justify-content-center ">
+                <div class="col-lg-6 justify-content-center">
+                    <div class="text-center my-4">
+                        <div class="text">Select Your Player Type</div>
+                        <select name="game_role" id="game_role" class="form-select mb-3 btn-dark" aria-label=".form-select-lg example" >
+                            <option value=0 selected>Player</option>
+                            <option value=1>Admin</option>
+                        </select>
+                        <div class="text">If 'Admin' is your Player Type</div>
+                        <!-- Username entry container and floating label -->
+                        <div class="form-floating">
+                            <input 
+                                type="admin_input"
+                                name="admin_input"
+                                id="admin_input" 
+                                placeholder="admin_input"
+                                value="<%= locals.firstName %>"
+                                class="form-control"
+                            />
+                            <label for="admin_input" class="form-label">Enter a 5 letter word here:</label>
+                        </div>
 
-            
+                        <button id="to_multi" name="to_multi" type="to_multi" class="btn btn-dark btn-lg my-4" >Ready
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-check-lg" viewBox="0 0 16 16">
+                                <path d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"/>
+                            </svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
             <div class="dropdown text-center my-4 ">
                 <button class="btn btn-dark dropdown-toggle btn-lg" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Go To
@@ -82,7 +83,8 @@
                 </ul>
             </div>
         </div>
-
+        
+        <script src="lobby.js"></script>
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>      
     </body>
 </html>

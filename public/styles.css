@@ -7,7 +7,30 @@ body {
 }
 
 .landing-container {
-      background-color: rgb(0, 0, 0);
+    background-color: rgb(0, 0, 0);
+    height:100%;
+    display:table;
+    width: 100%;
+    padding: 0;
+    position: relative;
+}
+
+.landing-title-container {
+    margin: 0 auto;
+    float:none;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    left: calc(50vw - 340px/2);
+    top: 100px;
+}
+
+.landing-button-container {
+    margin: 0 auto;
+    float:none;
+    color: rgb(255, 255, 255);
+    position: absolute;
+    left: calc(50vw - 65.27px/2);
+    top: 150px; 
 }
 
 .app-container {
@@ -27,8 +50,14 @@ body {
     border: solid 2px #000000;
 }
 
+
 .tile-container {
-    max-width: 50%;
+
+    margin-bottom: 30px;
+}
+
+.opponent-container {
+
     margin-bottom: 30px;
 }
 
@@ -64,6 +93,23 @@ body {
 }
 
 .tile-container .tile {
+    width: 62px;
+    height: 62px;
+    border: 3px solid #3a3a3c;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 2px;
+}
+
+.opponent-container div {
+    display: flex;
+    color: white;
+    border: 1px solid #3a3a3c;
+}
+
+.opponent-container .tile {
     width: 62px;
     height: 62px;
     border: 3px solid #3a3a3c;

@@ -10,11 +10,11 @@ router.get('/', (req, res) => {
         // Run query
             .then((pool) => {
                 return pool.request()
-                // Select game log
-                .query('SELECT * FROM dbo.game_log;')
+                // Select actions table
+                .query('SELECT * FROM dbo.actions;')
             })
             .then(result => {
-                let columns = ['id', 'game_id', 'account_id', 'opponent_id', 'admin_id', 'guess_1', 'guess_2', 'guess_3', 'guess_4', 'guess_5', 'guess_6', 'word']
+                let columns = ['id', 'account_id', 'action', 'time']
                 let cols = columns.length
                 let rows = result.recordset.length
                 if (rows > 0) {
@@ -22,16 +22,12 @@ router.get('/', (req, res) => {
                     for (let row = 0; row < rows; row++) {
                         for (let col = 0; col < cols; col++) {
                             let x = result.recordsets[0][row][columns[col]]
-                            if (columns[col] === 'game_id' && x === 0) x = 'SOLO'
-                            if (columns[col] === 'game_id' && x === 1) x = 'MULTI'
-                            if (columns[col] === 'opponent_id' && x === 0) x = '-'
-                            if (columns[col] === 'admin_id' && x === 0) x = '-'
                             myTable [row] [col] = x
                         }
                     }
-                    game_log.stats = myTable
+                    actions_log.stats = myTable
                 }
-                res.render('users/game_log', {data: game_log})
+                res.render('users/actions_log', {data: actions_log})
             })
             .catch(err => {
                 res.send({ Error: err })
@@ -39,8 +35,8 @@ router.get('/', (req, res) => {
         }
 })
 
-const game_log = {
-    name : 'game_log',
+const actions_log = {
+    name : 'actions_log',
     stats: []
 }
 

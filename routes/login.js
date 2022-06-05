@@ -30,7 +30,8 @@ router.post('/', (req, res) => {
       // Login success
       sessData = req.session
       sessData.ID = result.recordset[0].id
-      console.log(req.session.ID)   
+      console.log(req.session.ID)
+      newAction(req.session.ID, 'LOGIN')
       return res.redirect('/home')
       // Login failed
     } else {
@@ -42,7 +43,25 @@ router.post('/', (req, res) => {
   .catch(err => {
     res.send({ Error: err })
   })
-
+  
 })
+
+function newAction(user_ID, action_details) {
+  // enter action into the actions log
+  const account_id = user_ID
+  const action = action_details
+  let current = new Date();
+  let cDate = current.getFullYear() + '-' + (current.getMonth() + 1) + '-' + current.getDate();
+  let cTime = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
+  let time = cDate + ' ' + cTime;
+  db.pools
+    .then((pool) => {
+        return pool.request()
+        .input('account_id', account_id)
+        .input('action', action)
+        .input('time', time)
+        .query('INSERT INTO dbo.actions (account_id, action, time) VALUES (@account_id, @action, @time);')
+    })
+}
 
 module.exports = router
