@@ -1,8 +1,6 @@
-function addLetter(letter) {
-    const tile = //document.getElementById('guessRow-' + currentRow + '-tile-' + currentTile)
-    tile.textContent = letter
+function addLetter(wordEntry,letter,currentRow, currentTile) {
+    
     wordEntry[currentRow][currentTile] = letter
-    tile.setAttribute('data', letter)
-    currentTile++
+    return ++currentTile
 }
-module.exports=addLetter
+module.exports = addLetter
