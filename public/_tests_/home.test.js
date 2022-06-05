@@ -14,10 +14,10 @@ describe('Test home page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
         // input username
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
         //input password
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
         // click login
         await page.click('[name="loginbutton"]');
@@ -35,10 +35,10 @@ describe('Test home page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
 
         await page.click('[name="loginbutton"]');
@@ -55,10 +55,10 @@ describe('Test home page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
 
         await page.click('[name="loginbutton"]');
@@ -81,10 +81,10 @@ describe('Test home page:', () => {
         // click Let's Get Started
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '123');
 
         await page.click('[name="loginbutton"]');
@@ -107,10 +107,10 @@ describe('Test home page:', () => {
 
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '123');
 
         await page.click('[name="loginbutton"]');
@@ -133,10 +133,10 @@ describe('Test home page:', () => {
 
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '123');
 
         await page.click('[name="loginbutton"]');
@@ -151,32 +151,32 @@ describe('Test home page:', () => {
         await page.waitForTimeout(1000);
         await browser.close();
     })
-    it('Click Games Log which redirects to game log page:', async () => {
-        const browser = await puppeteer.launch()
-        const page = await browser.newPage()
-        await page.setViewport({width: 1920, height: 1080});
-        await page.goto('https://wordleworldparty.azurewebsites.net/')
+    // it('Click Games Log which redirects to game log page:', async () => {
+    //     const browser = await puppeteer.launch()
+    //     const page = await browser.newPage()
+    //     await page.setViewport({width: 1920, height: 1080});
+    //     await page.goto('https://wordleworldparty.azurewebsites.net/')
 
-        await page.click('[name="landing"]');
+    //     await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
-        await page.$eval('input[name="username"]', el => el.value = '123');
+    //     //await page.waitForSelector('input[name="username"]');
+    //     await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
-        await page.$eval('input[name="password"]', el => el.value = '123');
+    //     //await page.waitForSelector('input[name="password"]');
+    //     await page.$eval('input[name="password"]', el => el.value = '123');
 
-        await page.click('[name="loginbutton"]');
-        // Now on Homepage: click Select game mode
-        await page.waitForTimeout(10)
-        await page.click('[name=dropdownbutton]');
-        // Click game log:
-        await page.click('[name="game_log"]')
+    //     await page.click('[name="loginbutton"]');
+    //     // Now on Homepage: click Select game mode
+    //     await page.waitForTimeout(10)
+    //     await page.click('[name=dropdownbutton]');
+    //     // Click game log:
+    //     await page.click('[name="game_log"]')
         
-        await page.waitForTimeout(10);
-        await expect(page.title()).resolves.toMatch('Game Log');
-        await page.waitForTimeout(1000);
-        await browser.close();
-    })
+    //     await page.waitForTimeout(10);
+    //     await expect(page.title()).resolves.toMatch('Game Log');
+    //     await page.waitForTimeout(1000);
+    //     await browser.close();
+    // })
     it('Click Logout which redirects to Login page:', async () => {
         const browser = await puppeteer.launch()
         const page = await browser.newPage()
@@ -185,10 +185,10 @@ describe('Test home page:', () => {
 
         await page.click('[name="landing"]');
 
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = '123');
 
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = '123');
 
         await page.click('[name="loginbutton"]');

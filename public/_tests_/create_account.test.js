@@ -29,16 +29,16 @@ describe('Test Create Account Page:', () => {
         await page.click('[name="landing"]');
         await page.click('[name="registerbutton"]');
         // enter username
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
         // enter email
-        await page.waitForSelector('input[name="email"]');
+        //await page.waitForSelector('input[name="email"]');
         await page.$eval('input[name="email"]', el => el.value = 'PuppeteerTester@gmail.com');
         // enter password
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
         // confirm password
-        await page.waitForSelector('input[name="confirm_password"]');
+        //await page.waitForSelector('input[name="confirm_password"]');
         await page.$eval('input[name="confirm_password"]', el => el.value = 'Test');
         
         // Now click Register, should stay on same page
@@ -59,16 +59,16 @@ describe('Test Create Account Page:', () => {
         await page.click('[name="landing"]');
         await page.click('[name="registerbutton"]');
         // enter username
-        await page.waitForSelector('input[name="username"]');
+        //await page.waitForSelector('input[name="username"]');
         await page.$eval('input[name="username"]', el => el.value = 'PuppeteerTester');
         // enter email
         await page.waitForSelector('input[name="email"]');
         await page.$eval('input[name="email"]', el => el.value = 'PuppeteerTester@gmail.com');
         // enter password
-        await page.waitForSelector('input[name="password"]');
+        //await page.waitForSelector('input[name="password"]');
         await page.$eval('input[name="password"]', el => el.value = 'Tests');
         // confirm password
-        await page.waitForSelector('input[name="confirm_password"]');
+        //await page.waitForSelector('input[name="confirm_password"]');
         await page.$eval('input[name="confirm_password"]', el => el.value = 'Tests');
         
         // Now click Register, should stay on same page
