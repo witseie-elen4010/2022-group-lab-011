@@ -16,7 +16,7 @@ describe('Test index page:', () => {
         await expect(page.title()).resolves.toMatch('Login Page');
         await browser.close();
      })
-     it("Register button reverts to Login Page:", async () => {
+     it("Register button redirects to Create Account Page:", async () => {
 
         const browser = await puppeteer.launch()
         
@@ -29,6 +29,26 @@ describe('Test index page:', () => {
         await expect(page.title()).resolves.toMatch('Create account');
         await browser.close();
      })
-    
+     it('Login directs to HomePage:', async () => {
+
+        const browser = await puppeteer.launch()
+        const page = await browser.newPage()
+        await page.setViewport({width: 1920, height: 1080});
+        await page.goto('https://wordleworldparty.azurewebsites.net/')
+        
+        await page.click('[name="landing"]');
+
+        await page.waitForSelector('input[name="username"]');
+        await page.$eval('input[name="username"]', el => el.value = '123');
+
+        await page.waitForSelector('input[name="password"]');
+        await page.$eval('input[name="password"]', el => el.value = '123');
+
+        await page.click('[name="loginbutton"]');
+
+        await expect(page.title()).resolves.toMatch('Homepage');
+        await browser.close();
+    })
+   
 })
 
