@@ -1,6 +1,6 @@
 /* eslint-env jest*/
 const calcScore  = require('../functions/calc_score.js')
-
+const addLetter = require('../functions/add_letter.js')
 test('should validate score', () => {   // Check that score is 10 when first attempt is correct
     const score = calcScore(0)
     expect(score).toBe(10)
@@ -26,6 +26,11 @@ test('should validate score', () => {  // Check that score is 1 when last attemp
     expect(score).toBe(1)
 })
 test('should validate score', () => {   // Check that score is 0 when last attempt is incorrect
+    const score = calcScore(6)
+    expect(score).toBe(0)
+})
+
+test('', () => {   // Check that score is 0 when last attempt is incorrect
     const score = calcScore(6)
     expect(score).toBe(0)
 })
