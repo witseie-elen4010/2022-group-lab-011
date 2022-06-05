@@ -92,7 +92,8 @@ app.get('/set-multi-log', (req, res) => {
     .input('guess_5', '')
     .input('guess_6', '')
     .input('word', records[4])
-    .query('INSERT INTO dbo.multi_game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word);')     
+    .input('winner', '')
+    .query('INSERT INTO dbo.multi_game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word, winner) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word, @winner);')     
   })
   .then(result => {
     console.log('entered into multi log')
@@ -535,9 +536,10 @@ io.on('connection', socket => {
   /////// Multiplayer Comms
   //////////////////////////////////////////
 
-  socket.on('player-word', (opponentGuess, currentRow) => {
+  socket.on('player-word', (opponentGuess, currentRow, gameRole) => {
     console.log(`opponent guess received at ${currentRow}`)
-    socket.broadcast.emit('player-word', opponentGuess, currentRow)
+    let gameRoleS = gameRole 
+    socket.broadcast.emit('player-word', opponentGuess, currentRow, gameRoleS)
   })
   /*
     socket.on('player-ready', Pid => {
