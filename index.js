@@ -235,7 +235,7 @@ app.get('/game_admin_queue', async (req, res) => {
       .then(result => {
         res.json('success!')
         console.log(result)
-        newAction(accountId, `MULTI: ADMIN ENTER WORD: ${word}`) 
+        newAction(accountId, `MULTI: ${word} WAS ENTERED BY ADMIN`) 
       })
 })
 
@@ -313,6 +313,7 @@ app.get('/game_player_queue', async (req, res) => {
                         playerAdmin = result.recordset[0].account_id[0]
                         console.log(playerAdmin)
                         word = result.recordset[0].word
+                        word = word.upper()
                         db.pools
                       // create in game
                             .then((pool) => {
@@ -391,7 +392,7 @@ app.get('/game_player_queue', async (req, res) => {
                               //delete people from queue and admin words
                               res.json('success!')
                               console.log('game created')
-                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITHOUT AN ADMIN`)
+                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
                               db.pools
                               // create in game
                                     .then((pool) => {
@@ -404,7 +405,7 @@ app.get('/game_player_queue', async (req, res) => {
                                 })
                                 .then(result => {
                                   console.log('Players removed from queue')
-                                  newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITHOUT AN ADMIN`)
+                                  newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
                                   if (playerAdmin !== 0){
                                     db.pools
                                     // create in game
