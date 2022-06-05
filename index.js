@@ -74,6 +74,42 @@ app.get('/userID', (req, res) => {
   res.json(req.session.ID)
 })
 
+
+app.get('/getGame', (req, res) => {
+  const accountId = req.query.accountId
+  let records
+  console.log('fetch game')
+  db.pools
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        .input('account_id', accountId)
+        .query('Select * from dbo.games where player_one = @account_id OR player_TWO = @account_id or player_admin = @account_id;') // check if user exists in DB        
+    })
+    .then(result => {
+      if (result.recordset.length !== 0) {
+        console.log('got game')
+        records = result
+        db.pools
+        // Run query
+        .then((pool) => {
+          return pool.request()
+            .input('account_id', accountId)
+            .query('Delete from dbo.games where player_one = @account_id OR player_TWO = @account_id or player_admin = @account_id;') // check if user exists in DB        
+        })
+        .then(result => {
+          res.json(records)
+          console.log('deleted game entry')
+        })
+      } else {
+        res.json('not in game')
+      }
+    })
+    .catch((error) => {
+      console.error(error)
+    })
+})
+
 app.get('/word', async (req, res) => {
   const options = {
     method: 'GET',
@@ -313,7 +349,6 @@ app.get('/game_player_queue', async (req, res) => {
                             playerAdmin = result.recordset[0].account_id[0]
                             console.log(playerAdmin)
                             word = result.recordset[0].word
-                            word = word.upper()
                             db.pools
                               // create in game
                               .then((pool) => {
@@ -390,7 +425,6 @@ app.get('/game_player_queue', async (req, res) => {
                                 })
                                 .then(result => {
                                   //delete people from queue and admin words
-                                  res.json('success!')
                                   console.log('game created')
                                   newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} & ${playerTwo} WITHOUT AN ADMIN`)
                                   db.pools
@@ -459,75 +493,25 @@ app.get('/game_player_queue', async (req, res) => {
 
 module.exports = io
 
-let game = {
-  player1: '',
-  player2: '',
-  admin: '',
-  word: ''
-}
-
-let games = [game, game, game, game, game, game, game, game, game, game]
-let rooms = ['room1', 'room2', 'room3', 'room4', 'room5', 'room6', 'room7', 'room8', 'room9', 'room10']
 let gamesIndex = 0
-
-function gameReset() {
-  game.player1 = '',
-    game.player2 = '',
-    game.admin = '',
-    game.word = ''
-}
 
 io.on('connection', socket => {
   console.log('new WS connection')
 
-  //handle enter lobby
-  socket.on('in-multi', () => {
-    console.log(`Someone is in the multi...`)
-  })
-
-  socket.on('enter', (playerType, playerId) => {
-    console.log(`in game`)
-    console.log(playerType)
-    console.log(playerId)
-    console.log(games[gamesIndex])
-    if (playerType === '0') {
-      if (games[gamesIndex].player1 === '') {
-        socket.join('room 1');
-        games[gamesIndex].player1 = playerId
-        console.log(games[gamesIndex])
-        console.log("p1 created")
-      } else {
-        games[gamesIndex].player2 = playerId
-        socket.join('room 1');
-        io.to("room 1").emit("some event", 3);
-        console.log(games[gamesIndex])
-        console.log("p2 created")
-        //game requires 2 players to be valid: create game now
-        //socket emit game to specified players
-        console.log("socket game created")
-        gamesIndex++
-      }
-    } else {
-      games[gamesIndex].admin = playerId
-    }
-  })
-
-
-  //handle playes and admins
-  socket.on('set-word', (word) => {
-    console.log('in set word')
-    games[gamesIndex].word = word
-  })
-
-  //handle disconnects
-  socket.on('disconnect', (accountId) => {
-    games[gamesIndex].player1 = accountId
-    games[gamesIndex].player2 = ''
-  })
 
   //////////////////////////////////////////
   /////// Multiplayer Comms
   //////////////////////////////////////////
+
+  socket.on('game-created', (gameId, playerOne, playerTwo, adminId, word) => {
+    let gameIdS = gameId
+    let playerOneS = playerOne
+    let playerTwoS = playerTwo
+    let adminIdS = adminId
+    let wordS = word
+    console.log('multi game commencing')
+    socket.broadcast.emit('check-in-game', gameIdS, playerOneS, playerTwoS, adminIdS, wordS)
+  })
 
   socket.on('player-word', opponentGuess => {
     console.log(`opponent guess received`)
