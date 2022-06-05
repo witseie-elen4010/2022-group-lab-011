@@ -219,6 +219,7 @@ function newAction(user_ID, action_details) {
         .query('INSERT INTO dbo.actions (account_id, action, time) VALUES (@account_id, @action, @time);')
     })
 }
+
 app.get('/game_admin_queue', async (req, res) => {
   const word = req.query.word
   const accountId = req.session.ID
@@ -234,6 +235,7 @@ app.get('/game_admin_queue', async (req, res) => {
       .then(result => {
         res.json('success!')
         console.log(result)
+        newAction(accountId, `MULTI: ADMIN ENTER WORD: ${word}`) 
       })
 })
 
@@ -272,6 +274,13 @@ app.get('/game_player_queue', async (req, res) => {
           // Succesfully inserted into lobby
           .then(result => {  
               console.log("attempt selected")
+              let type
+              if (playerRole === '0') {
+                type = 'PLAYER'
+              } else {
+                type = 'ADMIN'
+              }
+              newAction(accountId, `MULTI: ${type} ENTERED IN QUEUE`)
                 db.pools
                 // Run query
                 .then((pool) => {
@@ -318,6 +327,8 @@ app.get('/game_player_queue', async (req, res) => {
                             })
                             .then(result => {
                               //delete people from queue and admin words
+                              console.log('game created')
+                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN`)
                               db.pools
                               // create in game
                                     .then((pool) => {
@@ -330,6 +341,7 @@ app.get('/game_player_queue', async (req, res) => {
                                 })
                                 .then(result => {
                                   console.log('Players removed from queue')
+                                  newAction(accountId, `MULTI: ${playerOne} + ${playerTwo} WITH ${playerAdmin} AS ADMIN REMOVED FROM QUEUE`)
                                   if (playerAdmin !== 0){
                                     db.pools
                                     // create in game
@@ -341,6 +353,7 @@ app.get('/game_player_queue', async (req, res) => {
                                           })
                                           .then(result => {
                                             console.log('word removed from word queue')
+                                            newAction(accountId, `MULTI: ${word} REMOVED FROM QUEUE`)
                                             res.json('success!')
                                           })
                                   } else {
@@ -375,8 +388,40 @@ app.get('/game_player_queue', async (req, res) => {
                                   .query('INSERT INTO dbo.games (player_one, player_two, player_admin, word) VALUES (@player_one, @player_two, @player_admin, @word);')  
                             })
                             .then(result => {
+                              //delete people from queue and admin words
                               res.json('success!')
                               console.log('game created')
+                              newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITHOUT AN ADMIN`)
+                              db.pools
+                              // create in game
+                                    .then((pool) => {
+                                        return pool.request()
+                                         // Select game admins
+                                        .input('player_one', playerOne)
+                                        .input('player_two', playerTwo)
+                                        .input('player_admin', playerAdmin)
+                                        .query('DELETE FROM dbo.multiplayer_queue WHERE account_id = @player_one OR account_id = @player_two OR account_id = @player_admin;')                                     
+                                })
+                                .then(result => {
+                                  console.log('Players removed from queue')
+                                  newAction(accountId, `MULTI: GAME CREATED FOR: ${playerOne} + ${playerTwo} WITHOUT AN ADMIN`)
+                                  if (playerAdmin !== 0){
+                                    db.pools
+                                    // create in game
+                                          .then((pool) => {
+                                            return pool.request()
+                                            .input('player_admin', playerAdmin)
+                                            .query('DELETE FROM dbo.admin_queue_words WHERE account_id = @player_admin;')    
+
+                                          })
+                                          .then(result => {
+                                            console.log('word removed from word queue')
+                                            res.json('success!')
+                                          })
+                                  } else {
+                                    res.json('success!')
+                                  }
+                                })
                             })
                       }).catch((error) => {
                           console.error(error)
