@@ -3,6 +3,8 @@ const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
 
+const socket = io()
+
 // Setup of keys of keyboard
 const keys = [
     'Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','ENTER','Z','X','C','V','B','N','M','Del',
@@ -22,8 +24,24 @@ const wordEntry = [
 let currentRow = 0
 let currentTile = 0
 let GameOver = false
+let opponentGuess = []
+let opponentRow = 0
 
-// Create placeholders for entry words
+let gameId
+let gameRole
+let accountId
+let playerOne
+let playerTwo
+let adminId
+let gameStart = false
+let word = ''
+
+/////////////////////////////////////////////
+// Interface setup
+////////////////////////////////////////////
+
+function gameSetupStart(){
+    // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
     rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
@@ -39,10 +57,10 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
 // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
-    rowElement.setAttribute('id', 'guessRow-' + guessRowIndex)
+    rowElement.setAttribute('id', 'showRow-' + guessRowIndex)
     guessRow.forEach((_guess, guessIndex) => {
         const tileElement = document.createElement('div')
-        tileElement.setAttribute('id', 'guessRow-' + guessRowIndex + '-tile-' + guessIndex)
+        tileElement.setAttribute('id', 'showRow-' + guessRowIndex + '-tile-' + guessIndex)
         tileElement.classList.add('tile')
         rowElement.append(tileElement)
     })
@@ -51,24 +69,123 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
 
 
 // Create keys for keyboard and add button listener
-keys.forEach(key => {
-    const buttonElement = document.createElement('button')
-    buttonElement.textContent = key
-    buttonElement.setAttribute('id', key)
-    buttonElement.addEventListener('click', () => handleClick(key))
-    keyboard.append(buttonElement)
+if (gameRole !== 'admin'){
+    keys.forEach(key => {
+        const buttonElement = document.createElement('button')
+        buttonElement.textContent = key
+        buttonElement.setAttribute('id', key)
+        buttonElement.addEventListener('click', () => handleClick(key))
+        keyboard.append(buttonElement)
+    })
+    }
+}
+
+
+
+//check if player is in game or is still waiting
+function getGame(){
+fetch(`/userID`)
+    .then(response => response.json())
+    .then(json => {
+        accountId = json
+        fetch(`/getGame/?accountId=${accountId}`)
+         .then(response => response.json())
+         .then(json => {
+            if (json === 'not in game')
+            {
+              console.log('not in game, still waiting')
+            } else {
+              console.log('game found')
+              console.log(json)
+              gameId = json.recordset[0].id
+              playerOne = json.recordset[0].player_one
+              playerTwo = json.recordset[0].player_two
+              adminId = json.recordset[0].player_admin
+              word = json.recordset[0].word.toUpperCase()
+              gameStart = true
+
+              let opponentId
+              if (accountId === playerOne ){
+                gameRole  = 'playerOne'
+                opponentId = playerTwo
+             } else if (accountId === playerTwo){
+                gameRole = 'playerTwo'
+                opponentId = playerOne
+             } else if (accountId === adminId){
+                gameRole = 'admin'
+             }
+
+             let multiGameData = [gameId, accountId, opponentId, adminId, word]
+             console.log(multiGameData)
+             fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
+              .then(response => response.json())
+              .then(json => {
+                console.log(word)
+                //console.log(gameId)
+                socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+                //start game functionality
+                gameSetupStart()
+
+             })
+              //send to other players that there is a game that has started
+              
+            }
+        })
+
 })
 
-// Get word from server side
-/*function setWord() {
-    fetch('/word')
-        .then(response => response.json())
-        .then(json => {
-            wordle = json.toUpperCase()
-        })
-        .catch(err => console.log(err))
 }
-setWord()*/
+
+////////////////////////////////////////
+// Socket functionality
+///////////////////////////////////////
+socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+    console.log('game-created')
+    let isMyGame = false
+    if (accountId === playerOneS){
+        gameRole  = 'playerOne'
+        isMyGame = true
+    } else if (accountId === playerTwoS){
+        gameRole = 'playerTwo'
+        isMyGame = true
+    } else if (accountId === adminIdS){
+        gameRole = 'admin'
+        isMyGame = true
+    }
+
+    if (isMyGame){
+        gameId = gameIdS
+        playerOne = playerOneS
+        playerTwo = playerTwoS
+        adminId = adminIdS
+        word = wordS.toUpperCase()
+        gameStart = true
+        //start game functionality
+        gameSetupStart()
+        console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)   
+    }
+
+})
+
+socket.on('player-word', (opponentGuess, row, gameRoleS) => {
+    
+    if (gameRole === 'admin'){
+        if (gameRoleS === 'playerOne'){
+            flipTile3(opponentGuess, row)
+        } else {
+            flipTile2(opponentGuess, row)
+        }
+    } else {
+        flipTile2(opponentGuess, row)
+    }
+})
+
+getGame()
+
+
+/////////////////////////////////////////
+// Handle events
+////////////////////////////////////////
 
 // Handle events when a key is clicked
 function handleClick(input) {
@@ -122,10 +239,11 @@ function checkGuess() {
                     return
                 } else {
                     flipTile()
-                    if (wordle == tempWord) {
+                    socket.emit('player-word', opponentGuess, currentRow, gameRole)
+                    if (word == tempWord) {
                         GameOver = true
                         showMessage('Correct!')
-                        wordEntry.push(wordle)
+                        wordEntry.push(word)
                         wordEntry.push(calcScore(currentRow))
                         fetch(`/game_end/?wordEntries=${wordEntry}`)
                         return
@@ -133,7 +251,7 @@ function checkGuess() {
                         if (currentRow >= 5) {
                             GameOver = true
                             showMessage('Game Over')
-                            wordEntry.push(wordle)
+                            wordEntry.push(word)
                             wordEntry.push(0)
                             fetch(`/game_end/?wordEntries=${wordEntry}`)
                             return
@@ -141,30 +259,13 @@ function checkGuess() {
                         if (currentRow < 5) {
                             currentRow++
                             currentTile = 0
+                            //console.log(`before socket ${currentRow}`)
+                            
                         }
                     }
                 }
             }).catch(err => console.log(err))
     }
-}
-
-// Finds score received for game for leaderboard
-function calcScore(currentRow) {
-    let score = 7
-    if (currentRow === 0) {
-      score = 10
-      return score
-    }
-    score = score - currentRow - 1
-    return score
-}
-
-// Outputs message to client
-function showMessage(msg) {
-    const messageElement = document.createElement('p')
-    messageElement.textContent = msg
-    message.append(messageElement)
-    setTimeout(() => message.removeChild(messageElement), 2000)
 }
 
 // Shows clients their correct letter guesses and positions  ie. green/yellow/dark
@@ -176,23 +277,28 @@ function addColorToKey(keyLetter, color) {
 // Flip the tile to show client the output of their guess
 function flipTile() {
     const rowTiles = document.querySelector('#guessRow-' + currentRow).childNodes
-    let checkWordle = wordle
+    let checkWordle = word
     const guess = []
+    opponentGuess = []
+    console.log(`currentRow = ${currentRow}`)
 
     rowTiles.forEach(tile => {
         guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
+        opponentGuess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
     })
 
     guess.forEach((guess, index) => {
-        if (guess.letter == wordle[index]) {
+        if (guess.letter == word[index]) {
             guess.color = 'green-overlay'
+            opponentGuess[index].color = 'green-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
     })
 
-    guess.forEach(guess => {
+    guess.forEach((guess, index) => {
         if (checkWordle.includes(guess.letter)) {
             guess.color = 'yellow-overlay'
+            opponentGuess[index].color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
     })
@@ -205,3 +311,89 @@ function flipTile() {
         }, 500 * index)
     })
 }
+
+
+function flipTile2(opponentGuess, row) {
+    opponentRow = row
+    const rowTiles = document.querySelector('#showRow-' + opponentRow).childNodes
+
+    rowTiles.forEach((tile, index) => {
+        setTimeout(() => {
+            tile.classList.add('flip')
+            if (gameRole === 'admin')
+            {
+                tile.textContent = opponentGuess[index].letter
+                tile.setAttribute('data', opponentGuess[index].letter)
+            }
+            //console.log(opponentGuess[index].letter)
+            tile.classList.add(opponentGuess[index].color)
+            //addColorToKey(/guess[index].letter,/opponentGuess[index].color)
+        }, 500 * index)
+    })
+}
+
+function flipTile3(guess, row) {
+    opponentRow = row
+    const rowTiles = document.querySelector('#guessRow-' + opponentRow).childNodes
+    let checkWordle = word
+    console.log(`currentRow = ${currentRow}`)
+
+
+    guess.forEach((guess, index) => {
+        if (guess.letter == word[index]) {
+            guess.color = 'green-overlay'
+            checkWordle = checkWordle.replace(guess.letter, '')
+        }
+    })
+
+    guess.forEach((guess, index) => {
+        if (checkWordle.includes(guess.letter)) {
+            guess.color = 'yellow-overlay'
+            checkWordle = checkWordle.replace(guess.letter, '')
+        }
+    })
+
+    rowTiles.forEach((tile, index) => {
+        setTimeout(() => {
+            tile.textContent = guess[index].letter
+            tile.setAttribute('data', guess[index].letter)
+            tile.classList.add('flip')
+            tile.classList.add(guess[index].color)
+        }, 500 * index)
+    })
+}
+
+
+
+
+
+///////////////////////////////////
+// Game End
+//////////////////////////////////
+
+
+// Finds score received for game for leaderboard
+function calcScore(currentRow) {
+    let score = 7
+    if (currentRow === 0) {
+      score = 10
+      return score
+    }
+    score = score - currentRow - 1
+    return score
+}
+
+/////////////////////////////////
+// Displays
+/////////////////////////////////
+
+// Outputs message to client
+function showMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    message.append(messageElement)
+    setTimeout(() => message.removeChild(messageElement), 2000)
+}
+
+
+
