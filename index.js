@@ -676,20 +676,9 @@ io.on('connection', socket => {
     socket.join(gameId)
   })
 
-  socket.on('disconnect', () => {
-    
+  socket.on('disconnect', () => {  
     console.log('Player disconnected')
-    //remove player from queue if they not in game yet
-    db.pools
-      .then((pool) => {
-      return pool.request()
-      .input('player_type', 0)
-      .query('DELETE FROM dbo.multiplayer_queue WHERE player_role = @player_type;')
-    })
-  .then(result => {
-    console.log('removed from queue')
-  })   
-
+   
   })
 
   ////////////////////////////////////////////////////
