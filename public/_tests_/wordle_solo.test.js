@@ -18,7 +18,7 @@ describe('Test the solo game page:', () => {
     //     const browser = await puppeteer.launch()
     //     const page = await browser.newPage()
     //     await page.setViewport({width: 3840, height: 2160});
-    //     await page.goto('https://wordleworldparty.azurewebsites.net/')
+    //     await page.goto('http://test-wordle-world-party.azurewebsites.net/')
     //     // click Let's Get Started
     //     await page.click('[name="landing"]');
 
