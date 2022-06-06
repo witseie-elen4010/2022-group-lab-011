@@ -145,6 +145,7 @@ fetch(`/userID`)
 ///////////////////////////////////////
 
 socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+    showMessage('Game started! You can begin guessing!')
     console.log('game-created')
     let isMyGame = false
     if (accountId === playerOneS){
