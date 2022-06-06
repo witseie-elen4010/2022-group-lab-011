@@ -257,7 +257,7 @@ function checkGuess() {
         fetch(`/check/?word=${tempWord}`)
             .then(response => response.json())
             .then(json => {
-                if (json == 'Not valid') {
+                if (json === 'Not valid' || 'Entry word not found') {
                     showMessage('Invalid word')
                     return
                 } else {

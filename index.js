@@ -653,6 +653,7 @@ io.on('connection', socket => {
 
   socket.on('disconnect', () => {
     console.log('Player disconnected')
+    //acces the id of the player just DCed
   })
 
   //////////////////////////////////////////
