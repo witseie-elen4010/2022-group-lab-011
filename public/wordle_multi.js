@@ -5,7 +5,7 @@ const message = document.querySelector('.message-container')
 const myUsernameBox = document.querySelector('.userID-container')
 const opponenetUsernameBox = document.querySelector('.opID-container')
 
-const socket = io()
+const socket = io('https://wordleworldparty.azurewebsites.net')
 
 ////////////////////////////////////////////////////
 //Game init variables
