@@ -66,6 +66,7 @@ const myUsernameBox = document.querySelector('.userID-container')
 const opponenetUsernameBox = document.querySelector('.opID-container')
 
 const socket = io()
+socket.emit('first-connect')
 
 ////////////////////////////////////////////////////
 //Game init variables
