@@ -196,7 +196,7 @@ app.get('/enter-multi-leaderboard', (req, res) => {
       return pool.request()
       .input('account_id', accountId)
       .input('oppenent_id', opponentId)
-      .query(`UPDATE dbo.rankings SET game_count = game_count + 1, average_score = (score)/(game_count + 1) WHERE (account_id = @account_id OR account_id = @oppenent_id );`)     
+      .query(`UPDATE dbo.rankings SET game_count = game_count + 1, score = score, average_score = (score)/(game_count + 1) WHERE account_id = @account_id OR account_id = @oppenent_id;`)     
     })
     .then(result => {
         //increase winners score
@@ -205,7 +205,7 @@ app.get('/enter-multi-leaderboard', (req, res) => {
       .then((pool) => {
         return pool.request()
         .input('account_id', accountId)
-        .query(`UPDATE dbo.rankings SET score = score + 1, average_score = (score +1)/(game_count)  WHERE (account_id = @account_id);`)     
+        .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id;`)     
         })
         .then(result => {
       
@@ -216,7 +216,7 @@ app.get('/enter-multi-leaderboard', (req, res) => {
           .then((pool) => {
             return pool.request()
             .input('account_id', opponentId)
-            .query(`UPDATE dbo.rankings SET score = score + 1, average_score = (score +1)/(game_count)  WHERE (account_id = @account_id);`)     
+            .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id;`)     
           })
           .then(result => {
       
@@ -228,7 +228,7 @@ app.get('/enter-multi-leaderboard', (req, res) => {
           return pool.request()
           .input('account_id', accountId)
           .input('oppenent_id', opponentId)
-          .query(`UPDATE dbo.rankings SET score = score + 1, average_score = (score +1)/(game_count)  WHERE (account_id = @account_id OR account_id = @oppenent_id );`)     
+          .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id OR account_id = @oppenent_id;`)     
         })
         .then(result => {
     
