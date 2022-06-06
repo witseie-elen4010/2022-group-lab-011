@@ -5,6 +5,8 @@ const message = document.querySelector('.message-container')
 const myUsernameBox = document.querySelector('.userID-container')
 const opponenetUsernameBox = document.querySelector('.opID-container')
 
+
+
 const socket = io()
 
 // Setup of keys of keyboard
@@ -39,12 +41,14 @@ let adminId
 let gameStart = false
 let word = ''
 let opponentNumGuesses = -1
+let gameRunAlready = false
 
 /////////////////////////////////////////////
 // Interface setup
 ////////////////////////////////////////////
 
 function gameSetupStart(){
+showMessage('Game started! You can begin guessing!')
     // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
@@ -103,7 +107,6 @@ fetch(`/userID`)
               showWaitMessage('Waiting for game to start...')
             } else {
               console.log('game found')
-              showMessage('Game started! You can begin guessing!')
               console.log(json)
               gameId = json.recordset[0].id
               playerOne = json.recordset[0].player_one
@@ -130,9 +133,15 @@ fetch(`/userID`)
               .then(json => {
                 console.log(word)
                 //console.log(gameId)
-                socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+                
                 //start game functionality
-                gameSetupStart()
+                if (gameRunAlready === false)
+                {
+                    gameRunAlready = true
+                    gameSetupStart()
+                    socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)//creates room and sends to all players to see if they are in the game
+                }
+                
 
              })
               //send to other players that there is a game that has started
@@ -149,7 +158,7 @@ fetch(`/userID`)
 ///////////////////////////////////////
 
 socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
-    showMessage('Game started! You can begin guessing!')
+    
     console.log('game-created')
     let isMyGame = false
     if (accountId === playerOneS){
@@ -166,22 +175,30 @@ socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
     }
 
     if (isMyGame){
+        socket.emit('join-game-room', gameIdS)
         gameId = gameIdS
         playerOne = playerOneS
         playerTwo = playerTwoS
         adminId = adminIdS
         word = wordS.toUpperCase()
         gameStart = true
-        let multiGameData = [gameId, accountId, opponentId, adminId, word]
-        if (gameRole !== 'admin'){
-        fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
-         .then(response => response.json())
-         .then(json => {
-            console.log('entered into multi game logs')
-        })
+        
+
         }
         //start game functionality
-        gameSetupStart()
+        if (gameRunAlready === false)
+        {
+            
+            if (gameRole !== 'admin'){
+                let multiGameData = [gameId, accountId, opponentId, adminId, word]
+                fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
+                 .then(response => response.json())
+                 .then(json => {
+                    console.log('entered into multi game logs')
+                })
+            gameRunAlready = true;
+            gameSetupStart()
+        }
         console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)   
     }
 
@@ -267,7 +284,7 @@ function checkGuess() {
                     return
                 } else {
                     flipTile()
-                    socket.emit('player-word', opponentGuess, currentRow, gameRole)
+                    socket.emit('player-word', opponentGuess, currentRow, gameRole, gameId)
                     if (word == tempWord) {
                         let data1 = [tempWord,gameId,currentRow +1]
                         fetch(`/enter-multi-word/?data=${data1}`)
@@ -303,7 +320,7 @@ function checkGuess() {
                             .then(json => {
                                 console.log(json)
                             })
-                        socket.emit('game-finish', currentRow )
+                        socket.emit('game-finish', currentRow, gameId )
                         //setTimeout(() => window.location.replace('/lobby'), 5000)
                         return
                     } else {

@@ -65,7 +65,7 @@ server.listen(port)
 console.log('Listening to port: ', port)
 
 ////////////////////////////////////////////////////
-//Wordle functionaliity
+//Wordle database functionaliity
 ////////////////////////////////////////////////////
 
 app.get('/to-multi', (req, res) => {
@@ -156,6 +156,7 @@ app.get('/log-guess-solo', (req, res) => {
   let msg = data
   newAction(ID, msg)
 })
+
 
 app.get('/set-multi-log', (req, res) => {
   //enter game into multi player logs
@@ -640,8 +641,6 @@ app.get('/game_player_queue', async (req, res) => {
 
 module.exports = io
 
-let gamesIndex = 0
-
 io.on('connection', socket => {
   console.log('new WS connection')
 
@@ -651,26 +650,42 @@ io.on('connection', socket => {
     let playerTwoS = playerTwo
     let adminIdS = adminId
     let wordS = word
+    socket.join(gameId)
     socket.broadcast.emit('send-game', gameIdS, playerOneS, playerTwoS, adminIdS, wordS)
   })
 
+  socket.on('join-game-room', (gameId) => {
+    socket.join(gameId)
+  })
+
   socket.on('disconnect', () => {
+    
     console.log('Player disconnected')
-    //acces the id of the player just DCed
+    //remove player from queue if they not in game yet
+    db.pools
+      .then((pool) => {
+      return pool.request()
+      .input('player_type', 0)
+      .query('DELETE FROM dbo.multiplayer_queue WHERE player_role = @player_type;')
+    })
+  .then(result => {
+    console.log('removed from queue')
+  })   
+
   })
 
   //////////////////////////////////////////
   /////// Multiplayer Comms
   //////////////////////////////////////////
 
-  socket.on('player-word', (opponentGuess, currentRow, gameRole) => {
+  socket.on('player-word', (opponentGuess, currentRow, gameRole, gameId) => {
     console.log(`opponent guess received at ${currentRow}`)
     let gameRoleS = gameRole 
-    socket.broadcast.emit('player-word', opponentGuess, currentRow, gameRoleS)
+    socket.to(gameId).emit('player-word', opponentGuess, currentRow, gameRoleS)
   })
 
-  socket.on('game-finish', (currentRow) => {
+  socket.on('game-finish', (currentRow, gameId) => {
     let rowNum = currentRow
-    socket.broadcast.emit('opponent-finish', rowNum)
+    socket.to(gameId).Dateemit('opponent-finish', rowNum)
   })
 })
