@@ -250,6 +250,7 @@ app.get('/enter-multi-word', (req, res) => {
   let gameId = data[1]
   let guessNum = 'guess_' + data[2]
   let accountId = req.session.ID
+  newAction(accountId, `MULTI WORD GUESS: ${word} IN GAME ${gameId}`)
   console.log(guessNum)
   db.pools
   .then((pool) => {
