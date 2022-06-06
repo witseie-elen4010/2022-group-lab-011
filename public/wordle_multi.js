@@ -62,7 +62,7 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
     tileBox.append(rowElement)
     
 })
-myUsernameMessage(accountId)
+
 // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
@@ -76,6 +76,8 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
     opponentBox.append(rowElement)
     
 })
+
+myUsernameMessage(accountId)
 opUsernameMessage(opponentId)
 
 // Create keys for keyboard and add button listener
