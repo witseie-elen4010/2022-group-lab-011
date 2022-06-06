@@ -40,7 +40,7 @@ router.get('/', (req, res) => {
                 .then((pool) => {
                     return pool.request()
                     // Select game log
-                    .query('SELECT * FROM dbo.rankings JOIN dbo.accounts ON dbo.rankings.account_id = dbo.accounts.id ORDER BY average_score DESC;')
+                    .query('SELECT dbo.rankings.id, dbo.rankings.account_id, dbo.accounts.username, game_count, score, average_score FROM dbo.rankings JOIN dbo.accounts ON dbo.rankings.account_id = dbo.accounts.id WHERE game_count !=0 ORDER BY average_score DESC;')
                 })
                 .then(result => {
                     let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
@@ -54,8 +54,11 @@ router.get('/', (req, res) => {
                                 if (columns[col] === 'id') {
                                     x = row + 1
                                 }
-                                else if (columns[col] === 'average_score') {
-                                    x = (result.recordsets[0][row][columns[col]] * 100)
+                                else if (columns[col] === 'account_id') {
+                                    x = result.recordsets[0][row][columns[col]]
+                                    let average = ((result.recordsets[0][row]['score'])/(result.recordsets[0][row]['game_count']) * 100)
+                                    average = Math.round(average)
+                                    updateAverage(average, x)
                                 }
                                 else {
                                     x = result.recordsets[0][row][columns[col]]
@@ -91,8 +94,19 @@ const mvp = {
     stats: ''
 }
 
-
-
+function updateAverage(average, user) {
+    const average_score = average
+    const account_id = user
+    db.pools
+    .then((pool) => {
+      // info 
+      return pool.request()
+        .input('account_id', account_id)
+        .input('average_score', average_score)
+        .query('UPDATE dbo.rankings SET average_score = @average_score WHERE account_id = @account_id;')
+    })
+}
+    
 function newAction(user_ID, action_details) {
     // enter action into the actions log
     const account_id = user_ID

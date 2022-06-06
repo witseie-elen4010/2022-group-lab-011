@@ -37,6 +37,7 @@ const leadRouter = require('./routes/leaderboard')
 const gameLogRouter = require('./routes/game_log')
 const actionsLogRouter = require('./routes/actions_log')
 const lobbyRouter = require('./routes/lobby')
+const rulesRouter = require('./routes/rules')
 const multiGameRouter = require('./routes/wordle_multi')
 
 //Define routes
@@ -48,6 +49,7 @@ app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
 app.use('/actions_log', actionsLogRouter)
 app.use('/lobby', lobbyRouter)
+app.use('/rules', rulesRouter)
 app.use('/wordle_multi', multiGameRouter)
 
 
