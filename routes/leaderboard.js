@@ -55,7 +55,7 @@ router.get('/', (req, res) => {
                                     x = row + 1
                                 }
                                 else if (columns[col] === 'average_score') {
-                                    x = result.recordsets[0][row]['score']/result.recordsets[0][row]['game_count']
+                                    x = (result.recordsets[0][row][columns[col]] * 100)
                                 }
                                 else {
                                     x = result.recordsets[0][row][columns[col]]
