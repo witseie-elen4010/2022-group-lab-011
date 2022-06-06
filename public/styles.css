@@ -22,6 +22,12 @@ h3 {
     font-family: 'Russo One', sans-serif;
 }
 
+h4 {
+    color: #0059ff;
+    font-weight: bold;
+    font-family: 'Russo One', sans-serif;
+}
+
 h6 {
     color:  #1d1d1d;
     font-size: 13.5px;
@@ -47,6 +53,7 @@ mark {
 .set-icon-dark{
     filter: saturate(100%) brightness(0);
 }
+
 
 .landing-container {
     background-color: rgb(0, 0, 0);

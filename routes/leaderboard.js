@@ -40,27 +40,33 @@ router.get('/', (req, res) => {
                 .then((pool) => {
                     return pool.request()
                     // Select game log
-                    .query('SELECT * FROM dbo.ranking JOIN dbo.accounts ON dbo.ranking.account_id = dbo.accounts.id ORDER BY average_score DESC;')
+                    .query('SELECT * FROM dbo.rankings JOIN dbo.accounts ON dbo.rankings.account_id = dbo.accounts.id ORDER BY average_score DESC;')
                 })
                 .then(result => {
                     let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
                     let cols = columns.length
                     let rows = result.recordset.length
+                    let best
                     if (rows > 0) {
                         const myTable = Array.from(Array(rows), () => new Array(cols));
                         for (let row = 0; row < rows; row++) {
                             for (let col = 0; col < cols; col++) {
                                 if (columns[col] === 'id') {
                                     x = row + 1
-                                } else {
+                                }
+                                else if (columns[col] === 'average_score') {
+                                    x = result.recordsets[0][row]['score']/result.recordsets[0][row]['game_count']
+                                }
+                                else {
                                     x = result.recordsets[0][row][columns[col]]
                                 }
                                 myTable [row] [col] = x
                             }
                         }
                         ranking.stats = myTable
+                        mvp.stats = ranking.stats[0][2] 
                     }
-                    res.render('users/leaderboard', {data_l: leaderboard, data_r: ranking, id: myID})
+                    res.render('users/leaderboard', {data_l: leaderboard, data_r: ranking, id: myID, best: mvp})
                 })
             })
         .catch(err => {
@@ -79,6 +85,13 @@ const ranking = {
     name : 'ranking',
     stats: []
 }
+
+const mvp = {
+    name : 'mvp',
+    stats: ''
+}
+
+
 
 function newAction(user_ID, action_details) {
     // enter action into the actions log
