@@ -12,7 +12,7 @@ router.get('/', (req, res) => {
             .then((pool) => {
                 return pool.request()
                 // Select actions table
-                .query('SELECT * FROM dbo.actions;')
+                .query('SELECT * FROM dbo.actions ORDER BY id DESC;')
             })
             .then(result => {
                 let columns = ['id', 'account_id', 'action', 'time']
@@ -27,9 +27,6 @@ router.get('/', (req, res) => {
                         }
                     }
                     actions_log.stats = myTable
-                    console.log(myID)
-                    console.log('ayy '+actions_log.stats[6][1])
-                    console.log('ayy '+actions_log.stats[6][2])
                 } 
                 res.render('users/actions_log', {data: actions_log, id: myID})
             })

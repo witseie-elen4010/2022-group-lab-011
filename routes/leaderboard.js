@@ -15,7 +15,6 @@ router.get('/', (req, res) => {
             .query('SELECT * FROM dbo.leaderboard JOIN dbo.accounts ON dbo.leaderboard.account_id = dbo.accounts.id ORDER BY average_score DESC;')
         })
             .then(result => {
-                console.log(result)
                 let columns = ['id', 'account_id', 'username', 'game_count', 'score', 'average_score']
                 let cols = columns.length
                 let rows = result.recordset.length
@@ -67,7 +66,7 @@ router.get('/', (req, res) => {
         .catch(err => {
             res.send({ Error: err })
             })
-    newAction(req.session.ID, 'VIEWED: LEADERBOARD PAGE')    
+    newAction(req.session.ID, 'ON THE LEADERBOARD PAGE')    
     }
 })
 
