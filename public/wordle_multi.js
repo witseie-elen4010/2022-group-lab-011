@@ -60,9 +60,9 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     tileBox.append(rowElement)
-    myUsernameMessage(accountId)
+    
 })
-
+myUsernameMessage(accountId)
 // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
@@ -74,9 +74,9 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     opponentBox.append(rowElement)
-    opUsernameMessage(opponentId)
+    
 })
-
+opUsernameMessage(opponentId)
 
 // Create keys for keyboard and add button listener
 if (gameRole !== 'admin'){
