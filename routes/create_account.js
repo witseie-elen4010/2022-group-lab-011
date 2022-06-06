@@ -4,6 +4,10 @@ const bcrypt = require('bcrypt')
 const router = express.Router()
 
 router.get('/', (req, res) => {
+    
+    if (req.session.ID) {
+      req.session.destroy()
+    }
     res.render('users/create_account')
 })
 
@@ -37,7 +41,31 @@ router.post('/', async (req, res) => {
                 })
               // Send back the result
                 .then(result => {
-                  return res.redirect('/login')
+                  db.pools
+                  .then((pool) => {
+                    return pool.request()
+                    // This is only a test query, change it to whatever you need
+                      .input('username', username)
+                      .query('SELECT id FROM dbo.accounts id WHERE (username = @username);')
+                  })
+                  .then(result => {
+                    console.log('been created and found id ' +result.recordset[0].id )
+                    req.session.ID = result.recordset[0].id
+                    db.pools
+                    .then((pool) => {
+                      return pool.request()
+                      // This is only a test query, change it to whatever you need
+                        .input('account_id', result.recordset[0].id)
+                        .input('game_count', 0)
+                        .input('score', 0)
+                        .input('average_score', 0)
+                        .query('INSERT INTO dbo.rankings (account_id, game_count, score, average_score) VALUES (@account_id, @game_count, @score, @average_score);')
+                    })
+                    .then(result => {
+                      return res.redirect('/home')
+
+                    })                   
+                  })                 
                 })
               // If there's an error, return that with some description
                 .catch(err => {
