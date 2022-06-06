@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Rules</title>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+        <link rel="stylesheet" href="/styles.css"/>
+    </head>
+    
+    <body>
+
+        <div class="container">
+            <div class="text-center my-4">
+                <h1>Game Rules</h1>
+            </div>
+    
+            <div class="row justify-content-center">
+                <div class="col justify-content-center">
+                    <!-- Image card -->
+                    <div class="card" >
+                        <!-- Heading -->
+                        <div class="row">
+
+                            <div class="col">
+                                <img src="/assets/images/theme.jpg" class="img-fluid rounded-start my-4" alt="Wordle World Party Image">
+                                </div>
+                            <div class="col text-center my-auto">
+                                <div class="card-body">
+                                    <h2 class="card-title">Wordle World Party</h2>
+                                    <p class="card-text my-4">The best word guessing game on the internet!</p>
+                                    <p class="card-text my-4">Enter a 5 letter word and see how close your guess was.</p>
+                            </div>
+                        </div>
+                        <!-- Tile board -->
+                        <div class="row">
+
+                            <div class="col text-center">
+                                <img src="/assets/images/board-example.png" class="img-fluid rounded-start my-4" alt="Wordle World Party Image">
+                                </div>
+                            <div class="col text-center my-auto">
+                                <div class="card-body">
+                                    <h2 class="card-title">If the letter is DARK:</h2>
+                                    <p class="card-text my-4">The letter is not in the actual word</p>
+                                    <h2 class="card-title">If the letter is YELLOW:</h2>
+                                    <p class="card-text my-4">The letter is in the actual word but it is in the wrong position</p>
+                                    <h2 class="card-title">If the letter is GREEN:</h2>
+                                    <p class="card-text my-4">The letter is in the actual word and it is in the correct position</p>
+                            </div>
+                        </div>
+                        <!-- Keyboard -->
+                        <div class="row">
+
+                            <div class="col text-center">
+                                <img src="/assets/images/keyboard-example.png" class="img-fluid rounded-start my-4" alt="Wordle World Party Image">
+                                </div>
+                            <div class="col text-center my-auto">
+                                <div class="card-body">
+                                    <p class="card-text my-4">The keyboard also updates to show you which letters you have guessed already.</p>
+                            </div>
+                        </div>
+
+                        </div>
+                        <br>
+                        <div class="row text-center">
+                            <div class="dropdown mx-auto my-4">
+                                <button class="btn btn-dark dropdown-toggle btn-lg" name="dropdownbutton" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+                                    Go To
+                                </button>
+                                <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+                                    <li><a class="dropdown-item" href="/home" type="home" id="home" name="home">Home</a></li>
+                                    <li><a class="dropdown-item" href="/actions_log" type="actions_log" id="actions_log" name="actions_log">Actions Log</a></li>
+                                    <li><a class="dropdown-item" href="/leaderboard" type="leaderboard" id="leaderboard" name="leaderboard">Leaderboard</a></li>
+                                    <li><a class="dropdown-item" href="/game_log" type="game_log" id="game_log" name="game_log">Games Log</a></li>
+                                    <li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
+                                </ul>
+                            </div>
+                        </div>       
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>      
+    </body>
+</html>

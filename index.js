@@ -37,7 +37,9 @@ const leadRouter = require('./routes/leaderboard')
 const gameLogRouter = require('./routes/game_log')
 const actionsLogRouter = require('./routes/actions_log')
 const lobbyRouter = require('./routes/lobby')
+const rulesRouter = require('./routes/rules')
 const multiGameRouter = require('./routes/wordle_multi')
+const { json } = require('body-parser')
 
 //Define routes
 app.use('/create_account', createRouter)
@@ -48,6 +50,7 @@ app.use('/leaderboard', leadRouter)
 app.use('/game_log', gameLogRouter)
 app.use('/actions_log', actionsLogRouter)
 app.use('/lobby', lobbyRouter)
+app.use('/rules', rulesRouter)
 app.use('/wordle_multi', multiGameRouter)
 
 
@@ -63,7 +66,7 @@ server.listen(port)
 console.log('Listening to port: ', port)
 
 ////////////////////////////////////////////////////
-//Wordle functionaliity
+//Wordle database functionaliity
 ////////////////////////////////////////////////////
 
 app.get('/to-multi', (req, res) => {
@@ -74,33 +77,20 @@ app.get('/userID', (req, res) => {
   res.json(req.session.ID)
 })
 
-app.get('/set-multi-log', (req, res) => {
-  //enter game into multi player logs
-  let records = req.query.multiGameData
-  records = records.split(',')
+app.get('/userName', (req, res) => {
+  let accountId = req.query.accountId
   db.pools
-  .then((pool) => {
-    return pool.request()
-    .input('game_id', records[0])
-    .input('account_id', records[1])
-    .input('opponent_id', records[2])
-    .input('admin_id', records[3])
-    .input('guess_1', '')
-    .input('guess_2', '')
-    .input('guess_3', '')
-    .input('guess_4', '')
-    .input('guess_5', '')
-    .input('guess_6', '')
-    .input('word', records[4])
-    .input('winner', '')
-    .query('INSERT INTO dbo.multi_game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word, winner) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word, @winner);')     
-  })
-  .then(result => {
-    console.log('entered into multi log')
-    res.json(records)
-  })   
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        .input('account_id', accountId)
+        .query('SELECT username FROM dbo.accounts where id = @account_id;') // check if user exists in DB        
+    })
+    .then(result => {
+      res.json(result.recordset[0].username)
+    })
 })
- 
+
 
 app.get('/getGame', (req, res) => {
   const accountId = req.query.accountId
@@ -182,6 +172,156 @@ app.get('/log-guess-solo', (req, res) => {
   let msg = data
   newAction(ID, msg)
 })
+
+
+app.get('/set-multi-log', (req, res) => {
+  //enter game into multi player logs
+  let records = req.query.multiGameData
+  records = records.split(',')
+  db.pools
+  .then((pool) => {
+    return pool.request()
+    .input('game_id', records[0])
+    .input('account_id', records[1])
+    .input('opponent_id', records[2])
+    .input('admin_id', records[3])
+    .input('guess_1', '')
+    .input('guess_2', '')
+    .input('guess_3', '')
+    .input('guess_4', '')
+    .input('guess_5', '')
+    .input('guess_6', '')
+    .input('word', records[4])
+    .input('winner', '')
+    .query('INSERT INTO dbo.multi_game_log (game_id, account_id, opponent_id, admin_id, guess_1, guess_2, guess_3, guess_4, guess_5, guess_6, word, winner) VALUES (@game_id, @account_id, @opponent_id, @admin_id, @guess_1, @guess_2, @guess_3, @guess_4, @guess_5, @guess_6, @word, @winner);')     
+  })
+  .then(result => {
+    console.log('entered into multi log')
+    res.json(records)
+  })   
+})
+
+app.get('/enter-multi-leaderboard', (req, res) => {
+  let data = req.query.data
+  data = data.split(',')
+  let winner = data[0]
+  let accountId = data[1]
+  let opponentId = data[2]
+
+
+    //increase game counts
+    db.pools
+    .then((pool) => {
+      return pool.request()
+      .input('account_id', accountId)
+      .input('oppenent_id', opponentId)
+      .query(`UPDATE dbo.rankings SET game_count = game_count + 1, score = score, average_score = (score)/(game_count + 1) WHERE account_id = @account_id OR account_id = @oppenent_id;`)     
+    })
+    .then(result => {
+        //increase winners score
+        if (winner === 'Won'){
+       db.pools
+      .then((pool) => {
+        return pool.request()
+        .input('account_id', accountId)
+        .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id;`)     
+        })
+        .then(result => {
+      
+          res.json('word accepted')
+         })
+        } else if (winner === 'Lost'){
+          db.pools
+          .then((pool) => {
+            return pool.request()
+            .input('account_id', opponentId)
+            .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id;`)     
+          })
+          .then(result => {
+      
+             res.json('word accepted')
+          })
+       } else if (winner === 'Draw'){
+        db.pools
+        .then((pool) => {
+          return pool.request()
+          .input('account_id', accountId)
+          .input('oppenent_id', opponentId)
+          .query(`UPDATE dbo.rankings SET game_count = game_count, score = score + 1, average_score = (score +1)/(game_count)  WHERE account_id = @account_id OR account_id = @oppenent_id;`)     
+        })
+        .then(result => {
+    
+           res.json('word accepted')
+        })
+       }
+      
+    })
+  
+})
+
+
+app.get('/enter-multi-word', (req, res) => {
+  let data = req.query.data
+  data = data.split(',')
+  let word = data[0]
+  let gameId = data[1]
+  let guessNum = 'guess_' + data[2]
+  let accountId = req.session.ID
+  newAction(accountId, `MULTI WORD GUESS: ${word} IN GAME ${gameId}`)
+  console.log(guessNum)
+  db.pools
+  .then((pool) => {
+    return pool.request()
+    .input('game_id', gameId)
+    .input('word', word)
+    .input('account_id', accountId)
+    .input('guess_num', guessNum)
+    .query(`UPDATE dbo.multi_game_log SET ${guessNum} = @word WHERE (account_id = @account_id AND  game_id = @game_id);`)     
+  })
+  .then(result => {
+    console.log('entered into multi log')
+    res.json('word accepted')
+  })   
+})
+
+app.get('/enter-multi-winner', (req, res) => {
+  let data = req.query.data
+  data = data.split(',')
+  let winner = data[0]
+  let winner2
+  if (winner === 'Won'){
+    winner2 = 'Lost'
+  } else if (winner === 'Draw') {
+    winner2 = 'Draw'
+  } 
+  let gameId = data[1]
+  let accountId = req.session.ID
+  db.pools
+  .then((pool) => {
+    return pool.request()
+    .input('game_id', gameId)
+    .input('winner', winner)
+    .input('account_id', accountId)
+    .query(`UPDATE dbo.multi_game_log SET winner = @winner WHERE (account_id = @account_id AND  game_id = @game_id) ;`)     
+  })
+  .then(result => {
+    if (winner === 'Won'|| winner === 'Draw' ){
+    db.pools
+    .then((pool) => {
+      return pool.request()
+      .input('game_id', gameId)
+      .input('winner2', winner2)
+      .input('account_id', accountId)
+      .query(`UPDATE dbo.multi_game_log SET  winner = @winner2 WHERE (account_id != @account_id AND  game_id = @game_id);`)     
+    })
+    .then(result => {
+      console.log('winner entered into multi log')
+      res.json('winner accepted')
+    })
+  }
+  })   
+})
+
 
 app.get('/game_end', (req, res) => {
   console.log('Enter into logs')
@@ -517,8 +657,6 @@ app.get('/game_player_queue', async (req, res) => {
 
 module.exports = io
 
-let gamesIndex = 0
-
 io.on('connection', socket => {
   console.log('new WS connection')
 
@@ -528,34 +666,42 @@ io.on('connection', socket => {
     let playerTwoS = playerTwo
     let adminIdS = adminId
     let wordS = word
+    socket.join(gameId)
     socket.broadcast.emit('send-game', gameIdS, playerOneS, playerTwoS, adminIdS, wordS)
   })
 
+  socket.on('join-game-room', (gameId) => {
+    socket.join(gameId)
+  })
+
+  socket.on('disconnect', () => {
+    
+    console.log('Player disconnected')
+    //remove player from queue if they not in game yet
+    db.pools
+      .then((pool) => {
+      return pool.request()
+      .input('player_type', 0)
+      .query('DELETE FROM dbo.multiplayer_queue WHERE player_role = @player_type;')
+    })
+  .then(result => {
+    console.log('removed from queue')
+  })   
+
+  })
 
   //////////////////////////////////////////
   /////// Multiplayer Comms
   //////////////////////////////////////////
 
-  socket.on('player-word', (opponentGuess, currentRow, gameRole) => {
+  socket.on('player-word', (opponentGuess, currentRow, gameRole, gameId) => {
     console.log(`opponent guess received at ${currentRow}`)
     let gameRoleS = gameRole 
-    socket.broadcast.emit('player-word', opponentGuess, currentRow, gameRoleS)
+    socket.to(gameId).emit('player-word', opponentGuess, currentRow, gameRoleS)
   })
-  /*
-    socket.on('player-ready', Pid => {
-      console.log('player-ready received')
-      // not sure about the player checking system
-    })
-  
-    socket.on('game-start', () => {
-      console.log('game-start received')
-      // array of players starts? if 2 (or 3) socket.emit('game-start')
-    })
-  
-    socket.on('game-over', player => {
-      console.log(`${player} wins`)
-      socket.broadcast.emit('game-over')
-    } )
-  */
 
+  socket.on('game-finish', (currentRow, gameId) => {
+    let rowNum = currentRow
+    socket.to(gameId).emit('opponent-finish', rowNum)
+  })
 })

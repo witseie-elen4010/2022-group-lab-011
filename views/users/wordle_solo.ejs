@@ -16,8 +16,19 @@
                 <h1>Wordle World Party</h1>
             </div>
             <div class="message-container my-4"></div>
-            <div class="tile-container"></div>
-            <div class="key-container"></div>
+
+           
+            <div class="row text-center">
+                <div class="col justify-content-center">
+                    <div class="tile-container"></div>
+                </div>
+            </div>
+            <div class="row text-center">
+                <div class="col justify-content-center">
+                    <div class="key-container"></div>
+                </div>
+            </div>
+            
 
             <div class="dropdown my-4 text-center">
                 <button class="btn btn-light dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
@@ -27,9 +38,12 @@
                     </svg>
                 </button>
                 <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                    <li><a class="dropdown-item" href="/home" type="sologame" id="sologame" name="sologame">Go to Home Page</a></li>
-                    <li><a class="dropdown-item" href="/game_log" type="game_log" id="game_log" name="game_log">Game Log</a></li>
-                    <li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
+                  <li><a class="dropdown-item" href="/home" type="home" id="home" name="home">Go to Home Page</a></li>
+                  <li><a class="dropdown-item" href="/rules" type="rules" id="rules" name="rules">Rules</a></li>
+                  <li><a class="dropdown-item" href="/actions_log" type="actions_log" id="actions_log" name="actions_log">Actions Log</a></li>
+                  <li><a class="dropdown-item" href="/leaderboard" type="leaderboard" id="leaderboard" name="leaderboard">Leaderboard</a></li>
+                  <li><a class="dropdown-item" href="/game_log" type="game_log" id="game_log" name="game_log">Games Log</a></li>
+                  <li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
                 </ul>
             </div>
         </div>

@@ -2,6 +2,10 @@ const tileBox = document.querySelector('.tile-container')
 const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
+const myUsernameBox = document.querySelector('.userID-container')
+const opponenetUsernameBox = document.querySelector('.opID-container')
+
+
 
 const socket = io()
 
@@ -30,17 +34,21 @@ let opponentRow = 0
 let gameId
 let gameRole
 let accountId
+let opponentId
 let playerOne
 let playerTwo
 let adminId
 let gameStart = false
 let word = ''
+let opponentNumGuesses = -1
+let gameRunAlready = false
 
 /////////////////////////////////////////////
 // Interface setup
 ////////////////////////////////////////////
 
 function gameSetupStart(){
+showMessage('Game started! You can begin guessing!')
     // Create placeholders for entry words
 wordEntry.forEach((guessRow, guessRowIndex) => {
     const rowElement = document.createElement('div')
@@ -52,6 +60,7 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     tileBox.append(rowElement)
+    
 })
 
 // Create placeholders for entry words
@@ -65,6 +74,20 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     opponentBox.append(rowElement)
+    
+})
+
+//Fetch usernames
+fetch(`/userName/?accountId=${accountId}`)
+.then(response => response.json())
+.then(json => {
+    myUsernameMessage(json)
+})
+
+fetch(`/userName/?accountId=${opponentId}`)
+.then(response => response.json())
+.then(json => {
+    opUsernameMessage(json)
 })
 
 
@@ -94,6 +117,7 @@ fetch(`/userID`)
             if (json === 'not in game')
             {
               console.log('not in game, still waiting')
+              showWaitMessage('Waiting for game to start...')
             } else {
               console.log('game found')
               console.log(json)
@@ -104,7 +128,6 @@ fetch(`/userID`)
               word = json.recordset[0].word.toUpperCase()
               gameStart = true
 
-              let opponentId
               if (accountId === playerOne ){
                 gameRole  = 'playerOne'
                 opponentId = playerTwo
@@ -122,9 +145,15 @@ fetch(`/userID`)
               .then(json => {
                 console.log(word)
                 //console.log(gameId)
-                socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)
+                
                 //start game functionality
-                gameSetupStart()
+                if (gameRunAlready === false)
+                {
+                    gameRunAlready = true
+                    gameSetupStart()
+                    socket.emit('game-created', gameId, playerOne, playerTwo, adminId, word)//creates room and sends to all players to see if they are in the game
+                }
+                
 
              })
               //send to other players that there is a game that has started
@@ -139,14 +168,18 @@ fetch(`/userID`)
 ////////////////////////////////////////
 // Socket functionality
 ///////////////////////////////////////
+
 socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
+    
     console.log('game-created')
     let isMyGame = false
     if (accountId === playerOneS){
         gameRole  = 'playerOne'
+        opponentId = playerTwoS
         isMyGame = true
     } else if (accountId === playerTwoS){
         gameRole = 'playerTwo'
+        opponentId = playerOneS
         isMyGame = true
     } else if (accountId === adminIdS){
         gameRole = 'admin'
@@ -154,14 +187,30 @@ socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
     }
 
     if (isMyGame){
+        socket.emit('join-game-room', gameIdS)
         gameId = gameIdS
         playerOne = playerOneS
         playerTwo = playerTwoS
         adminId = adminIdS
         word = wordS.toUpperCase()
         gameStart = true
+        
+
+        }
         //start game functionality
-        gameSetupStart()
+        if (gameRunAlready === false)
+        {
+            
+            if (gameRole !== 'admin'){
+                let multiGameData = [gameId, accountId, opponentId, adminId, word]
+                fetch(`/set-multi-log/?multiGameData=${multiGameData}`)
+                 .then(response => response.json())
+                 .then(json => {
+                    console.log('entered into multi game logs')
+                })
+            gameRunAlready = true;
+            gameSetupStart()
+        }
         console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)   
     }
 
@@ -179,6 +228,13 @@ socket.on('player-word', (opponentGuess, row, gameRoleS) => {
         flipTile2(opponentGuess, row)
     }
 })
+
+socket.on('opponent-finish', (rowNum) => {
+    opponentNumGuesses = rowNum
+    //setTimeout(() => window.location.replace('/lobby'), 5000)
+    
+})
+
 
 getGame()
 
@@ -229,31 +285,72 @@ function deleteLetter() {
 
 // Called when enter is clicked, verifies game progress ie. win/lose/continue
 function checkGuess() {
+    let winner = 'Won' // defualt win
     const tempWord = wordEntry[currentRow].join('')
     if (currentTile > 4) {
         fetch(`/check/?word=${tempWord}`)
             .then(response => response.json())
             .then(json => {
-                if (json == 'Not valid') {
+                if (json === 'Entry word not found') {
                     showMessage('Invalid word')
                     return
                 } else {
                     flipTile()
-                    socket.emit('player-word', opponentGuess, currentRow, gameRole)
+                    socket.emit('player-word', opponentGuess, currentRow, gameRole, gameId)
                     if (word == tempWord) {
+                        let data1 = [tempWord,gameId,currentRow +1]
+                        fetch(`/enter-multi-word/?data=${data1}`)
+                            .then(response => response.json())
+                            .then(json => {
+                        console.log(json)
+                        })
                         GameOver = true
                         showMessage('Correct!')
                         wordEntry.push(word)
                         wordEntry.push(calcScore(currentRow))
-                        fetch(`/game_end/?wordEntries=${wordEntry}`)
+                        console.log('___________________')
+                        console.log('player' + currentRow)
+                        console.log(opponentNumGuesses)
+                        if (opponentNumGuesses !== -1){
+                            if (currentRow > opponentNumGuesses){
+                            //lose
+                            winner = 'Lost'
+                            } else if (currentRow === opponentNumGuesses) {
+                            winner = 'Draw'
+                            }
+                            let data3 = [winner,accountId,opponentId]
+                            fetch(`/enter-multi-leaderboard/?data=${data3}`)
+                                .then(response => response.json())
+                                .then(json => {
+                                console.log(json)
+                                })         
+                        } 
+                        let data = [winner,gameId]
+                        console.log(winner)
+                        fetch(`/enter-multi-winner/?data=${data}`)
+                            .then(response => response.json())
+                            .then(json => {
+                                console.log(json)
+                            })
+                        socket.emit('game-finish', currentRow, gameId )
+                        //setTimeout(() => window.location.replace('/lobby'), 5000)
                         return
                     } else {
+                        let data = [tempWord,gameId,currentRow +1]
+                        fetch(`/enter-multi-word/?data=${data}`)
+                            .then(response => response.json())
+                            .then(json => {
+                            console.log(json)
+                        })
                         if (currentRow >= 5) {
                             GameOver = true
                             showMessage('Game Over')
-                            wordEntry.push(word)
-                            wordEntry.push(0)
-                            fetch(`/game_end/?wordEntries=${wordEntry}`)
+                            let data = ['Lost',gameId]
+                            fetch(`/enter-multi-winner/?data=${data}`)
+                                .then(response => response.json())
+                                .then(json => {
+                                console.log(json)
+                            })
                             return
                         }
                         if (currentRow < 5) {
@@ -296,7 +393,7 @@ function flipTile() {
     })
 
     guess.forEach((guess, index) => {
-        if (checkWordle.includes(guess.letter)) {
+        if ((checkWordle.includes(guess.letter)) && (guess.color != 'green-overlay')) {
             guess.color = 'yellow-overlay'
             opponentGuess[index].color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
@@ -347,7 +444,7 @@ function flipTile3(guess, row) {
     })
 
     guess.forEach((guess, index) => {
-        if (checkWordle.includes(guess.letter)) {
+        if ((checkWordle.includes(guess.letter)) && (guess.color != 'green-overlay')) {
             guess.color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
@@ -394,6 +491,27 @@ function showMessage(msg) {
     message.append(messageElement)
     setTimeout(() => message.removeChild(messageElement), 2000)
 }
+
+function showWaitMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    message.append(messageElement)
+    setTimeout(() => message.removeChild(messageElement), 10000)
+}
+
+function myUsernameMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    myUsernameBox.append(messageElement)
+}
+
+function opUsernameMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    opponenetUsernameBox.append(messageElement)
+}
+
+
 
 
 

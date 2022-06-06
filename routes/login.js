@@ -26,6 +26,7 @@ router.post('/', (req, res) => {
   })
 // Compare hashed passsword with entered result
   .then(async (result) => {
+    if (result.recordset.length !== 0){
     if (await bcrypt.compare(password, result.recordset[0].password)) {      
       // Login success
       sessData = req.session
@@ -38,6 +39,9 @@ router.post('/', (req, res) => {
       //SAY INCORRECT LOGIN CREDENTIALS
       return res.redirect('/login')
     }
+  } else {
+    return res.redirect('/login')
+  }
   })
 // database error
   .catch(err => {
