@@ -180,6 +180,30 @@ mark {
     margin: 0;
 }
 
+.userID-container {
+    height: 30px;
+}
+
+.userID-container p {
+    color: #ffffff;
+    background-color: #5f3bc2;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0;
+}
+
+.opID-container {
+    height: 30px;
+}
+
+.opID-container p {
+    color: #ffffff;
+    background-color: #c26d3b;
+    border-radius: 10px;
+    padding: 10px;
+    margin: 0;
+}
+
 .tile.flip {
     animation: 0.7s linear flipping;
 }

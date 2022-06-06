@@ -2,6 +2,8 @@ const tileBox = document.querySelector('.tile-container')
 const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
+const myUsernameBox = document.querySelector('.userID-container')
+const opponenetUsernameBox = document.querySelector('.opID-container')
 
 const socket = io()
 
@@ -54,6 +56,7 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     tileBox.append(rowElement)
+    myUsernameMessage(accountId)
 })
 
 // Create placeholders for entry words
@@ -67,6 +70,7 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
         rowElement.append(tileElement)
     })
     opponentBox.append(rowElement)
+    opUsernameMessage(opponentId)
 })
 
 
@@ -465,6 +469,19 @@ function showWaitMessage(msg) {
     message.append(messageElement)
     setTimeout(() => message.removeChild(messageElement), 10000)
 }
+
+function myUsernameMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    myUsernameBox.append(messageElement)
+}
+
+function opUsernameMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    opponenetUsernameBox.append(messageElement)
+}
+
 
 
 
