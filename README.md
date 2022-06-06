@@ -9,6 +9,7 @@
 | Tristan Basel | 
 
 ## **Description:**
+
 Wordle World Party is a multiplayer version of the popular Wordle game. Our game also has a solo mode where you can play an unlimited amount of games a day.
 
 In the multiplayer mode, its a 1v1 game against an opponent on the internet, and you compete to see who can get the correct word in as little guesses as possible. An exciting feature is the ability to be involved in the multiplayer game as an 'ADMIN'. The 'ADMIN' decides what word the 2 players need to guess and can view the match occurring in real time!
@@ -35,38 +36,8 @@ Azure platform is used for deployment. A persistent data store was setup using M
 
 The development of this web based multiplayer game occurred over 4 weeks. Each week within the production was defined as a Sprint in order to complete the 4 Sprint production cycle. A comprehensive folder full of all the documents relating to each Sprint along with documents such as our Architectural Decision Records and Project Conventions is presented. Please find the Game Images below that are screenshots of the different pages and situations within the game.
 
-### Download the repo to see the whole app working locally or simply just join us online for the best competitive Wordle experience you can find!
-
 ## **Game Images:**
 
-These images can also be found within the images folder in the assets of public.
+Screenshots of the whole game and its different pages and game situations have been added and can be found within the public/assets/images folder.
 
-<div style="width:100px ; height:100px">
-
-![Landing Page](landing.PNG)
-
-![Login Page](/repository/public/assets/images/login.png)
-
-![Create Account Page](/repository/public/assets/images/create.png?raw=true)
-
-![Home Page](/repository/public/assets/images/home.png?raw=true)
-
-![Rules Page](/repository/public/assets/images/rules.png?raw=true)
-
-![Actions Log](/repository/public/assets/images/actions.png?raw=true)
-
-![Game Log](/repository/public/assets/images/gamelog.png?raw=true)
-
-![Leaderboard](/repository/public/assets/images/leaderboard.png?raw=true)
-
-![Multiplayer Lobby](/repository/public/assets/images/lobby.png?raw=true)
-
-![Solo Wordle Game](/repository/public/assets/images/solo.png?raw=true)
-
-![Multiplayer Game Player 1 POV](/repository/public/assets/images/1v2.png?raw=true)
-
-![Multiplayer Game Player 2 POV](/repository/public/assets/images/2v1.png?raw=true)
-
-![Multiplayer Game Admin POV](image.jpg)
-
-</div>
+### Download the repo to see the whole app working locally or simply just join us online for the best competitive Wordle experience you can find!
