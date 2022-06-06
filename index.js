@@ -661,13 +661,7 @@ app.get('/game_player_queue', async (req, res) => {
 
 io.on('connection', socket => {
   console.log('new WS connection')
-
-  socket.on('first-connect',()=>{
- 
-    socket.join('waiting');
-  })
-
-
+  
   socket.on('game-created', (gameId, playerOne, playerTwo, adminId, word) => {
     let gameIdS = gameId
     let playerOneS = playerOne
