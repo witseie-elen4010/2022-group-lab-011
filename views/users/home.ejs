@@ -14,19 +14,18 @@
     
     <body>
 
+        <!-- Image card -->
         <div class="container">
             <div class="text-center my-4">
                 <h1>Homepage</h1>
-            </div>
-    
+            </div>    
             <div class="row justify-content-center">
                 <div class="col justify-content-center">
                     <form action="/home" method="post">
     
                         <!-- Image card -->
                         <div class="card" >
-                            <div class="row">
-    
+                            <div class="row">    
                               <div class="col">
                                 <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
                               </div>
@@ -36,8 +35,7 @@
                                   <p class="card-text my-4">Welcome<mark> <%=locals.name%></mark></p>
                                   <p class="card-text my-4">Select your game mode in the dropdown below:</p>
                                 </div>
-                              </div>
-    
+                              </div>    
                             </div>
                             <br>
                             <div class="dropdown mx-auto my-4 ">
@@ -53,10 +51,8 @@
                                   <li><a class="dropdown-item" href="/game_log" type="game_log" id="game_log" name="game_log">Games Log</a></li>
                                   <li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
                                 </ul>
-                            </div>
-                            
-                        </div>
-    
+                            </div>                            
+                        </div>    
                     </form>
                 </div>
             </div>

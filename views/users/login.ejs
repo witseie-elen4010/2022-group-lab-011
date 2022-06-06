@@ -1,99 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login Page</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="/styles.css"/>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Login Page</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/styles.css" />
 </head>
+
 <body>
 
-    <!-- Page spacing where the headings and form gets presented -->
-    <div class="container">
-        <div class="text-center my-4">
-            <h1>Login Page</h1>
-        </div>
- 
-        <!-- Creates a grid within the container -->
-        <div class="row justify-content-center my-4">
-            <div class="col justify-content-center">
+	<!-- Page spacing where the headings and form gets presented -->
+	<div class="container">
+		<div class="text-center my-4">
+			<h1>Login Page</h1>
+		</div>
 
-                <!-- Creates the form that holds the input sections -->
-                <form action="/login" method="post">
+		<!-- Creates a grid within the container -->
+		<div class="row justify-content-center my-4">
+			<div class="col justify-content-center">
 
-                    <!-- Image card -->
-                    <div class="card mb-3" >
-                        <div class="row">
+				<!-- Creates the form that holds the input sections -->
+				<form action="/login" method="post">
 
-                          <div class="col-md-6">
-                            <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image" width="500px" height="500px">
-                          </div>
+					<!-- Image card -->
+					<div class="card mb-3">
+						<div class="row">
 
-                          <div class="col-md-6 text-center my-auto">
-                            <div class="card-body">
-                              <h2 class="card-title">Wordle World Party</h2>
-                              <p class="card-text my-4">Take your word guessing skills to the next level and compete against your friends!</p>
-                            </div>
-                          </div>
+							<div class="col-md-6">
+								<img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image"
+									width="500px" height="500px">
+							</div>
 
-                        </div>
-                      </div>
-        
-                    <!-- Username entry container and floating label -->
-                    <div class="form-floating my-4">
-                        <input 
-                            type="username"
-                            name="username"
-                            id="username" 
-                            placeholder="admin"
-                            value="<%= locals.firstName %>"
-                            class="form-control"
-                        />
-                        <label for="username" class="form-label">Username:</label>
-                    </div>
+							<div class="col-md-6 text-center my-auto">
+								<div class="card-body">
+									<h2 class="card-title">Wordle World Party</h2>
+									<p class="card-text my-4">Take your word guessing skills to the next level and compete against your
+										friends!</p>
+								</div>
+							</div>
 
-                    <!-- Password entry container and floating label -->
-                    <div class="form-floating my-4">
-                        <input 
-                            type="password"
-                            name="password"
-                            id="password" 
-                            placeholder="admin"
-                            class="form-control"
-                        />
-                        <label for="password" class="form-label">Password:</label>
-                    </div>
+						</div>
+					</div>
 
-                    <!-- Login button -->
-                    <div class="text-center my-4">
-                        <button id="myButton" type="submit" class="btn btn-light" name="loginbutton">Login
+					<!-- Username entry container and floating label -->
+					<div class="form-floating my-4">
+						<input type="username" name="username" id="username" placeholder="admin" value="<%= locals.firstName %>"
+							class="form-control" />
+						<label for="username" class="form-label">Username:</label>
+					</div>
 
-                        <!-- Icon shown within button -->    
-                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="set-icon-dark" viewBox="0 0 16 16">
-                            <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                            <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                        </svg>
-                        </button>
-                    </div>
-                    <div class="text-center my-4">
-                        <a class="btn btn-light" href="/create_account" role="button" name="registerbutton">Create New Account
-                            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="set-icon-dark" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z"/>
-                                <path fill-rule="evenodd" d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z"/>
-                            </svg>
-                        </a>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+					<!-- Password entry container and floating label -->
+					<div class="form-floating my-4">
+						<input type="password" name="password" id="password" placeholder="admin" class="form-control" />
+						<label for="password" class="form-label">Password:</label>
+					</div>
 
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>
+					<!-- Login button -->
+					<div class="text-center my-4">
+						<button id="myButton" type="submit" class="btn btn-light" name="loginbutton">Login
+
+							<!-- Icon shown within button -->
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="set-icon-dark"
+								viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+								<path fill-rule="evenodd"
+									d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+							</svg>
+						</button>
+					</div>
+					<div class="text-center my-4">
+						<a class="btn btn-light" href="/create_account" role="button" name="registerbutton">Create New Account
+							<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="set-icon-dark"
+								viewBox="0 0 16 16">
+								<path fill-rule="evenodd"
+									d="M6 3.5a.5.5 0 0 1 .5-.5h8a.5.5 0 0 1 .5.5v9a.5.5 0 0 1-.5.5h-8a.5.5 0 0 1-.5-.5v-2a.5.5 0 0 0-1 0v2A1.5 1.5 0 0 0 6.5 14h8a1.5 1.5 0 0 0 1.5-1.5v-9A1.5 1.5 0 0 0 14.5 2h-8A1.5 1.5 0 0 0 5 3.5v2a.5.5 0 0 0 1 0v-2z" />
+								<path fill-rule="evenodd"
+									d="M11.854 8.354a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H1.5a.5.5 0 0 0 0 1h8.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3z" />
+							</svg>
+						</a>
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+		integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+		crossorigin="anonymous"></script>
 
 </body>
+
 </html>

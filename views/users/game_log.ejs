@@ -1,178 +1,194 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Game Log</title>
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
-        <link rel="stylesheet" href="/styles.css"/>
-    </head>
-    
-    <body>
 
-        <div class="container">
-            <div class="text-center my-4">
-                <h1>Game Log</h1>
-            </div>
-    
-            <div class="row justify-content-center my-4">
-                <div class="col justify-content-center">
-                    <!-- Image card -->
-                    <div class="card mb-3" >
-                        <div class="row">
-                            <div class="col">
-                            <img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
-                            </div>
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Game Log</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
+		integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Russo+One&display=swap" rel="stylesheet">
+	<link rel="stylesheet" href="/styles.css" />
+</head>
 
-                            <div class="col text-center my-auto">
-                            <div class="card-body">
-                                <h2 class="card-title">Wordle World Party</h2>
-                                <p class="card-text my-4">Check the game log for solo and multiplayer games below:</p>
-                                <p class="card-text my-4">Note: If you have played any game before then you will find your row highlighted in red. </p>
-                            </div>
-                            </div>
-                        </div>  
-                    </div>
-                </div>
-            </div>
-            
-            <div class="row justify-content-center my-4">
-                <div class="col justify-content-center">
-                    <div class="dropdown text-center my-4">
-                        <button class="btn btn-dark dropdown-toggle btn" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
-                            Go To
-                        </button>
-                        <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                            <li><a class="dropdown-item" href="/home" type="home" id="home" name="home">Home</a></li>
-                            <li><a class="dropdown-item" href="/rules" type="rules" id="rules" name="rules">Rules</a></li>
-                            <li><a class="dropdown-item" href="/actions_log" type="actions_log" id="actions_log" name="actions_log">Actions Log</a></li>
-                            <li><a class="dropdown-item" href="/leaderboard" type="leaderboard" id="leaderboard" name="leaderboard">Leaderboard</a></li>
-                            <li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
-                        </ul>
-                    </div>
-                    
-                    <!-- Solo Table -->
-                    <div class="card my-2">
-                        <h3 class="card-text text-center my-2">Game Log of All Solo Games</h3>
-                        <table class="table">
-                            <thead class="text-center">
-                                <tr>
-                                    <th>User</th>
-                                    <th>Guess 1</th>
-                                    <th>Guess 2</th>
-                                    <th>Guess 3</th>
-                                    <th>Guess 4</th>
-                                    <th>Guess 5</th>
-                                    <th>Guess 6</th>
-                                    <th>Correct Word</th>   
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <% for (let row = 0; row < data_solo.stats.length; row++){%>
-                                    <tr>
-                                        <%if (data_solo.stats[row][0] === id1) {%>
-                                            <%data_solo.stats[row].forEach((stats)=>{%>
-                                                <td class="myRow"><%=stats%></td> 
-                                                <%})%>
-                                            <%} else {%>
-                                            <%data_solo.stats[row].forEach((stats)=>{%>
-                                            <td><%=stats%></td> 
-                                            <%});%>
-                                            <%}%>
-                                    </tr>
-                                    <%};%>
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<body>
+	
+	<!-- Game log conatainer -->
+	<div class="container">
+		<div class="text-center my-4">
+			<h1>Game Log</h1>
+		</div>
+		<div class="row justify-content-center my-4">
+			<div class="col justify-content-center">
 
-            <div class="row justify-content-center my-4">
-                <div class="col justify-content-center">
+				<!-- Image card -->
+				<div class="card mb-3">
+					<div class="row">
+						<div class="col">
+							<img src="/assets/images/theme.jpg" class="img-fluid rounded-start" alt="Wordle World Party Image">
+						</div>
+						<div class="col text-center my-auto">
+							<div class="card-body">
+								<h2 class="card-title">Wordle World Party</h2>
+								<p class="card-text my-4">Check the game log for solo and multiplayer games below:</p>
+								<p class="card-text my-4">Note: If you have played any game before then you will find your row
+									highlighted in red. </p>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center my-4">
+			<div class="col justify-content-center">
+				<div class="dropdown text-center my-4">
+					<button class="btn btn-dark dropdown-toggle btn" type="button" id="dropdownMenuButton1"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						Go To
+					</button>
+					<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
+						<li><a class="dropdown-item" href="/home" type="home" id="home" name="home">Home</a></li>
+						<li><a class="dropdown-item" href="/rules" type="rules" id="rules" name="rules">Rules</a></li>
+						<li><a class="dropdown-item" href="/actions_log" type="actions_log" id="actions_log"
+								name="actions_log">Actions Log</a></li>
+						<li><a class="dropdown-item" href="/leaderboard" type="leaderboard" id="leaderboard"
+								name="leaderboard">Leaderboard</a></li>
+						<li><a class="dropdown-item" href="/login" type="logout" id="logout" name="logout">Logout</a></li>
+					</ul>
+				</div>
 
-                    <!-- Multi Table -->
-                    <div class="card my-2">
-                        <h3 class="card-text text-center my-2">Multiplayer Game Log - Matches</h3>
-                       <h6 class="card-text text-center my-2">Game log of all multiplayer games showing only the specific matchup for each game number</h6>
-                        <table class="table">
-                            <thead class="text-center">
-                                <tr>
-                                    <th>Game #</th>
-                                    <th>User</th>
-                                    <th>Opponent ID</th>
-                                    <th>Admin ID</th>
-                                    <th>Result</th>   
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <% for (let row = 0; row < data_multi_1.stats.length; row++){%>
-                                    <tr>
-                                        <%if (data_multi_1.stats[row][1] === id2) {%>
-                                            <%data_multi_1.stats[row].forEach((stats)=>{%>
-                                                <td class="myRow"><%=stats%></td> 
-                                                <%})%>
-                                            <%} else {%>
-                                            <%data_multi_1.stats[row].forEach((stats)=>{%>
-                                            <td><%=stats%></td> 
-                                            <%});%>
-                                            <%}%>
-                                    </tr>
-                                    <%};%>
-                            </tbody>
-                        </table> 
-                    </div>
-                    
-                </div>
-            </div>
+				<!-- Solo Table -->
+				<div class="card my-2">
+					<h3 class="card-text text-center my-2">Game Log of All Solo Games</h3>
+					<table class="table">
+						<thead class="text-center">
+							<tr>
+								<th>User</th>
+								<th>Guess 1</th>
+								<th>Guess 2</th>
+								<th>Guess 3</th>
+								<th>Guess 4</th>
+								<th>Guess 5</th>
+								<th>Guess 6</th>
+								<th>Correct Word</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<% for (let row=0; row < data_solo.stats.length; row++){%>
+								<tr>
+									<%if (data_solo.stats[row][0]===id1) {%>
+										<%data_solo.stats[row].forEach((stats)=>{%>
+											<td class="myRow">
+												<%=stats%>
+											</td>
+											<%})%>
+												<%} else {%>
+													<%data_solo.stats[row].forEach((stats)=>{%>
+														<td>
+															<%=stats%>
+														</td>
+														<%});%>
+															<%}%>
+								</tr>
+								<%};%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center my-4">
+			<div class="col justify-content-center">
 
-            <div class="row justify-content-center my-4">
-                <div class="col justify-content-center">
+				<!-- Multi Table -->
+				<div class="card my-2">
+					<h3 class="card-text text-center my-2">Multiplayer Game Log - Matches</h3>
+					<h6 class="card-text text-center my-2">Game log of all multiplayer games showing only the specific matchup for
+						each game number</h6>
+					<table class="table">
+						<thead class="text-center">
+							<tr>
+								<th>Game #</th>
+								<th>User</th>
+								<th>Opponent ID</th>
+								<th>Admin ID</th>
+								<th>Result</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<% for (let row=0; row < data_multi_1.stats.length; row++){%>
+								<tr>
+									<%if (data_multi_1.stats[row][1]===id2) {%>
+										<%data_multi_1.stats[row].forEach((stats)=>{%>
+											<td class="myRow">
+												<%=stats%>
+											</td>
+											<%})%>
+												<%} else {%>
+													<%data_multi_1.stats[row].forEach((stats)=>{%>
+														<td>
+															<%=stats%>
+														</td>
+														<%});%>
+															<%}%>
+								</tr>
+								<%};%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
+		<div class="row justify-content-center my-4">
+			<div class="col justify-content-center">
 
-                    <!-- Multi Table -->
-                    <div class="card my-2">
-                        <h3 class="card-text text-center my-2">Multiplayer Game Log - Word Attempts</h3>
-                       <h6 class="card-text text-center my-2">Game log of all multiplayer games showing only the words guessed and the correct word for each game number</h6>
-                        <table class="table">
-                            <thead class="text-center">
-                                <tr>
-                                    <th>Game #</th>
-                                    <th>User</th>
-                                    <th>Guess 1</th>
-                                    <th>Guess 2</th>
-                                    <th>Guess 3</th>
-                                    <th>Guess 4</th>
-                                    <th>Guess 5</th>
-                                    <th>Guess 6</th>
-                                    <th>Correct Word</th> 
-                                </tr>
-                            </thead>
-                            <tbody class="text-center">
-                                <% for (let row = 0; row < data_multi_2.stats.length; row++){%>
-                                    <tr>
-                                        <%if (data_multi_2.stats[row][1] === id2) {%>
-                                            <%data_multi_2.stats[row].forEach((stats)=>{%>
-                                                <td class="myRow"><%=stats%></td> 
-                                                <%})%>
-                                            <%} else {%>
-                                            <%data_multi_2.stats[row].forEach((stats)=>{%>
-                                            <td><%=stats%></td> 
-                                            <%});%>
-                                            <%}%>
-                                    </tr>
-                                    <%};%>
-                            </tbody>
-                        </table> 
-                    </div>
-                    
-                </div>
-            </div>
+				<!-- Multi Table -->
+				<div class="card my-2">
+					<h3 class="card-text text-center my-2">Multiplayer Game Log - Word Attempts</h3>
+					<h6 class="card-text text-center my-2">Game log of all multiplayer games showing only the words guessed and
+						the correct word for each game number</h6>
+					<table class="table">
+						<thead class="text-center">
+							<tr>
+								<th>Game #</th>
+								<th>User</th>
+								<th>Guess 1</th>
+								<th>Guess 2</th>
+								<th>Guess 3</th>
+								<th>Guess 4</th>
+								<th>Guess 5</th>
+								<th>Guess 6</th>
+								<th>Correct Word</th>
+							</tr>
+						</thead>
+						<tbody class="text-center">
+							<% for (let row=0; row < data_multi_2.stats.length; row++){%>
+								<tr>
+									<%if (data_multi_2.stats[row][1]===id2) {%>
+										<%data_multi_2.stats[row].forEach((stats)=>{%>
+											<td class="myRow">
+												<%=stats%>
+											</td>
+											<%})%>
+												<%} else {%>
+													<%data_multi_2.stats[row].forEach((stats)=>{%>
+														<td>
+															<%=stats%>
+														</td>
+														<%});%>
+															<%}%>
+								</tr>
+								<%};%>
+						</tbody>
+					</table>
+				</div>
+			</div>
+		</div>
 
-            
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js"
+			integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2"
+			crossorigin="anonymous"></script>
+</body>
 
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/js/bootstrap.bundle.min.js" integrity="sha384-pprn3073KE6tl6bjs2QrFaJGz5/SUsLqktiwsUTF55Jfv3qYSDhgCecCxMW52nD2" crossorigin="anonymous"></script>      
-    </body>
 </html>
