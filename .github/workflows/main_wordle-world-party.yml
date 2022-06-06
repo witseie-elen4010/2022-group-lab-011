@@ -52,5 +52,5 @@ jobs:
         with:
           app-name: 'wordle-world-party'
           slot-name: 'Production'
-          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_11FBF71A3BCA4D73962B316D68F8EE51 }}
+          publish-profile: ${{ secrets.AZUREAPPSERVICE_PUBLISHPROFILE_9CD6BE78A71248E7AAE5BF9B7B7B068C }}
           package: .
