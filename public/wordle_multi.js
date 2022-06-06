@@ -197,6 +197,8 @@ socket.on('player-word', (opponentGuess, row, gameRoleS) => {
 
 socket.on('opponent-finish', (rowNum) => {
     opponentNumGuesses = rowNum
+    setTimeout(() => window.location.replace('/lobby'), 5000)
+    
 })
 
 
@@ -297,6 +299,7 @@ function checkGuess() {
                                 console.log(json)
                             })
                         socket.emit('game-finish', currentRow )
+                        setTimeout(() => window.location.replace('/lobby'), 5000)
                         return
                     } else {
                         let data = [tempWord,gameId,currentRow +1]

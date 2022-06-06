@@ -651,6 +651,9 @@ io.on('connection', socket => {
     socket.broadcast.emit('send-game', gameIdS, playerOneS, playerTwoS, adminIdS, wordS)
   })
 
+  socket.on('disconnect', () => {
+    console.log('Player disconnected')
+  })
 
   //////////////////////////////////////////
   /////// Multiplayer Comms
@@ -666,21 +669,4 @@ io.on('connection', socket => {
     let rowNum = currentRow
     socket.broadcast.emit('opponent-finish', rowNum)
   })
-  /*
-    socket.on('player-ready', Pid => {
-      console.log('player-ready received')
-      // not sure about the player checking system
-    })
-  
-    socket.on('game-start', () => {
-      console.log('game-start received')
-      // array of players starts? if 2 (or 3) socket.emit('game-start')
-    })
-  
-    socket.on('game-over', player => {
-      console.log(`${player} wins`)
-      socket.broadcast.emit('game-over')
-    } )
-  */
-
 })
