@@ -360,7 +360,7 @@ function flipTile() {
     })
 
     guess.forEach((guess, index) => {
-        if (checkWordle.includes(guess.letter)) {
+        if ((checkWordle.includes(guess.letter)) && (guess.color != 'green-overlay')) {
             guess.color = 'yellow-overlay'
             opponentGuess[index].color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
@@ -411,7 +411,7 @@ function flipTile3(guess, row) {
     })
 
     guess.forEach((guess, index) => {
-        if (checkWordle.includes(guess.letter)) {
+        if ((checkWordle.includes(guess.letter)) && (guess.color != 'green-overlay')) {
             guess.color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }

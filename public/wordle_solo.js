@@ -4,7 +4,7 @@ const message = document.querySelector('.message-container')
 
 // Setup of keys of keyboard
 const keys = [
-    'Q','W','E','R','T','Y','U','I','O','P','A','S','D','F','G','H','J','K','L','ENTER','Z','X','C','V','B','N','M','Del',
+    'Q', 'W', 'E', 'R', 'T', 'Y', 'U', 'I', 'O', 'P', 'A', 'S', 'D', 'F', 'G', 'H', 'J', 'K', 'L', 'ENTER', 'Z', 'X', 'C', 'V', 'B', 'N', 'M', 'Del',
 ]
 
 // Setup of area of empty values as placeholders for tiles
@@ -70,11 +70,11 @@ function handleClick(input) {
             checkGuess()
             return
         }
-        else{
-            if (currentTile < 5 && currentRow < 6){
+        else {
+            if (currentTile < 5 && currentRow < 6) {
                 addLetter(input)
             }
-        }     
+        }
     }
 }
 
@@ -139,8 +139,8 @@ function checkGuess() {
 function calcScore(currentRow) {
     let score = 7
     if (currentRow === 0) {
-      score = 10
-      return score
+        score = 10
+        return score
     }
     score = score - currentRow - 1
     return score
@@ -167,18 +167,18 @@ function flipTile() {
     const guess = []
 
     rowTiles.forEach(tile => {
-        guess.push({letter: tile.getAttribute('data'), color: 'grey-overlay'})
+        guess.push({ letter: tile.getAttribute('data'), color: 'grey-overlay' })
     })
 
     guess.forEach((guess, index) => {
-        if (guess.letter == wordle[index]) {
+        if (guess.letter === wordle[index]) {
             guess.color = 'green-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
     })
 
     guess.forEach(guess => {
-        if (checkWordle.includes(guess.letter)) {
+        if ((checkWordle.includes(guess.letter)) && (guess.color != 'green-overlay')) {
             guess.color = 'yellow-overlay'
             checkWordle = checkWordle.replace(guess.letter, '')
         }
@@ -194,7 +194,7 @@ function flipTile() {
 }
 
 function LogAction(word) {
-    let action_data = 'SOLO WORD GUESS: '+word
+    let action_data = 'SOLO WORD GUESS: ' + word
     console.log(action_data)
     fetch(`/log-guess-solo/?data=${action_data}`)
         .then(response => response.json())
