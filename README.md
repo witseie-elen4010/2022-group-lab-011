@@ -21,7 +21,7 @@ We also have the much anticipated ranking system where you need to compete to cl
 
 Click the following link to access our game that has been deployed live using Azure for our deployment. Create an account and get going!
 
-###https://wordleworldparty.azurewebsites.net/
+### https://wordleworldparty.azurewebsites.net/
 
 - Note: The game was deployed using a student account and there is a possibility that the student credit would have been used up if the link does not work.
 
@@ -43,9 +43,9 @@ These images can also be found within the images folder in the assets of public.
 
 <div style="width:100px ; height:100px">
 
-![Landing Page](/repository/public/assets/images/landing.png?raw=true)
+![Landing Page](/public/assets/images/landing.png)
 
-![Login Page](/repository/public/assets/images/login.png?raw=true)
+![Login Page](/repository/public/assets/images/login.png)
 
 ![Create Account Page](/repository/public/assets/images/create.png?raw=true)
 
