@@ -5,13 +5,7 @@ const message = document.querySelector('.message-container')
 const myUsernameBox = document.querySelector('.userID-container')
 const opponenetUsernameBox = document.querySelector('.opID-container')
 
-const socket = io('https://wordleworldparty.azurewebsites.net',{
-	withCredentials: true,
-	forceNew: true,
-	reconnectionAttempts: "Infinity", //avoid having user reconnect manually in order to prevent dead clients after a server restart
-	timeout: 10000, //before connect_error and connect_timeout are emitted.
-	transports: ['websocket']
-  })
+const socket = io()
 
 ////////////////////////////////////////////////////
 //Game init variables
