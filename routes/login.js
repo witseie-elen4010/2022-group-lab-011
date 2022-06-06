@@ -22,7 +22,7 @@ router.post('/', (req, res) => {
   .then((pool) => {
     return pool.request()
       .input('username', username)
-      .query('Select password, id from dbo.accounts where username = @username;')
+      .query('SELECT password, id FROM dbo.accounts WHERE username = @username;')
   })
 // Compare hashed passsword with entered result
   .then(async (result) => {

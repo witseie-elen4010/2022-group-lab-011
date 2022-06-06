@@ -1,235 +1,244 @@
 * {
-    color: #ffffff;
+	color: #ffffff;
 }
 
 body {
-    background-color: #121213;
-    font-family: 'Russo One', sans-serif;
+	background-color: #121213;
+	font-family: 'Russo One', sans-serif;
 }
 
 h1 {
-    font-family: 'Russo One', sans-serif;
+	font-family: 'Russo One', sans-serif;
 }
 
-h2, p, input, label, th, td, option {
-    color:  #121213;
-    font-family: 'Russo One', sans-serif;
+h2,
+p,
+input,
+label,
+th,
+td,
+option {
+	color: #121213;
+	font-family: 'Russo One', sans-serif;
 }
 
 h3 {
-    color:  #121213;
-    font-size: 22px;
-    font-family: 'Russo One', sans-serif;
+	color: #121213;
+	font-size: 22px;
+	font-family: 'Russo One', sans-serif;
 }
 
 h4 {
-    color: #0059ff;
-    font-weight: bold;
-    font-family: 'Russo One', sans-serif;
+	color: #0059ff;
+	font-weight: bold;
+	font-family: 'Russo One', sans-serif;
 }
 
 h6 {
-    color:  #1d1d1d;
-    font-size: 13.5px;
-    font-family: 'Russo One', sans-serif;
+	color: #1d1d1d;
+	font-size: 13.5px;
+	font-family: 'Russo One', sans-serif;
 }
 
 
 .myRow {
-    color: #ff0000;
-    font-weight: bold;
-    font-family: 'Russo One', sans-serif;
+	color: #ff0000;
+	font-weight: bold;
+	font-family: 'Russo One', sans-serif;
 }
 
 mark {
-    color: #131313;
-    font-weight: bold;
-    font-size: 25px;
-    font-style: italic;
-    background-color: #ffffff;
-    font-family: 'Russo One', sans-serif;
+	color: #131313;
+	font-weight: bold;
+	font-size: 25px;
+	font-style: italic;
+	background-color: #ffffff;
+	font-family: 'Russo One', sans-serif;
 }
 
-.set-icon-dark{
-    filter: saturate(100%) brightness(0);
+.set-icon-dark {
+	filter: saturate(100%) brightness(0);
 }
 
 
 .landing-container {
-    background-color: rgb(0, 0, 0);
-    height:100%;
-    display:table;
-    width: 100%;
-    padding: 0;
-    position: relative;
+	background-color: rgb(0, 0, 0);
+	height: 100%;
+	display: table;
+	width: 100%;
+	padding: 0;
+	position: relative;
 }
 
 .landing-title-container {
-    margin: 0 auto;
-    float:none;
-    color: rgb(255, 255, 255);
-    position: absolute;
-    left: calc(50vw - 478px/2);
-    top: 100px;
+	margin: 0 auto;
+	float: none;
+	color: rgb(255, 255, 255);
+	position: absolute;
+	left: calc(50vw - 478px/2);
+	top: 100px;
 }
 
 .landing-button-container {
-    margin: 0 auto;
-    float:none;
-    color: rgb(255, 255, 255);
-    position: absolute;
-    left: calc(50vw - 163px/2);
-    top: 150px; 
+	margin: 0 auto;
+	float: none;
+	color: rgb(255, 255, 255);
+	position: absolute;
+	left: calc(50vw - 163px/2);
+	top: 150px;
 }
 
 .app-container {
-    height: 98vh;
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: center;
-    background-color: #131313;
+	height: 98vh;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-between;
+	align-items: center;
+	background-color: #131313;
 }
 
 .title-container {
-    text-align: center;
-    width: 550px;
-    color: rgb(255, 255, 255);
-    border-bottom: solid 4px #ffffff;
+	text-align: center;
+	width: 550px;
+	color: rgb(255, 255, 255);
+	border-bottom: solid 4px #ffffff;
 }
 
 
 .tile-container {
 
-    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .opponent-container {
 
-    margin-bottom: 30px;
+	margin-bottom: 30px;
 }
 
 .key-container {
-    width: 550px;
-    display: flex;
-    flex-wrap: wrap;
+	width: 550px;
+	display: flex;
+	flex-wrap: wrap;
 }
 
 .key-container button {
-    width: 43px;
-    height: 58px;
-    border-radius: 4px;
-    border: solid 1px #000000;
-    background-color: #ffffff;
-    margin: 4px;
-    color: rgb(0, 0, 0);
+	width: 43px;
+	height: 58px;
+	border-radius: 4px;
+	border: solid 1px #000000;
+	background-color: #ffffff;
+	margin: 4px;
+	color: rgb(0, 0, 0);
 }
 
 .key-container button:nth-child(11) {
-    margin-left: 30px;
+	margin-left: 30px;
 }
 
 .key-container button:nth-child(20),
 .key-container button:nth-child(28) {
-    width: 68px;
+	width: 68px;
 }
 
 .tile-container div {
-    display: flex;
-    color: white;
-    border: 1px solid #3a3a3c;
+	display: flex;
+	color: white;
+	border: 1px solid #3a3a3c;
 }
 
 .tile-container .tile {
-    width: 62px;
-    height: 62px;
-    border: 3px solid #3a3a3c;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px;
+	width: 62px;
+	height: 62px;
+	border: 3px solid #3a3a3c;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 2px;
 }
 
 .opponent-container div {
-    display: flex;
-    color: white;
-    border: 1px solid #3a3a3c;
+	display: flex;
+	color: white;
+	border: 1px solid #3a3a3c;
 }
 
 .opponent-container .tile {
-    width: 62px;
-    height: 62px;
-    border: 3px solid #3a3a3c;
-    box-sizing: border-box;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin: 2px;
+	width: 62px;
+	height: 62px;
+	border: 3px solid #3a3a3c;
+	box-sizing: border-box;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	margin: 2px;
 }
 
 .message-container {
-    height: 30px;
+	height: 30px;
 }
 
 .message-container p {
-    color: #ffffff;
-    background-color: #3b76c2;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0;
+	color: #ffffff;
+	background-color: #3b76c2;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 0;
 }
 
 .userID-container {
-    height: 30px;
+	height: 30px;
 }
 
 .userID-container p {
-    color: #ffffff;
-    background-color: #5f3bc2;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0;
+	color: #ffffff;
+	background-color: #5f3bc2;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 0;
 }
 
 .opID-container {
-    height: 30px;
+	height: 30px;
 }
 
 .opID-container p {
-    color: #ffffff;
-    background-color: #c26d3b;
-    border-radius: 10px;
-    padding: 10px;
-    margin: 0;
+	color: #ffffff;
+	background-color: #c26d3b;
+	border-radius: 10px;
+	padding: 10px;
+	margin: 0;
 }
 
 .tile.flip {
-    animation: 0.7s linear flipping;
+	animation: 0.7s linear flipping;
 }
 
 @keyframes flipping {
-    0% {
-        transform: rotateX(0deg);
-    }
-    50% {
-        transform: rotateX(90deg);
-    }
-    100% {
-        transform: rotateX(0deg);
-    }
+	0% {
+		transform: rotateX(0deg);
+	}
+
+	50% {
+		transform: rotateX(90deg);
+	}
+
+	100% {
+		transform: rotateX(0deg);
+	}
 }
 
 .grey-overlay {
-    background-color: #222222 !important;
-    border: 3px solid #3a3a3c;
+	background-color: #222222 !important;
+	border: 3px solid #3a3a3c;
 }
+
 .yellow-overlay {
-    background-color: #bba028 !important;
-    border: 3px solid #3a3a3c;
+	background-color: #bba028 !important;
+	border: 3px solid #3a3a3c;
 }
 
 .green-overlay {
-    background-color: #419939 !important;
-    border: 3px solid #3a3a3c;
+	background-color: #419939 !important;
+	border: 3px solid #3a3a3c;
 }

@@ -66,7 +66,7 @@ server.listen(port)
 console.log('Listening to port: ', port)
 
 ////////////////////////////////////////////////////
-//Wordle database functionaliity
+//Wordle database functionality
 ////////////////////////////////////////////////////
 
 app.get('/to-multi', (req, res) => {
@@ -84,7 +84,7 @@ app.get('/userName', (req, res) => {
     .then((pool) => {
       return pool.request()
         .input('account_id', accountId)
-        .query('SELECT username FROM dbo.accounts where id = @account_id;') // check if user exists in DB        
+        .query('SELECT username FROM dbo.accounts WHERE id = @account_id;') // check if user exists in DB        
     })
     .then(result => {
       res.json(result.recordset[0].username)
@@ -101,7 +101,7 @@ app.get('/getGame', (req, res) => {
     .then((pool) => {
       return pool.request()
         .input('account_id', accountId)
-        .query('Select * from dbo.games where player_one = @account_id OR player_TWO = @account_id or player_admin = @account_id;') // check if user exists in DB        
+        .query('SELECT * from dbo.games WHERE player_one = @account_id OR player_TWO = @account_id OR player_admin = @account_id;') // check if user exists in DB        
     })
     .then(result => {
       if (result.recordset.length !== 0) {
@@ -112,7 +112,7 @@ app.get('/getGame', (req, res) => {
         .then((pool) => {
           return pool.request()
             .input('account_id', accountId)
-            .query('Delete from dbo.games where player_one = @account_id OR player_TWO = @account_id or player_admin = @account_id;') // check if user exists in DB        
+            .query('DELETE FROM dbo.games WHERE player_one = @account_id OR player_TWO = @account_id OR player_admin = @account_id;') // check if user exists in DB        
         })
         .then(result => {
           console.log('deleted game entry')
@@ -367,7 +367,7 @@ app.get('/game_end', (req, res) => {
     .then((pool) => {
       return pool.request()
         .input('account_id', account_id)
-        .query('Select account_id from dbo.leaderboard where account_id = @account_id;') // check if user exists in DB        
+        .query('SELECT account_id FROM dbo.leaderboard WHERE account_id = @account_id;') // check if user exists in DB        
     })
     .then(result => {
       if (result.recordset.length === 0) {
@@ -439,6 +439,10 @@ app.get('/game_admin_queue', async (req, res) => {
     })
 })
 
+////////////////////////////////////////////////////
+//Multiplayer database functionality and game creation
+////////////////////////////////////////////////////
+
 app.get('/game_player_queue', async (req, res) => {
   let playerOne
   let playerTwo
@@ -454,7 +458,7 @@ app.get('/game_player_queue', async (req, res) => {
       return pool.request()
         //find if account is already in waiting lobby
         .input('accountId', accountId)
-        .query('Select account_id from dbo.multiplayer_queue where account_id = @accountId;')
+        .query('SELECT account_id FROM dbo.multiplayer_queue WHERE account_id = @accountId;')
     })
     // Send back the result
     .then(result => {
@@ -690,9 +694,9 @@ io.on('connection', socket => {
 
   })
 
-  //////////////////////////////////////////
-  /////// Multiplayer Comms
-  //////////////////////////////////////////
+  ////////////////////////////////////////////////////
+  //Multiplayer comms
+  ////////////////////////////////////////////////////
 
   socket.on('player-word', (opponentGuess, currentRow, gameRole, gameId) => {
     console.log(`opponent guess received at ${currentRow}`)
