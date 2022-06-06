@@ -96,7 +96,7 @@ fetch(`/userID`)
             if (json === 'not in game')
             {
               console.log('not in game, still waiting')
-              showMessage('Waiting for game to start...')
+              showWaitMessage('Waiting for game to start...')
             } else {
               console.log('game found')
               showMessage('Game started! You can begin guessing!')
@@ -457,6 +457,13 @@ function showMessage(msg) {
     messageElement.textContent = msg
     message.append(messageElement)
     setTimeout(() => message.removeChild(messageElement), 2000)
+}
+
+function showWaitMessage(msg) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = msg
+    message.append(messageElement)
+    setTimeout(() => message.removeChild(messageElement), 10000)
 }
 
 
