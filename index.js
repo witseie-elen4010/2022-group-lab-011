@@ -39,6 +39,7 @@ const actionsLogRouter = require('./routes/actions_log')
 const lobbyRouter = require('./routes/lobby')
 const rulesRouter = require('./routes/rules')
 const multiGameRouter = require('./routes/wordle_multi')
+const { json } = require('body-parser')
 
 //Define routes
 app.use('/create_account', createRouter)
@@ -75,6 +76,21 @@ app.get('/to-multi', (req, res) => {
 app.get('/userID', (req, res) => {
   res.json(req.session.ID)
 })
+
+app.get('/userName', (req, res) => {
+  let accountId = req.query.accountId
+  db.pools
+    // Run query
+    .then((pool) => {
+      return pool.request()
+        .input('account_id', accountId)
+        .query('SELECT username FROM dbo.accounts where id = @account_id;') // check if user exists in DB        
+    })
+    .then(result => {
+      res.json(result.recordset[0].username)
+    })
+})
+
 
 app.get('/getGame', (req, res) => {
   const accountId = req.query.accountId
@@ -686,6 +702,6 @@ io.on('connection', socket => {
 
   socket.on('game-finish', (currentRow, gameId) => {
     let rowNum = currentRow
-    socket.to(gameId).Dateemit('opponent-finish', rowNum)
+    socket.to(gameId).emit('opponent-finish', rowNum)
   })
 })

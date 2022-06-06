@@ -77,8 +77,19 @@ wordEntry.forEach((guessRow, guessRowIndex) => {
     
 })
 
-myUsernameMessage(accountId)
-opUsernameMessage(opponentId)
+//Fetch usernames
+fetch(`/userName/?accountId=${accountId}`)
+.then(response => response.json())
+.then(json => {
+    myUsernameMessage(json)
+})
+
+fetch(`/userName/?accountId=${opponentId}`)
+.then(response => response.json())
+.then(json => {
+    opUsernameMessage(json)
+})
+
 
 // Create keys for keyboard and add button listener
 if (gameRole !== 'admin'){
@@ -116,7 +127,6 @@ fetch(`/userID`)
               adminId = json.recordset[0].player_admin
               word = json.recordset[0].word.toUpperCase()
               gameStart = true
-              let opponentId
 
               if (accountId === playerOne ){
                 gameRole  = 'playerOne'
