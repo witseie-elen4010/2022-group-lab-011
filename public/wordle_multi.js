@@ -35,15 +35,17 @@ let playerOne
 let playerTwo
 let adminId
 let gameStart = false
+let once = true
 let word = ''
 let opponentNumGuesses = -1
 
 const messageElement = document.createElement('p')
 // Outputs message to client
-if (gameStart === false) {
+if (gameStart === false && once === true) {
     
     messageElement.textContent = 'Waiting for game to start...'
     message.append(messageElement)
+    once = false
 } else {
     message.removeChild(messageElement)
 }
