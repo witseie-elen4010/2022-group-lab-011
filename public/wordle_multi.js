@@ -38,10 +38,10 @@ let gameStart = false
 let word = ''
 let opponentNumGuesses = -1
 
-
+const messageElement = document.createElement('p')
 // Outputs message to client
 if (gameStart === false) {
-    const messageElement = document.createElement('p')
+    
     messageElement.textContent = 'Waiting for game to start...'
     message.append(messageElement)
 } else {
@@ -266,7 +266,7 @@ function checkGuess() {
         fetch(`/check/?word=${tempWord}`)
             .then(response => response.json())
             .then(json => {
-                if (json === 'Not valid' || 'Entry word not found') {
+                if (json === 'Not valid') {
                     showMessage('Invalid word')
                     return
                 } else {
