@@ -8,6 +8,9 @@
 - Primary key: labled as, id
 - Foreign key: tablename_id
 - Variables, columns: lowercase with underscores
+- Query Commands to be ALL uppercase
+
+- Example: SELECET * FROM acounts WHERE account_id = id
 
 ### Code order
 - SELECT
@@ -24,8 +27,6 @@
 ## JavaScript
 ### Naming Conventions
 - Variables: camelCase, begin with letter
-- Global variables: UPPERCASE
-- Constants: UPPERCASE
 - Files: All lowercase
 
 ### Code blocks
