@@ -35,21 +35,8 @@ let playerOne
 let playerTwo
 let adminId
 let gameStart = false
-let once = true
 let word = ''
 let opponentNumGuesses = -1
-
-const messageElement = document.createElement('p')
-// Outputs message to client
-if (gameStart === false && once === true) {
-    
-    messageElement.textContent = 'Waiting for game to start...'
-    message.append(messageElement)
-    once = false
-} else {
-    message.removeChild(messageElement)
-}
-
 
 /////////////////////////////////////////////
 // Interface setup
@@ -109,8 +96,10 @@ fetch(`/userID`)
             if (json === 'not in game')
             {
               console.log('not in game, still waiting')
+              showMessage('Waiting for game to start...')
             } else {
               console.log('game found')
+              showMessage('Game started! You can begin guessing!')
               console.log(json)
               gameId = json.recordset[0].id
               playerOne = json.recordset[0].player_one
