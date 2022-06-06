@@ -2,6 +2,7 @@
 
 const express = require('express')
 const app = express()
+
 const path = require('path')
 const http = require('http')
 const session = require('express-session');
@@ -10,7 +11,9 @@ const cookieParser = require('cookie-parser')
 const db = require('./dbconfig.js')
 const server = http.createServer(app)
 const socketio = require('socket.io')
-const io = socketio(server)
+var cors = require('cors')
+
+
 require("dotenv").config()
 const axios = require("axios").default
 
@@ -28,6 +31,7 @@ app.use(express.json())
 app.use(cookieParser())
 app.set('view engine', 'ejs')
 app.use(logger)
+app.use(cors())
 
 const createRouter = require('./routes/create_account')
 const loginRouter = require('./routes/login')
@@ -63,8 +67,12 @@ module.exports = app
 
 const port = process.env.PORT || 3000
 server.listen(port)
-console.log('Listening to port: ', port)
-
+console.log('Listening to port: ', {
+  cors: {
+    origin: '*',
+  }
+})
+const io = socketio(server)
 ////////////////////////////////////////////////////
 //Wordle database functionality
 ////////////////////////////////////////////////////
