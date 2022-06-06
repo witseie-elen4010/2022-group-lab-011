@@ -1,16 +1,16 @@
 'use strict'
 
 const express = require('express')
-const app = express()
-
 const path = require('path')
 const http = require('http')
 const session = require('express-session');
 const FileStore = require('session-file-store')(session)
 const cookieParser = require('cookie-parser')
 const db = require('./dbconfig.js')
-const server = http.createServer(app)
 const socketio = require('socket.io')
+const app = express()
+const server = http.createServer(app)
+const io = socketio(server)
 
 require("dotenv").config()
 const axios = require("axios").default
@@ -60,14 +60,10 @@ function logger(req, res, next) {
   next()
 }
 
-module.exports = app
-
 const port = process.env.PORT || 3000
 server.listen(port)
 console.log('Listening to port: ')
-const io = socketio(server,{
-  perMessageDeflate :false
-})
+
 ////////////////////////////////////////////////////
 //Wordle database functionality
 ////////////////////////////////////////////////////
@@ -711,3 +707,5 @@ io.on('connection', socket => {
     socket.to(gameId).emit('opponent-finish', rowNum)
   })
 })
+
+module.exports = app

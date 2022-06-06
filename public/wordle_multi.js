@@ -1,4 +1,4 @@
-const tileBox = document.querySelector('.tile-container')
+/*const tileBox = document.querySelector('.tile-container')
 const opponentBox = document.querySelector('.opponent-container')
 const keyboard = document.querySelector('.key-container')
 const message = document.querySelector('.message-container')
@@ -510,4 +510,4 @@ function opUsernameMessage(msg) {
 	const messageElement = document.createElement('p')
 	messageElement.textContent = msg
 	opponenetUsernameBox.append(messageElement)
-}
+}*/
