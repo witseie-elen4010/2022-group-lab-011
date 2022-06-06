@@ -659,8 +659,6 @@ app.get('/game_player_queue', async (req, res) => {
 //socket connection
 ////////////////////////////////////////////////////
 
-module.exports = io
-
 io.on('connection', socket => {
   console.log('new WS connection')
 

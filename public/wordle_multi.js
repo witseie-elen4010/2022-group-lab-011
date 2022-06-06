@@ -77,6 +77,7 @@ function gameSetupStart() {
 		opponentBox.append(rowElement)
 	})
 
+	if (gameRole !== 'admin') {
 	//Fetch usernames
 	fetch(`/userName/?accountId=${accountId}`)
 		.then(response => response.json())
@@ -89,6 +90,19 @@ function gameSetupStart() {
 		.then(json => {
 			opUsernameMessage(json)
 		})
+	} else {
+		fetch(`/userName/?accountId=${playerOne}`)
+		.then(response => response.json())
+		.then(json => {
+			myUsernameMessage(json)
+		})
+
+	fetch(`/userName/?accountId=${playerTwo}`)
+		.then(response => response.json())
+		.then(json => {
+			opUsernameMessage(json)
+		})
+	}
 
 	// Create keys for keyboard and add button listener
 	if (gameRole !== 'admin') {
@@ -204,9 +218,10 @@ socket.on('send-game', (gameIdS, playerOneS, playerTwoS, adminIdS, wordS) => {
 				.then(json => {
 					console.log('entered into multi game logs')
 				})
-			gameRunAlready = true;
-			gameSetupStart()
+			
 		}
+		gameRunAlready = true;
+		gameSetupStart()
 		console.log('multiplayer ready to start with ' + word + ' as ' + gameRole)
 	}
 
