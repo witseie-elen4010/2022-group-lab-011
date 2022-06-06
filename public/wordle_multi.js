@@ -38,7 +38,16 @@ let gameStart = false
 let word = ''
 let opponentNumGuesses = -1
 
-startMessage(gameStart)
+
+// Outputs message to client
+if (gameStart === false) {
+    const messageElement = document.createElement('p')
+    messageElement.textContent = 'Waiting for game to start...'
+    message.append(messageElement)
+} else {
+    message.removeChild(messageElement)
+}
+
 
 /////////////////////////////////////////////
 // Interface setup
@@ -458,16 +467,6 @@ function showMessage(msg) {
     setTimeout(() => message.removeChild(messageElement), 2000)
 }
 
-// Outputs message to client
-function startMessage(started) {
-    if (!started) {
-        const messageElement = document.createElement('p')
-        messageElement.textContent = 'Waiting for game to start...'
-        message.append(messageElement)
-    } else {
-        message.removeChild(messageElement)
-    }
-}
 
 
 
