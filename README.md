@@ -43,7 +43,7 @@ These images can also be found within the images folder in the assets of public.
 
 <div style="width:100px ; height:100px">
 
-![Landing Page](/public/assets/images/landing.png)
+![Landing Page](landing.PNG)
 
 ![Login Page](/repository/public/assets/images/login.png)
 
