@@ -130,7 +130,7 @@ function checkGuess() {
 					} else {
 						if (currentRow >= 5) {
 							GameOver = true
-							showMessage('Game Over')
+							showMessage(`Game Over! ${wordle} was the correct word!`)
 							wordEntry.push(wordle)
 							wordEntry.push(0)
 							fetch(`/game_end/?wordEntries=${wordEntry}`)

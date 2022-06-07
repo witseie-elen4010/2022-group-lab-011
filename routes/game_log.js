@@ -69,7 +69,7 @@ router.get('/', (req, res) => {
 										y = row + 1
 									} else {
 										y = result.recordsets[0][row][columns1[col]]
-										if (columns1[col] === 'admin_id' && y === 0) x = 'NO ADMIN'
+										if (columns1[col] === 'admin_id' && y === 0) y = 'NO ADMIN'
 									}
 									myTable1[row][col] = y
 								}
