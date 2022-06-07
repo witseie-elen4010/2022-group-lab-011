@@ -294,7 +294,7 @@ function deleteLetter() {
 
 // Called when enter is clicked, verifies game progress ie. win/lose/continue
 function checkGuess() {
-	let winner = 'Won' // defualt win
+	let winner = 'Won' // default win
 	const tempWord = wordEntry[currentRow].join('')
 	if (currentTile > 4) {
 		fetch(`/check/?word=${tempWord}`)
@@ -314,7 +314,7 @@ function checkGuess() {
 								console.log(json)
 							})
 						GameOver = true
-						showMessage('Correct!')
+						showMessage(`Correct! Go check Game ${gameId} in the Game Log!`)
 						wordEntry.push(word)
 						wordEntry.push(calcScore(currentRow))
 						console.log('___________________')
@@ -322,7 +322,6 @@ function checkGuess() {
 						console.log(opponentNumGuesses)
 						if (opponentNumGuesses !== -1) {
 							if (currentRow > opponentNumGuesses) {
-								//lose
 								winner = 'Lost'
 							} else if (currentRow === opponentNumGuesses) {
 								winner = 'Draw'
@@ -353,7 +352,7 @@ function checkGuess() {
 							})
 						if (currentRow >= 5) {
 							GameOver = true
-							showMessage('Game Over')
+							showMessage(`Game Over! The correct word was ${word}!`)
 							let data = ['Lost', gameId]
 							fetch(`/enter-multi-winner/?data=${data}`)
 								.then(response => response.json())
